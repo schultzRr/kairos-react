@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Switch, Route , Link, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
+import { onChangeLoadingView } from './views/login/loginActions';
 import Login from './views/login/login';
 import Register from './views/register/register';
 import Dashboard from './views/dashboard/dashboard';
@@ -25,9 +28,18 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   />
 );
 
-class App extends Component {
+class AppBase extends Component {
+  componentWillMount() {
+    const { changeView } = this.props;
+    changeView();
+  }
 
   render() {
+    const { loadingView } = this.props; 
+    if (loadingView) {
+      return (<div>ME ESTOY CARGANDO!!</div>);
+    }
+
     return(
       <div>
         <div className="menu">
@@ -48,4 +60,23 @@ class App extends Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    loadingView: state.loginViewReducer.loadingView,
+    isAuth: state.loginViewReducer.isAuth,
+    error: state.loginViewReducer.error
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeView: () => {
+      dispatch(onChangeLoadingView());
+    }
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AppBase);

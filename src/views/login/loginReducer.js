@@ -1,11 +1,19 @@
+import { onChangeLoadingView } from './loginActions';
+
 const initialState = {
-  test: 'test'
+  isAuth: false,
+  loadingView: true,
+  error: ''
 }
 
 function loginViewReducer(state = initialState, action) {
+  console.log(action)
   switch(action.type){
-    case 'TEST': 
-      return state;
+    case 'CHANGE_LOADING_VIEW':
+      const newState = { ...initialState, 
+        loadingView: action.payload.loadingView
+      } ;
+      return newState;
     default:
       return state;
   }
