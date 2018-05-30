@@ -30,9 +30,7 @@ function signout() {
   authenticated = false;
 }
 
-const session = {
-  login,
-  isAuthenticated
+export default {
+ login,
+ isAuthenticated 
 };
-
-export default session;
