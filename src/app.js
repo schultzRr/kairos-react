@@ -5,7 +5,7 @@ import LoginView from './views/login/loginView';
 import Register from './views/register/registerView';
 import Dashboard from './views/dashboard/dashboardview';
 
-import Session from './http/sessionActions';
+import Session from './http/session';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route

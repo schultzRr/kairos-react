@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, Text } from 'react-form';
 
-import { submitLogin } from '../../http/sessionActions';
+import loginActions from './loginActions';
 
 class LoginContainer extends Component {
 
@@ -17,7 +17,7 @@ class LoginContainer extends Component {
 
     return(
       <Form
-        onSubmit={submitLogin}
+        onSubmit={this.props.submitLogin}
       >
         {formApi => (
           <form onSubmit={formApi.submitForm} id="form1">
@@ -40,8 +40,8 @@ const mapStateToProps = function mapStateToProps(state, props) {
 };
 
 function mapDispatchToProps(dispatch) {
-  return Object.assign(
-    bindActionCreators({submitLogin}, dispatch),
+  return Object.assign({},
+    bindActionCreators(loginActions, dispatch),
   );
 }
 

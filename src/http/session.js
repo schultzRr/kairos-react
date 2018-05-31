@@ -1,4 +1,8 @@
 
+function isAuthenticated() {
+  return false;
+}
+
 function login(email, password) {
   return fetch('http://servicios.coderia.mx:8083/users/sign_in', {
     method: 'POST',
@@ -13,6 +17,7 @@ function login(email, password) {
 }
 
 const session = {
+  isAuthenticated,
   login
 };
 

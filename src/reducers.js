@@ -1,4 +1,4 @@
-import loginView from './views/login/loginReducer';
+import loginView from './views/login/loginViewReducer';
 import session from './http/sessionReducer';
 
 const reducers = {
