@@ -1,10 +1,10 @@
 const initialState = {
-  test: 'test'
+  redirectToReferrer: false
 }
 
 function loginViewReducer(state = initialState, action) {
   switch(action.type){
-    case 'TEST': 
+    case 'LOGIN_SUCCESS': 
       return state;
     default:
       return state;

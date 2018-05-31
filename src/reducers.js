@@ -1,7 +1,9 @@
-import loginViewReducer from './views/login/loginReducer';
+import loginView from './views/login/loginReducer';
+import session from './http/sessionReducer';
 
 const reducers = {
-  loginViewReducer
+  loginView,
+  session
 };
 
 export default reducers;

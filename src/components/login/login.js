@@ -4,7 +4,7 @@ import LoginContainer from './loginContainer';
 function Login(props) {
   return (
     <div>
-      <LoginContainer handleLogin={props.handleLogin}/>
+      <LoginContainer/>
     </div>
   )
 }

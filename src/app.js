@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route , Link, Redirect, withRouter } from 'react-router-dom';
 
-import Login from './views/login/login';
-import Register from './views/register/register';
-import Dashboard from './views/dashboard/dashboard';
+import LoginView from './views/login/loginView';
+import Register from './views/register/registerView';
+import Dashboard from './views/dashboard/dashboardview';
 
-import Session from './http/session';
+import Session from './http/sessionActions';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -38,7 +38,7 @@ class App extends Component {
           </ul>
         </div>
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/login" component={LoginView} />
           <Route path="/register" component={Register} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <Redirect to="/login" />
