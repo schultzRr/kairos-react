@@ -5,28 +5,25 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = (env) => {
   const plugins = [
-    new ExtractTextPlugin("css/[name].[hash].css")
-  ]
+    new ExtractTextPlugin('css/[name].[hash].css')
+  ];
 
   if (env.NODE_ENV === 'production') {
-    plugins.push(
-      new CleanWebpackPlugin(['dist'], {root: __dirname})
-    )
+    plugins.push(new CleanWebpackPlugin(['dist'], { root: __dirname }));
   }
 
   return {
-
     entry: {
-      "index": path.resolve(__dirname, 'src/index.js'),
+      index: path.resolve(__dirname, 'src/index.js')
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'js/[name].[hash].js',
-      publicPath: path.resolve(__dirname, 'dist')+"/",
-      chunkFilename: 'js/[id].[chunkhash].js',
+      publicPath: `${path.resolve(__dirname, 'dist')}/`,
+      chunkFilename: 'js/[id].[chunkhash].js'
     },
     devServer: {
-      port: 9000,
+      port: 9000
     },
     module: {
       rules: [
@@ -38,9 +35,14 @@ module.exports = (env) => {
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['es2015', 'react', 'stage-2'],
+              presets: ['es2015', 'react', 'stage-2']
             }
-          },
+          }
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: ['babel-loader', 'eslint-loader']
         },
         {
           test: /\.css$/,
@@ -49,7 +51,7 @@ module.exports = (env) => {
               {
                 loader: 'css-loader',
                 options: {
-                  minimize: true,
+                  minimize: true
                 }
               }
             ]
@@ -62,12 +64,19 @@ module.exports = (env) => {
             options: {
               limit: 10000,
               fallback: 'file-loader',
-              name: 'images/[name].[hash].[ext]',
+              name: 'images/[name].[hash].[ext]'
             }
           }
-        },
+        }
       ]
     },
-    plugins
-  }
-}
+    plugins,
+    settings: {
+      'import/resolver': {
+        node: {
+          extensions: ['.js', '.jsx', '.ts', '.vue']
+        }
+      }
+    }
+  };
+};

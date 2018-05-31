@@ -12,7 +12,7 @@ function loginViewReducer(state = initialState, action) {
     case 'CHANGE_LOADING_VIEW':
       const newState = { ...initialState, 
         loadingView: action.payload.loadingView
-      } ;
+      };
       return newState;
     default:
       return state;

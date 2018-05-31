@@ -1,0 +1,18 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "settings": {
+    "import/resolver": "webpack"
+  },
+  "rules": {
+    "comma-dangle": ["error", "never"],
+    "no-console": "error"
+  },
+  "globals": {
+    "URL": true,
+    "navigator": true,
+    "window": true,
+    "document": true,
+    "Blob": true
+  }
+}
