@@ -5,7 +5,7 @@ import reducers from './reducers';
 const combinedReducers = combineReducers(reducers);
 
 const store = createStore(
-  combinedReducers,
+  combinedReducers, 
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
   applyMiddleware(thunk)
 );
