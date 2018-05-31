@@ -14,7 +14,7 @@ export function submitLogin(values, event, formApi) {
   console.log('a');
   return (dispatch) => {
     dispatch({ 
-      type: LOGIN_SUCCESSFUL, 
+      type: LOGIN_SUCCESS, 
       payload: {} });
     // console.log('b');
     // session.login(values.email, values.password)
