@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import { Switch, Route , Link, Redirect, withRouter } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import LoginView from './views/login/loginView';
 import Register from './views/register/registerView';
 import Dashboard from './views/dashboard/dashboardview';
 
-import Session from './http/session';
-
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      Session.isAuthenticated() ? (
+    render={props => {
+      return rest.isAuthenticated ? (
         <Component {...props} />
       ) : (
         <Redirect
@@ -21,6 +22,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
           }}
         />
       )
+    }
+      
     }
   />
 );
@@ -40,7 +43,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/login" component={LoginView} />
           <Route path="/register" component={Register} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+          <PrivateRoute path="/dashboard" component={Dashboard} isAuthenticated={this.props.isAuthenticated}/>
           <Redirect to="/login" />
         </Switch>
       </div>
@@ -48,4 +51,17 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = function mapStateToProps(state, props) {
+  return {
+    isAuthenticated: state.session.isAuthenticated,
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App));

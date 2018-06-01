@@ -4,15 +4,23 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 
 export function submitLogin(values, event, formApi) {
-  console.log('submitLogin');
   return (dispatch) => {
     return session.login(values.email, values.password)
-    .then(res => {
-      if(res.ok) {
-        dispatch({ 
-          type: LOGIN_SUCCESS
-        });
+    .then(response => {
+      if (response.status !== 200) {
+        console.log('Looks like there was a problem. Status Code: ' +
+          response.status);
+        return;
       }
+
+      session.setHeaders();
+      
+      response.json().then(data => {
+        dispatch({ 
+          type: LOGIN_SUCCESS,
+          payload: data
+        });
+      });
     })
     .catch(e => {
       dispatch({ 

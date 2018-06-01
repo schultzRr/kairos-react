@@ -1,6 +1,7 @@
 
-function isAuthenticated() {
-  return false;
+function setHeaders() {
+  console.log('setHeaders');
+  return true;
 }
 
 function login(email, password) {
@@ -17,7 +18,7 @@ function login(email, password) {
 }
 
 const session = {
-  isAuthenticated,
+  setHeaders,
   login
 };
 
