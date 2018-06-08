@@ -9,7 +9,6 @@ const initialState = {
 function sessionReducer(state = initialState, action) {
   switch(action.type){
     case 'LOGIN_SUCCESS':
-      console.log(action.payload);
       return {...state, isAuthenticated: true, user: action.payload.user };
     default:
       return state;

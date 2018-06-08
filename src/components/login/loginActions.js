@@ -7,19 +7,9 @@ export function submitLogin(values, event, formApi) {
   return (dispatch) => {
     return session.login(values.email, values.password)
     .then(response => {
-      if (response.status !== 200) {
-        console.log('Looks like there was a problem. Status Code: ' +
-          response.status);
-        return;
-      }
-
-      session.setHeaders();
-      
-      response.json().then(data => {
-        dispatch({ 
-          type: LOGIN_SUCCESS,
-          payload: data
-        });
+      dispatch({ 
+        type: LOGIN_SUCCESS,
+        payload: response.data
       });
     })
     .catch(e => {
