@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Switch, Route , Link, Redirect, withRouter } from 'react-router-dom';
-
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import LoginView from './views/login/loginView';
 import Register from './views/register/registerView';
 import Dashboard from './views/dashboard/dashboardview';
+
+import Navigation from './components/navigation/navigation';
+import Footer from './components/footer/footer';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -32,7 +34,9 @@ class App extends Component {
 
   render() {
     return(
-      <div>
+      <React.Fragment>
+        <CssBaseline />
+        <Navigation />
         <div className="menu">
           <ul>
             <li> <Link to="/login">Login</Link> </li>
@@ -46,7 +50,8 @@ class App extends Component {
           <PrivateRoute path="/dashboard" component={Dashboard} isAuthenticated={this.props.isAuthenticated}/>
           <Redirect to="/login" />
         </Switch>
-      </div>
+        <Footer />
+      </React.Fragment>
     )
   }
 }

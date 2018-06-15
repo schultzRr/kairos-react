@@ -1,5 +1,11 @@
+import {
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+  SIGNOUT
+} from '../components/login/loginActions';
+
 const initialState = {
-  isAuthenticated: false,
+  isAuthenticated: true,
   user: {
     name: 'Ricardo',
     last_name: 'Rosas'
@@ -8,8 +14,10 @@ const initialState = {
 
 function sessionReducer(state = initialState, action) {
   switch(action.type){
-    case 'LOGIN_SUCCESS':
+    case LOGIN_SUCCESS:
       return {...state, isAuthenticated: true, user: action.payload.user };
+    case SIGNOUT:
+      return {...state, isAuthenticated: false};
     default:
       return state;
   }

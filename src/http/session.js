@@ -12,11 +12,11 @@ function getHttpHeaders(){
 function configHttpHeaders(){
   var headers = getHttpHeaders();
 
-  // $http.defaults.headers.common['access-token'] = headers.accessToken;
-  // $http.defaults.headers.common['expiry'] = headers.expiry;
-  // $http.defaults.headers.common['token-type'] = headers.tokenType;
-  // $http.defaults.headers.common['uid'] = headers.uid;
-  // $http.defaults.headers.common['client'] = headers.client;
+  axios.defaults.headers.common['access-token'] = headers.accessToken;
+  axios.defaults.headers.common['expiry'] = headers.expiry;
+  axios.defaults.headers.common['token-type'] = headers.tokenType;
+  axios.defaults.headers.common['uid'] = headers.uid;
+  axios.defaults.headers.common['client'] = headers.client;
 };
 
 function setHttpHeaders(headers){
@@ -42,16 +42,22 @@ function unsetHttpHeaders(){
 };
 
 function login(email, password) {
-  return axios.post('http://servicios.coderia.mx:8083/users/sign_in', {
+  return axios.post('/users/sign_in', {
     user: {
       'email': email,
       'password': password
     }
   });
+
+  // Actualizar los headers aquí, no en loginActions.js
 }
 
 const session = {
+  isHttpHeaders,
+  getHttpHeaders,
+  configHttpHeaders,
   setHttpHeaders,
+  unsetHttpHeaders,
   login
 };
 
