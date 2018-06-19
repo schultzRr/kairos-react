@@ -1,36 +1,78 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Form, Text } from 'react-form';
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { reduxForm, Field } from 'redux-form'
+import { TextField } from 'redux-form-material-ui'
 
 import loginActions from './loginActions';
 
+const styles = theme => ({
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
+
+const form = {
+  form: 'login',
+  initialValues: {
+    email: '',
+    password: ''
+  },
+}
+
+const required = value => (value == null ? 'Required' : undefined);
+const email = value =>
+  (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+    ? 'Invalid email'
+    : undefined);
+
 class LoginContainer extends Component {
 
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log('a');
+  }
+
   render() {
-    
-    const validate = value => ({
-      error: !value || !/Hello World/.test(value) ? "Input must contain 'Hello World'" : null,
-      warning: !value || !/^Hello World$/.test(value) ? "Input should equal just 'Hello World'" : null,
-      success: value && /Hello World/.test(value) ? "Thanks for entering 'Hello World'!" : null
-    })
+    const { classes } = this.props;
 
     return(
-      <Form
-        onSubmit={this.props.submitLogin}
-      >
-        {formApi => (
-          <form onSubmit={formApi.submitForm} id="form1">
-            <label htmlFor="hello">Hello World</label>
-            {/* <Text field="hello" id="hello" validate={validate} /> */}
-            <Text field="email" id="email" />
-            <Text field="password" id="password" />
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </form>
-        )}
-      </Form>
+      <Grid container justify="center">
+        <Grid item xs={10} sm={7} md={4}>
+          <Paper className={classes.paper}>
+          <form onSubmit={this.handleSubmit}>
+              <div>
+                <Field
+                  name="email"
+                  component={TextField}
+                  label="Correo electrónico"
+                  validate={[required, email]}
+                  fullWidth
+                />
+              </div>
+              <div>
+                <Field
+                  name="password"
+                  component={TextField}
+                  label="Contraseña"
+                  validate={[required]}
+                  type="password"
+                  fullWidth
+                />
+              </div>
+              <Button type="submit" variant="contained" color="primary">
+                Enviar
+              </Button>
+            </form>
+          </Paper>
+        </Grid>
+      </Grid>
     )
   }
 }
@@ -45,7 +87,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default connect(
+export default withStyles(styles)(reduxForm(form)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginContainer);
+)(LoginContainer)));
