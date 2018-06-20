@@ -12,6 +12,8 @@ function loginViewReducer(state = initialState, action) {
   switch(action.type){
     case LOGIN_SUCCESS: 
       return {...state, redirectToReferrer: true}
+    case SIGNOUT: 
+      return {...state, redirectToReferrer: false}
     default:
       return state;
   }

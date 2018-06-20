@@ -44,6 +44,7 @@ class Navigation extends Component {
   };
 
   handleSignOut = () => {
+    this.handleClose();
     this.props.submitSignout();
   }
 

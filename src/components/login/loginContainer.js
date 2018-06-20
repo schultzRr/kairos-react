@@ -12,10 +12,13 @@ import loginActions from './loginActions';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 4 + 'px 0' ,
     textAlign: 'center',
     color: theme.palette.text.secondary,
   },
+  textfield: {
+    width: '80%'
+  }
 });
 
 const form = {
@@ -26,34 +29,31 @@ const form = {
   },
 }
 
-const required = value => (value == null ? 'Required' : undefined);
+const requiredEmail = value => (value == null ? 'Escribe una dirección de correo electrónico' : undefined);
+const requiredPassword = value => (value == null ? 'Escribe la contraseña de tu cuenta' : undefined);
 const email = value =>
   (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email'
+    ? 'No es un correo electrónico válido'
     : undefined);
 
 class LoginContainer extends Component {
 
-  handleSubmit = event => {
-    event.preventDefault();
-    console.log('a');
-  }
-
   render() {
-    const { classes } = this.props;
+    const { classes, handleSubmit } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4}>
           <Paper className={classes.paper}>
-          <form onSubmit={this.handleSubmit}>
+          <form onSubmit={handleSubmit(this.props.submitLogin)}>
               <div>
                 <Field
                   name="email"
                   component={TextField}
                   label="Correo electrónico"
-                  validate={[required, email]}
-                  fullWidth
+                  validate={[requiredEmail, email]}
+                  className={classes.textfield}
+                  margin="normal"
                 />
               </div>
               <div>
@@ -61,9 +61,10 @@ class LoginContainer extends Component {
                   name="password"
                   component={TextField}
                   label="Contraseña"
-                  validate={[required]}
+                  validate={[requiredPassword]}
                   type="password"
-                  fullWidth
+                  className={classes.textfield}
+                  margin="normal"
                 />
               </div>
               <Button type="submit" variant="contained" color="primary">

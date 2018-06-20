@@ -5,7 +5,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const SIGNOUT = 'SIGNOUT';
 
-export function submitLogin(values, event, formApi) {
+export function submitLogin(values) {
+
   return (dispatch) => {
     dispatch({ 
       type: LOGIN_FETCH,
