@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 import { reduxForm, Field } from 'redux-form'
 import { TextField } from 'redux-form-material-ui'
 
@@ -24,13 +25,13 @@ const styles = theme => ({
 const form = {
   form: 'login',
   initialValues: {
-    email: '',
-    password: ''
+    email: 'benjamin@coderia.mx',
+    password: '123'
   },
 }
 
-const requiredEmail = value => (value == null ? 'Escribe una dirección de correo electrónico' : undefined);
-const requiredPassword = value => (value == null ? 'Escribe la contraseña de tu cuenta' : undefined);
+const requiredEmail = value => (value == '' ? 'Escribe una dirección de correo electrónico' : undefined);
+const requiredPassword = value => (value == '' ? 'Escribe la contraseña de tu cuenta' : undefined);
 const email = value =>
   (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'No es un correo electrónico válido'
@@ -38,14 +39,30 @@ const email = value =>
 
 class LoginContainer extends Component {
 
+  state = {
+    snack: true
+  };
+
+  handleSnackClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    this.setState({ snack: false });
+  };
+
+  handleSubmit = (values) => {
+    return this.props.submitLogin(values);
+  }
+
   render() {
-    const { classes, handleSubmit } = this.props;
+    const { classes, handleSubmit, error } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4}>
           <Paper className={classes.paper}>
-          <form onSubmit={handleSubmit(this.props.submitLogin)}>
+            <form onSubmit={handleSubmit(this.handleSubmit)}>
               <div>
                 <Field
                   name="email"
@@ -67,12 +84,27 @@ class LoginContainer extends Component {
                   margin="normal"
                 />
               </div>
-              <Button type="submit" variant="contained" color="primary">
-                Enviar
-              </Button>
+              <div>
+                <Button type="submit" variant="contained" color="primary">
+                  Enviar
+                </Button>
+              </div>
             </form>
           </Paper>
         </Grid>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          open={this.state.snack && error}
+          onClose={this.handleSnackClose}
+          TransitionComponent={this.state.Transition}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{error}</span>}
+        />
       </Grid>
     )
   }
