@@ -1,26 +1,26 @@
 import session from '../../http/session';
 
-export const LOGIN_FETCH = 'LOGIN_FETCH';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const REGISTER_FETCH = 'REGISTER_FETCH';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const SIGNOUT = 'SIGNOUT';
 
-export function submitLogin(values) {
+export function submitRegister(values) {
 
   return (dispatch) => {
     dispatch({ 
-      type: LOGIN_FETCH,
+      type: REGISTER_FETCH,
     });
-    return session.login(values.email, values.password)
+    return session.register(values.email, values.password)
     .then(response => {
       dispatch({ 
-        type: LOGIN_SUCCESS,
+        type: REGISTER_SUCCESS,
         payload: response.data
       });
     })
     .catch(e => {
       dispatch({ 
-        type: LOGIN_ERROR, 
+        type: REGISTER_ERROR, 
         payload: e.response.data.errors[0].title
       });
       
@@ -36,9 +36,9 @@ export function submitSignout() {
   }  
 }
 
-const loginActions = {
-  submitLogin,
+const registerActions = {
+  submitRegister,
   submitSignout
 };
 
-export default loginActions;
+export default registerActions;

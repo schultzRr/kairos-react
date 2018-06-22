@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 import Login from '../../components/login/login';
-import { submitLogin } from '../../http/sessionActions';
 
 class LoginView extends Component {
-
-  componentWillMount() {
-    
-  }
-
+  
   render() {
-    
     const { from } = this.props.location.state || { from: { pathname: "/dashboard" } };
 
     if (this.props.redirectToReferrer) {

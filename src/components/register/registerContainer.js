@@ -16,7 +16,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import amber from '@material-ui/core/colors/amber';
 
-import loginActions from './loginActions';
+import registerActions from './registerActions';
 
 const styles = theme => ({
   paper: {
@@ -58,7 +58,7 @@ const styles = theme => ({
 });
 
 const form = {
-  form: 'login',
+  form: 'register',
   initialValues: {
     email: 'benjamin@coderia.mx',
     password: '123'
@@ -72,7 +72,7 @@ const email = value =>
     ? 'No es un correo electrónico válido'
     : undefined);
 
-class LoginContainer extends Component {
+class RegisterContainer extends Component {
 
   state = {
     showSnack: true
@@ -84,7 +84,7 @@ class LoginContainer extends Component {
 
   handleSubmit = (values) => {
     this.setState({ showSnack: true });
-    this.props.submitLogin(values);
+    this.props.submitRegister(values);
   }
 
   render() {
@@ -128,7 +128,7 @@ class LoginContainer extends Component {
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">
-                  <Link to="/register" className={classes.link}>Crear una cuenta</Link>
+                  <Link to="/login" className={classes.link}>¿Ya tienes una cuenta registrada?</Link>
                 </Typography>
                 <Typography variant="body2">
                   <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
@@ -148,7 +148,7 @@ class LoginContainer extends Component {
           <SnackbarContent
             className={classes.warning}
             message={
-              <span id="login-snackbar" className={classes.message}>
+              <span id="register-snackbar" className={classes.message}>
                 <WarningIcon className={classNames(classes.icon, classes.iconVariant)} />
                 {error}
               </span>
@@ -162,18 +162,18 @@ class LoginContainer extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.login.loading,
-    error: state.login.error,
+    loading: state.register.loading,
+    error: state.register.error,
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators(loginActions, dispatch),
+    bindActionCreators(registerActions, dispatch),
   );
 }
 
 export default withStyles(styles)(reduxForm(form)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginContainer)));
+)(RegisterContainer)));

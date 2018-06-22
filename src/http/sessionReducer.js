@@ -5,7 +5,7 @@ import {
 } from '../components/login/loginActions';
 
 const initialState = {
-  isAuthenticated: true,
+  isAuthenticated: false,
   user: {
     name: 'Ricardo',
     last_name: 'Rosas'
