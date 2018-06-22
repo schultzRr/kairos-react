@@ -2,7 +2,7 @@ import {
   REGISTER_FETCH,
   REGISTER_SUCCESS,
   REGISTER_ERROR
-} from '../../components/register/registerActions';
+} from '../../http/sessionActions';
 
 const initialState = {
   fetching: false,

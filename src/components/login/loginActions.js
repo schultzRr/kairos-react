@@ -1,44 +1,5 @@
 import session from '../../http/session';
 
-export const LOGIN_FETCH = 'LOGIN_FETCH';
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_ERROR = 'LOGIN_ERROR';
-export const SIGNOUT = 'SIGNOUT';
-
-export function submitLogin(values) {
-
-  return (dispatch) => {
-    dispatch({ 
-      type: LOGIN_FETCH,
-    });
-    return session.login(values.email, values.password)
-    .then(response => {
-      dispatch({ 
-        type: LOGIN_SUCCESS,
-        payload: response.data
-      });
-    })
-    .catch(e => {
-      dispatch({ 
-        type: LOGIN_ERROR, 
-        payload: e.response.data.errors[0].title
-      });
-      
-    })
-  }
-}
-
-export function submitSignout() {
-  return (dispatch) => {
-    dispatch({ 
-      type: SIGNOUT
-    });
-  }  
-}
-
-const loginActions = {
-  submitLogin,
-  submitSignout
-};
+const loginActions = {};
 
 export default loginActions;

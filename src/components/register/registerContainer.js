@@ -60,13 +60,13 @@ const styles = theme => ({
 const form = {
   form: 'register',
   initialValues: {
-    email: 'benjamin@coderia.mx',
-    password: '123'
+    name: '',
+    lastname: '',
+    email: '',
   },
 }
 
-const requiredEmail = value => (value == '' ? 'Escribe una dirección de correo electrónico' : undefined);
-const requiredPassword = value => (value == '' ? 'Escribe la contraseña de tu cuenta' : undefined);
+const required = value => (value == '' ? 'Requerido' : undefined);
 const email = value =>
   (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'No es un correo electrónico válido'
@@ -97,23 +97,34 @@ class RegisterContainer extends Component {
             <form onSubmit={handleSubmit(this.handleSubmit)}>
               <div>
                 <Field
-                  name="email"
+                  name="name"
                   component={TextField}
-                  label="Correo electrónico"
-                  validate={[requiredEmail, email]}
+                  label="Nombre"
+                  validate={[required]}
                   className={classes.textfield}
-                  margin="normal"
+                  margin="dense"
+                  required
                 />
               </div>
               <div>
                 <Field
-                  name="password"
+                  name="lastname"
                   component={TextField}
-                  label="Contraseña"
-                  validate={[requiredPassword]}
-                  type="password"
+                  label="Apellido(s)"
+                  validate={[required]}
                   className={classes.textfield}
-                  margin="normal"
+                  margin="dense"
+                  required
+                />
+              </div>
+              <div>
+                <Field
+                  name="email"
+                  component={TextField}
+                  label="Correo electrónico"
+                  validate={[required, email]}
+                  className={classes.textfield}
+                  margin="dense"
                 />
               </div>
               <div>
@@ -123,7 +134,7 @@ class RegisterContainer extends Component {
                   variant="contained" 
                   color="primary"
                 >
-                  Enviar
+                  Continuar
                 </Button>
               </div>
               <div className={classes.linkContainer}>
