@@ -15,6 +15,10 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  appBar: {
+    backgroundColor: 'white',
+    boxShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12)'
+  },
   flex: {
     flex: 1,
   },
@@ -52,10 +56,10 @@ class Navigation extends Component {
 
     return (
       <div className={classes.root}>
-        <AppBar position="static">
+        <AppBar position="static" className={classes.appBar}>
           <Toolbar>
             <a href="/" className={classes.flex}>
-              <img src="/images/logo-white@2x.png" className={classes.logo} alt="Logo Prana"/>
+              <img src="/images/logo@2x.png" className={classes.logo} alt="Logo Prana"/>
             </a>
             {isAuthenticated && (
               <div>
