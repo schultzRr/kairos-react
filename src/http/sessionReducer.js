@@ -16,8 +16,11 @@ function sessionReducer(state = initialState, action) {
         isAuthenticated: true,
         user: action.payload.user,
       })
-    case SIGNOUT:
-      return state.set('isAuthenticated', false) 
+    case SIGNOUT_SUCCESS:
+    return state.merge({
+      isAuthenticated: false,
+      user: {},
+    })
     default:
       return state;
   }
