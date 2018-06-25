@@ -53,9 +53,31 @@ export function signout() {
   }
 }
 
+export function getCurrentSession() {
+
+  return (dispatch) => {
+    return session.getCurrentSession()
+    .then(response => {
+      dispatch({ 
+        type: LOGIN_SUCCESS,
+        payload: response.data
+      });
+    })
+    .catch(e => {
+      console.log(e);
+      dispatch({ 
+        type: LOGIN_ERROR, 
+        payload: e.response.data.errors[0].title
+      });
+      
+    })
+  }
+}
+
 const sessionActions = {
   login,
-  signout
+  signout,
+  getCurrentSession
 };
 
 export default sessionActions;

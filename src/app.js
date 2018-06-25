@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import PrivateRoute from './privateRoute';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +13,9 @@ import DashboardView from './views/dashboard/dashboardView';
 
 import Navigation from './components/navigation/navigation';
 import Footer from './components/footer/footer';
+
+import session from '../src/http/session';
+import sessionActions from '../src/http/sessionActions';
 
 const styles = {
   root: {
@@ -26,8 +31,21 @@ const styles = {
 
 class App extends Component {
 
+  state = {
+    validatedSession: false
+  }
+
   componentDidMount() {
-    console.log('componentDidMount');
+    if(session.isHttpHeaders()){
+      session.configHttpHeaders();
+      this.props.getCurrentSession()
+      .then(response => {
+        this.setState({validatedSession: true});
+        return response;
+      });
+    } else {
+      this.setState({validatedSession: true});
+    }
   }
 
   render() {
@@ -35,20 +53,37 @@ class App extends Component {
 
     return(
       <div className={classes.root}>
-        <CssBaseline />
-        <Navigation />
-        <Grid container className={classes.mainContainer}>
-          <Switch>
-            <Route exact path="/login" component={LoginView} />
-            <Route path="/register" component={RegisterView} />
-            <PrivateRoute path="/dashboard" component={DashboardView}/>
-            <Redirect to="/login" />
-          </Switch>
-        </Grid>
-        <Footer />
+        {this.state.validatedSession && 
+          <React.Fragment>
+            <CssBaseline />
+            <Navigation />
+            <Grid container className={classes.mainContainer}>
+              <Switch>
+                <Route exact path="/login" component={LoginView} />
+                <Route path="/register" component={RegisterView} />
+                <PrivateRoute path="/dashboard" component={DashboardView}/>
+                <Redirect to="/login" />
+              </Switch>
+            </Grid>
+            <Footer />
+          </React.Fragment>
+        }
       </div>
     )
   }
 }
 
-export default withStyles(styles)(withRouter(App));
+const mapStateToProps = function mapStateToProps(state, props) {
+  return {};
+};
+
+function mapDispatchToProps(dispatch) {
+  return Object.assign({},
+    bindActionCreators(sessionActions, dispatch),
+  );
+}
+
+export default withStyles(styles)(withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)));
