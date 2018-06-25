@@ -1,22 +1,29 @@
+import { fromJS } from 'immutable';
 import {
   REGISTER_FETCH,
   REGISTER_SUCCESS,
   REGISTER_ERROR
 } from '../../components/register/registerActions';
 
-const initialState = {
+const initialState = fromJS({
   fetching: false,
   error: '', 
-}
+})
 
 function registerReducer(state = initialState, action) {
   switch(action.type){
     case REGISTER_FETCH: 
-      return {...state, fetching: true, error: ''}
+      return state.merge({
+        fetching: true,
+        error: '',
+      })
     case REGISTER_SUCCESS: 
-      return {...state, fetching: false}
+      return state.set('fetching', false) 
     case REGISTER_ERROR: 
-    return {...state, fetching: false, error: action.payload }
+      return state.merge({
+        fetching: false,
+        error: action.payload,
+      })
     default:
       return state;
   }

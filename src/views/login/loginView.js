@@ -21,7 +21,7 @@ class LoginView extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    redirectToReferrer: state.loginView.redirectToReferrer,
+    redirectToReferrer: state.get('loginView').get('redirectToReferrer'),
   };
 };
 

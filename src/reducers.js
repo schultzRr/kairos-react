@@ -3,13 +3,16 @@ import login from './components/login/loginReducer';
 import registerView from './views/register/registerViewReducer';
 import register from './components/register/registerReducer';
 import session from './http/sessionReducer';
+import { reducer as reduxFormReducer } from 'redux-form';
+import { combineReducers } from 'redux-immutable';
 
-const reducers = {
+const reducers = combineReducers({
   loginView,
   login,
   registerView,
   register,
-  session
-};
+  session,
+  form: reduxFormReducer,
+});
 
 export default reducers;

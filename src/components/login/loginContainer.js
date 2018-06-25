@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import { reduxForm, Field } from 'redux-form/immutable';
+import { TextField } from 'redux-form-material-ui';
 import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -162,8 +162,8 @@ class LoginContainer extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.login.loading,
-    error: state.login.error,
+    loading: state.get('login').get('loading'),
+    error: state.get('login').get('error'),
   };
 };
 

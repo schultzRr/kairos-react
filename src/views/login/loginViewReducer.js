@@ -1,19 +1,20 @@
+import { fromJS } from 'immutable';
 import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   SIGNOUT
 } from '../../components/login/loginActions';
 
-const initialState = {
+const initialState = fromJS({
   redirectToReferrer: false
-}
+})
 
 function loginViewReducer(state = initialState, action) {
   switch(action.type){
     case LOGIN_SUCCESS: 
-      return {...state, redirectToReferrer: true}
+      return state.set('redirectToReferrer', true) 
     case SIGNOUT: 
-      return {...state, redirectToReferrer: false}
+      return state.set('redirectToReferrer', false) 
     default:
       return state;
   }
