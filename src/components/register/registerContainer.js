@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form'
-import { TextField } from 'redux-form-material-ui'
+import { reduxForm, Field } from 'redux-form/immutable';
+import { TextField } from 'redux-form-material-ui';
 import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -173,8 +173,8 @@ class RegisterContainer extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.register.loading,
-    error: state.register.error,
+    loading: state.get('register').get('loading'),
+    error: state.get('register').get('error'),
   };
 };
 

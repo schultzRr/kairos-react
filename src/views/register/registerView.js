@@ -21,7 +21,7 @@ class RegisterView extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    redirectToReferrer: state.registerView.redirectToReferrer,
+    redirectToReferrer: state.get('registerView').get('redirectToReferrer'),
   };
 };
 

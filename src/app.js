@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import PrivateRoute from './privateRoute';
 import CssBaseline from '@material-ui/core/CssBaseline';
