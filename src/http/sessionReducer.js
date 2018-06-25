@@ -1,9 +1,8 @@
 import { fromJS } from 'immutable';
 import {
   LOGIN_SUCCESS,
-  LOGIN_ERROR,
-  SIGNOUT
-} from '../components/login/loginActions';
+  SIGNOUT_SUCCESS,
+} from './sessionActions';
 
 const initialState = fromJS({
   isAuthenticated: false,

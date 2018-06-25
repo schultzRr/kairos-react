@@ -16,7 +16,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import amber from '@material-ui/core/colors/amber';
 
-import loginActions from './loginActions';
+import sessionActions from '../../http/sessionActions';
 
 const styles = theme => ({
   paper: {
@@ -84,11 +84,11 @@ class LoginContainer extends Component {
 
   handleSubmit = (values) => {
     this.setState({ showSnack: true });
-    this.props.submitLogin(values);
+    this.props.login(values);
   }
 
   render() {
-    const { classes, handleSubmit, loading, error } = this.props;
+    const { classes, handleSubmit, error } = this.props;
 
     return(
       <Grid container justify="center">
@@ -123,7 +123,7 @@ class LoginContainer extends Component {
                   variant="contained" 
                   color="primary"
                 >
-                  Enviar
+                  Entrar
                 </Button>
               </div>
               <div className={classes.linkContainer}>
@@ -169,7 +169,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators(loginActions, dispatch),
+    bindActionCreators(sessionActions, dispatch),
   );
 }
 

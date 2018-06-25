@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import loginActions from '../login/loginActions';
+import navigationActions from '../navigation/navigationActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -43,7 +42,7 @@ class Navigation extends Component {
 
   handleSignOut = () => {
     this.handleClose();
-    this.props.submitSignout();
+    this.props.signout();
   }
 
   render() {
@@ -103,11 +102,11 @@ const mapStateToProps = function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators(loginActions, dispatch),
+    bindActionCreators(navigationActions, dispatch),
   );
 }
 
-export default withStyles(styles)(withRouter(connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Navigation)));
+)(Navigation));

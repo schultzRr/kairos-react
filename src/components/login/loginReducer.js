@@ -3,7 +3,7 @@ import {
   LOGIN_FETCH,
   LOGIN_SUCCESS,
   LOGIN_ERROR
-} from '../../components/login/loginActions';
+} from '../../http/sessionActions';
 
 const initialState = fromJS({
   fetching: false,
