@@ -5,10 +5,7 @@ import {
 
 const initialState = {
   isAuthenticated: false,
-  user: {
-    name: 'Ricardo',
-    last_name: 'Rosas'
-  }
+  user: {}
 }
 
 function sessionReducer(state = initialState, action) {
@@ -16,7 +13,7 @@ function sessionReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return {...state, isAuthenticated: true, user: action.payload.user };
     case SIGNOUT_SUCCESS:
-      return {...state, isAuthenticated: false};
+      return {...state, isAuthenticated: false, user: {}};
     default:
       return state;
   }

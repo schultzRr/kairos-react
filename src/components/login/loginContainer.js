@@ -61,7 +61,7 @@ const form = {
   form: 'login',
   initialValues: {
     email: 'benjamin@coderia.mx',
-    password: '123'
+    password: 'password'
   },
 }
 

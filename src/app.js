@@ -1,36 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Switch, Route , Link, Redirect, withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import PrivateRoute from './privateRoute';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
 import LoginView from './views/login/loginView';
-import Register from './views/register/registerView';
-import Dashboard from './views/dashboard/dashboardview';
+import RegisterView from './views/register/registerView';
+import DashboardView from './views/dashboard/dashboardView';
 
 import Navigation from './components/navigation/navigation';
 import Footer from './components/footer/footer';
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={props => {
-      return rest.isAuthenticated ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/login",
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-      
-    }
-  />
-);
 
 const styles = {
   root: {
@@ -46,6 +27,10 @@ const styles = {
 
 class App extends Component {
 
+  componentDidMount() {
+    console.log('componentDidMount');
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -56,8 +41,8 @@ class App extends Component {
         <Grid container className={classes.mainContainer}>
           <Switch>
             <Route exact path="/login" component={LoginView} />
-            <Route path="/register" component={Register} />
-            <PrivateRoute path="/dashboard" component={Dashboard} isAuthenticated={this.props.isAuthenticated}/>
+            <Route path="/register" component={RegisterView} />
+            <PrivateRoute path="/dashboard" component={DashboardView}/>
             <Redirect to="/login" />
           </Switch>
         </Grid>
@@ -67,17 +52,4 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = function mapStateToProps(state, props) {
-  return {
-    isAuthenticated: state.session.isAuthenticated,
-  };
-};
-
-function mapDispatchToProps(dispatch) {
-  return {};
-}
-
-export default withStyles(styles)(withRouter(connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)));
+export default withStyles(styles)(withRouter(App));

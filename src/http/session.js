@@ -20,25 +20,18 @@ function configHttpHeaders(){
 };
 
 function setHttpHeaders(headers){
-  const tmpHeaders = {};
-  headers.forEach(function(value, name) {
-    tmpHeaders[name] = value;
-  });
-  localStorage.setItem('kairos-hdr', JSON.stringify(tmpHeaders));
-
-  console.log(tmpHeaders);
-
+  localStorage.setItem('kairos-hdr', JSON.stringify(headers));
   configHttpHeaders();
 };
 
 function unsetHttpHeaders(){
   localStorageService.cookie.remove('kairos-hdr');
 
-  $http.defaults.headers.common['access-token'] = undefined;
-  $http.defaults.headers.common['expiry'] = undefined;
-  $http.defaults.headers.common['token-type'] = undefined;
-  $http.defaults.headers.common['uid'] = undefined;
-  $http.defaults.headers.common['client'] = undefined;
+  axios.defaults.headers.common['access-token'] = undefined;
+  axios.defaults.headers.common['expiry'] = undefined;
+  axios.defaults.headers.common['token-type'] = undefined;
+  axios.defaults.headers.common['uid'] = undefined;
+  axios.defaults.headers.common['client'] = undefined;
 };
 
 function login(email, password) {
@@ -47,9 +40,18 @@ function login(email, password) {
       'email': email,
       'password': password
     }
+  })
+  .then(response => {
+    session.setHttpHeaders(response.headers);
+    return response;
   });
+}
 
-  // Actualizar los headers aquí, no en loginActions.js
+function signout() {
+  return axios.get('/logout')
+  .then(response => {
+    return response;
+  });
 }
 
 const session = {
@@ -58,7 +60,8 @@ const session = {
   configHttpHeaders,
   setHttpHeaders,
   unsetHttpHeaders,
-  login
+  login,
+  signout
 };
 
 export default session;

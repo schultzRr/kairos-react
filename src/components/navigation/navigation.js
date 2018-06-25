@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import navigationActions from '../navigation/navigationActions';
+import sessionActions from '../../http/sessionActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -102,7 +102,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators(navigationActions, dispatch),
+    bindActionCreators(sessionActions, dispatch),
   );
 }
 
