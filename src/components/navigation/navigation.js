@@ -23,7 +23,8 @@ const styles = {
     flex: 1,
   },
   menuButton: {
-    margin: 0
+    margin: 0,
+    color: 'rgba(235,25,126,1)',
   },
   logo: {
     height: 40,
