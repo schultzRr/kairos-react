@@ -3,6 +3,9 @@ import session from './session';
 export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const REGISTER_FETCH = 'REGISTER_FETCH';
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
+export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const SIGNOUT_FETCH = 'SIGNOUT_FETCH';
 export const SIGNOUT_SUCCESS = 'SIGNOUT_SUCCESS';
 export const SIGNOUT_ERROR = 'SIGNOUT_ERROR';
@@ -27,6 +30,71 @@ export function login(values) {
       });
       
     })
+  }
+}
+
+export function register(values) {
+
+  return (dispatch) => {
+    dispatch({ 
+      type: REGISTER_FETCH,
+    });
+
+    return session.getIpInfo()
+    .then(location => {
+
+      const user = {
+        first_name: values.name,
+        last_name: values.lastname,
+        email: values.email,
+        external_id: values.externalId,
+        sponsor_external_id: values.sponsorExternalId,
+        placement_external_id: values.placementExternalId,
+        transaction_number: values.transactionNumber,
+        iuvare_id: values.iuvareId,
+        phone: values.phone,
+        password: values.password,
+        password_confirmation: values.confirmation
+      };
+
+      session.registerUser(user)
+      .then(response => {
+
+        var address = {
+          address: values.address,
+          zip: values.zip,
+          country: values.country,
+          state: values.state,
+          location: location
+        };
+
+        session.registerAddress(address)
+        .then(response => {
+          dispatch({ 
+            type: REGISTER_SUCCESS,
+            payload: response.data
+          });
+        })
+        .catch(e => {
+          console.log(e.response);
+          dispatch({ 
+            type: REGISTER_ERROR, 
+            payload: e.response.data.errors[0].title
+          });
+          
+        });
+
+      })
+      .catch(e => {
+        console.log(e.response);
+        dispatch({ 
+          type: REGISTER_ERROR, 
+          payload: e.response.data.errors[0].title
+        });
+        
+      });
+      
+    });
   }
 }
 
@@ -64,7 +132,6 @@ export function getCurrentSession() {
       });
     })
     .catch(e => {
-      console.log(e);
       dispatch({ 
         type: LOGIN_ERROR, 
         payload: e.response.data.errors[0].title
@@ -76,6 +143,7 @@ export function getCurrentSession() {
 
 const sessionActions = {
   login,
+  register,
   signout,
   getCurrentSession
 };

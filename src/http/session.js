@@ -33,6 +33,10 @@ function unsetHttpHeaders(){
   axios.defaults.headers.common['client'] = undefined;
 };
 
+function getCurrentSession() {
+  return axios.get('/session');
+}
+
 function login(email, password) {
   return axios.post('/users/sign_in', {
     user: {
@@ -46,6 +50,35 @@ function login(email, password) {
   });
 }
 
+function registerUser(user) {
+  return axios.post('/users/sign_up', { 
+    user: user 
+  })
+  .then(function(response) {
+    if(response.data.user){
+      setHttpHeaders(response.headers);
+    }
+    return response;
+  });
+};
+
+var registerAddress = function(address){
+  return axios.post('/shipping_addresses', { 
+    shipping_address: address 
+  })
+  .then(function(response) {
+      var data = response.data;
+      if (typeof data === 'object') {
+          return data;
+      } else {
+          return $q.reject(data);
+      }
+
+  }, function(error){
+      return $q.reject(error.data);
+  });
+};
+
 function signout() {
   return axios.get('/logout')
   .then(response => {
@@ -54,8 +87,17 @@ function signout() {
   });
 }
 
-function getCurrentSession() {
-  return axios.get('/session');
+function getIpInfo() {
+  return axios.get('http://ipinfo.io', {})
+  .then(response => {
+    if(response.data){
+      return response.data.city + ', ' + response.data.country;
+    }
+    return '';
+  })
+  .catch(e => {
+    return '';
+  });
 }
 
 const session = {
@@ -64,9 +106,12 @@ const session = {
   configHttpHeaders,
   setHttpHeaders,
   unsetHttpHeaders,
+  getCurrentSession,
   login,
+  registerUser,
+  registerAddress,
   signout,
-  getCurrentSession
+  getIpInfo
 };
 
 export default session;
