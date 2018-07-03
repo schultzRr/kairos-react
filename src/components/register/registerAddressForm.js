@@ -6,10 +6,31 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 
+const validate = values => {
+  const errors = {}
+  if (!values.address) {
+    errors.address = 'Requerido';
+  }
+  if (!values.city) {
+    errors.city = 'Requerido';
+  }
+  if (!values.state) {
+    errors.state = 'Requerido';
+  }
+  if (!values.zip) {
+    errors.zip = 'Requerido';
+  } else if (isNaN(Number(values.zip)) || values.zip.length < 3 || values.zip.length > 8 ) {
+    errors.zip = 'Por favor introduce un código postal válido';
+  }
+  if (!values.country) {
+    errors.country = 'Requerido';
+  }
+  return errors;
+}
+
 const form = {
   form: 'register',
-  destroyOnUnmount: false,
-  forceUnregisterOnUnmount: true,
+  validate
 }
 
 const styles = theme => ({
@@ -27,12 +48,6 @@ const styles = theme => ({
   },
 });
 
-const required = value => (!value ? 'Requerido' : undefined);
-const numeric = value =>
-  (value && !/^[0-9]*$/i.test(value)
-    ? 'El valor debe ser numérico'
-    : undefined);
-
 class registerAddressForm extends Component {
 
   state = {
@@ -49,7 +64,6 @@ class registerAddressForm extends Component {
             name="address"
             component={TextField}
             label="Calle, número y colonia *"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
           />
@@ -59,7 +73,6 @@ class registerAddressForm extends Component {
             name="city"
             component={TextField}
             label="Ciudad *"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
           />
@@ -69,7 +82,6 @@ class registerAddressForm extends Component {
             name="state"
             component={TextField}
             label="Estado *"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
           />
@@ -79,7 +91,6 @@ class registerAddressForm extends Component {
             name="zip"
             component={TextField}
             label="Código postal *"
-            validate={[required, numeric]}
             className={classes.textfield}
             margin="dense"
           />
@@ -89,7 +100,6 @@ class registerAddressForm extends Component {
             name="country"
             component={TextField}
             label="País *"
-            validate={[required]}
             className={classes.textfield}
             inputProps={{
               className: classes.selectfield

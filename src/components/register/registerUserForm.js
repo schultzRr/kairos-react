@@ -5,28 +5,63 @@ import { TextField } from 'redux-form-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+const validate = values => {
+  const errors = {}
+  if (!values.name) {
+    errors.name = 'Requerido';
+  }
+  if (!values.lastname) {
+    errors.lastname = 'Requerido';
+  }
+  if (!values.email) {
+    errors.email = 'Requerido';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'No es un correo electrónico válido';
+  }
+  if (!values.externalId) {
+    errors.externalId = 'Requerido';
+  } else if (isNaN(Number(values.externalId))) {
+    errors.externalId = 'Por favor introduce un ID Omein válido';
+  }
+  if (!values.sponsorExternalId) {
+    errors.sponsorExternalId = 'Requerido';
+  } else if (isNaN(Number(values.sponsorExternalId))) {
+    errors.sponsorExternalId = 'Por favor introduce un ID Omein de patrocinio válido';
+  }
+  if (!values.placementExternalId) {
+    errors.placementExternalId = 'Requerido';
+  } else if (isNaN(Number(values.placementExternalId))) {
+    errors.placementExternalId = 'Por favor introduce un ID Omein de colocación válido';
+  }
+  if (!values.iuvareId) {
+    errors.iuvareId = 'Requerido';
+  }
+  if (!values.transactionNumber) {
+    errors.transactionNumber = 'Requerido';
+  }
+  if (!values.phone) {
+    errors.phone = 'Requerido';
+  } else if (!/^[0-9 ]{7,20}$/i.test(values.phone)) {
+    errors.phone = 'Por favor introduce un teléfono válido';
+  }
+  if (!values.password) {
+    errors.password = 'Requerido';
+  } else if (values.password.length < 8) {
+    errors.password = 'Usa al menos 8 caracteres';
+  }
+  if (!values.confirmation) {
+    errors.confirmation = 'Requerido';
+  } else if (values.confirmation != values.password) {
+    errors.confirmation = 'Las contraseñas no coinciden';
+  }
+  return errors;
+}
+
 const form = {
   form: 'register',
-  initialValues: {
-    name: 'Pedro',
-    lastname: 'Picapiedra',
-    email: 'pedro.picapiedra@gmail.com',
-    externalId: '1234',
-    sponsorExternalId: '1234',
-    placementExternalId: '1234',
-    iuvareId: '1234',
-    transactionNumber: '1234',
-    phone: '123456789',
-    password: '12345678',
-    confirmation: '123456789',
-    address: 'Calle #123',
-    city: 'CDMX',
-    state: 'CDMX',
-    zip: '12345',
-    country: 'México',
-  },
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true,
+  validate
 }
 
 const styles = theme => ({
@@ -37,20 +72,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 4
   },
 });
-
-const required = value => (!value ? 'Requerido' : undefined);
-const email = value =>
-  (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'No es un correo electrónico válido'
-    : undefined);
-const numeric = value =>
-  (value && !/^[0-9]*$/i.test(value)
-    ? 'El valor debe ser numérico'
-    : undefined);
-const phone = value =>
-  (value && !/^[0-9 ]{7,20}$/i.test(value)
-    ? 'Por favor introduce un teléfono válido'
-    : undefined);
 
 class registerUserForm extends Component {
 
@@ -64,7 +85,6 @@ class registerUserForm extends Component {
             name="name"
             component={TextField}
             label="Nombre *"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
           />
@@ -74,7 +94,6 @@ class registerUserForm extends Component {
             name="lastname"
             component={TextField}
             label="Apellido(s) *"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
           />
@@ -84,7 +103,6 @@ class registerUserForm extends Component {
             name="email"
             component={TextField}
             label="Correo electrónico *"
-            validate={[required, email]}
             className={classes.textfield}
             margin="dense"
           />
@@ -94,7 +112,6 @@ class registerUserForm extends Component {
             name="externalId"
             component={TextField}
             label="ID Omein *"
-            validate={[required, numeric]}
             className={classes.textfield}
             margin="dense"
           />
@@ -104,7 +121,6 @@ class registerUserForm extends Component {
             name="sponsorExternalId"
             component={TextField}
             label="ID Omein de patrocinio *"
-            validate={[required, numeric]}
             className={classes.textfield}
             margin="dense"
           />
@@ -114,7 +130,6 @@ class registerUserForm extends Component {
             name="placementExternalId"
             component={TextField}
             label="ID Omein de colocación *"
-            validate={[required, numeric]}
             className={classes.textfield}
             margin="dense"
           />
@@ -124,7 +139,6 @@ class registerUserForm extends Component {
             name="iuvareId"
             component={TextField}
             label="ID Iuvare *"
-            validate={[required, numeric]}
             className={classes.textfield}
             margin="dense"
           />
@@ -134,7 +148,6 @@ class registerUserForm extends Component {
             name="transactionNumber"
             component={TextField}
             label="Número de registro *"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
           />
@@ -144,7 +157,6 @@ class registerUserForm extends Component {
             name="phone"
             component={TextField}
             label="Teléfono (sólo números y espacios) *"
-            validate={[required, phone]}
             inputProps={{
               maxLength: 15,
             }}
@@ -158,10 +170,8 @@ class registerUserForm extends Component {
             component={TextField}
             type="password"
             label="Contraseña"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
-            required
           />
         </div>
         <div>
@@ -170,10 +180,8 @@ class registerUserForm extends Component {
             component={TextField}
             type="password"
             label="Confirmar contraseña"
-            validate={[required]}
             className={classes.textfield}
             margin="dense"
-            required
           />
         </div>
         <div>

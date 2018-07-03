@@ -4,19 +4,17 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
-import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import WarningIcon from '@material-ui/icons/Warning';
-import amber from '@material-ui/core/colors/amber';
+
+import ErrorSnackbar from '../error/errorSnackbar';
 
 import { login } from '../../http/sessionActions';
+import loginActions from './loginActions';
 
 const styles = theme => ({
   paper: {
@@ -41,54 +39,43 @@ const styles = theme => ({
       color: 'rgba(146,200,62,1)',
     },
   },
-  warning: {
-    backgroundColor: amber[700],
-  },
-  icon: {
-    fontSize: 20,
-  },
-  iconVariant: {
-    opacity: 0.9,
-    marginRight: theme.spacing.unit,
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center',
-  },
 });
+
+const validate = values => {
+  const errors = {}
+  if (!values.email) {
+    errors.email = 'Escribe una dirección de correo electrónico'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'No es un correo electrónico válido'
+  }
+  if (!values.password) {
+    errors.password = 'Escribe la contraseña de tu cuenta'
+  }
+  return errors;
+}
 
 const form = {
   form: 'login',
-  initialValues: {
-    email: 'benjamin@coderia.mx',
-    password: 'password'
-  },
+  validate
 }
 
-const requiredEmail = value => (value == '' ? 'Escribe una dirección de correo electrónico' : undefined);
-const requiredPassword = value => (value == '' ? 'Escribe la contraseña de tu cuenta' : undefined);
-const email = value =>
-  (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'No es un correo electrónico válido'
-    : undefined);
 
 class LoginContainer extends Component {
 
-  state = {
-    showSnack: true
+  handleSnackClose = (event, reason) => {
+    this.props.hideError();
   };
 
-  handleSnackClose = (event, reason) => {
-    this.setState({ showSnack: false });
+  handleSnackExit = (event, reason) => {
+    this.props.resetError();
   };
 
   handleSubmit = (values) => {
-    this.setState({ showSnack: true });
     this.props.login(values);
   }
 
   render() {
-    const { classes, handleSubmit, error } = this.props;
+    const { classes, handleSubmit, error, displayError } = this.props;
 
     return(
       <Grid container justify="center">
@@ -100,7 +87,6 @@ class LoginContainer extends Component {
                   name="email"
                   component={TextField}
                   label="Correo electrónico"
-                  validate={[requiredEmail, email]}
                   className={classes.textfield}
                   margin="normal"
                 />
@@ -110,7 +96,6 @@ class LoginContainer extends Component {
                   name="password"
                   component={TextField}
                   label="Contraseña"
-                  validate={[requiredPassword]}
                   type="password"
                   className={classes.textfield}
                   margin="normal"
@@ -137,24 +122,12 @@ class LoginContainer extends Component {
             </form>
           </Paper>
         </Grid>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          open={error != '' && this.state.showSnack}
-          onClose={this.handleSnackClose}
-        >
-          <SnackbarContent
-            className={classes.warning}
-            message={
-              <span id="login-snackbar" className={classes.message}>
-                <WarningIcon className={classNames(classes.icon, classes.iconVariant)} />
-                {error}
-              </span>
-            }
-          />
-        </Snackbar>
+        <ErrorSnackbar 
+          error={error}
+          displayError={displayError}
+          handleClose={this.handleSnackClose} 
+          handleExited={this.handleSnackExit}
+        />
       </Grid>
     )
   }
@@ -164,12 +137,14 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('login').get('loading'),
     error: state.get('login').get('error'),
+    displayError: state.get('login').get('displayError'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ login }, dispatch),
+    bindActionCreators(loginActions, dispatch),
   );
 }
 

@@ -52,30 +52,20 @@ function login(email, password) {
 
 function registerUser(user) {
   return axios.post('/users/sign_up', { 
-    user: user 
+    user: user
   })
-  .then(function(response) {
+  .then(response => {
     if(response.data.user){
       setHttpHeaders(response.headers);
     }
     return response;
   });
+
 };
 
 var registerAddress = function(address){
   return axios.post('/shipping_addresses', { 
     shipping_address: address 
-  })
-  .then(function(response) {
-      var data = response.data;
-      if (typeof data === 'object') {
-          return data;
-      } else {
-          return $q.reject(data);
-      }
-
-  }, function(error){
-      return $q.reject(error.data);
   });
 };
 

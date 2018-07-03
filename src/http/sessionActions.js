@@ -60,7 +60,7 @@ export function register(values) {
       session.registerUser(user)
       .then(response => {
 
-        var address = {
+        const address = {
           address: values.address,
           zip: values.zip,
           country: values.country,
@@ -68,15 +68,16 @@ export function register(values) {
           location: location
         };
 
+        const user = response.data;
+
         session.registerAddress(address)
         .then(response => {
           dispatch({ 
             type: REGISTER_SUCCESS,
-            payload: response.data
+            payload: user
           });
         })
         .catch(e => {
-          console.log(e.response);
           dispatch({ 
             type: REGISTER_ERROR, 
             payload: e.response.data.errors[0].title
