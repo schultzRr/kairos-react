@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
+import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -12,21 +13,19 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import ErrorSnackbar from '../error/errorSnackbar';
+import ButtonLoader from '../common/buttonLoader';
 
 import { login } from '../../http/sessionActions';
 import loginActions from './loginActions';
 
 const styles = theme => ({
   paper: {
-    padding: theme.spacing.unit * 4 + 'px 0' ,
-    textAlign: 'center',
     color: theme.palette.text.secondary,
+    padding: theme.spacing.unit * 4 + 'px 0',
+    textAlign: 'center',
   },
   textfield: {
     width: '80%'
-  },
-  button: {
-    marginTop: theme.spacing.unit * 4
   },
   linkContainer: {
     marginTop: theme.spacing.unit * 4
@@ -36,7 +35,7 @@ const styles = theme => ({
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: 'rgba(146,200,62,1)',
+      color: colors.green,
     },
   },
 });
@@ -75,12 +74,13 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, error, displayError } = this.props;
+    const { classes, handleSubmit, loading, error, displayError } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4}>
           <Paper className={classes.paper}>
+          
             <form onSubmit={handleSubmit(this.handleSubmit)}>
               <div>
                 <Field
@@ -102,14 +102,16 @@ class LoginContainer extends Component {
                 />
               </div>
               <div>
-                <Button 
-                  className={classes.button}
-                  type="submit" 
-                  variant="contained" 
-                  color="primary"
-                >
-                  Entrar
-                </Button>
+                <ButtonLoader loading={loading}>
+                  <Button 
+                    type="submit" 
+                    variant="contained" 
+                    color="primary"
+                    disabled={loading}
+                  >
+                    Iniciar sesión
+                  </Button>
+                </ButtonLoader>
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">

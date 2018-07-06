@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
+import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -30,7 +31,7 @@ const styles = theme => ({
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: 'rgba(146,200,62,1)',
+      color: colors.green,
     },
   },
 });
@@ -58,7 +59,7 @@ class RegisterContainer extends Component {
   }
 
   render() {
-    const { classes, error, displayError } = this.props;
+    const { classes, loading, error, displayError } = this.props;
     const { page } = this.state;
 
     return(
@@ -66,7 +67,7 @@ class RegisterContainer extends Component {
         <Grid item xs={10} sm={7} md={4}>
           <Paper className={classes.paper}>
           {page === 1 && <RegisterUserForm onSubmit={this.handleContinue} />}
-          {page === 2 && <RegisterAddressForm onSubmit={this.handleSubmit} />}
+          {page === 2 && <RegisterAddressForm onSubmit={this.handleSubmit} loading={loading} />}
           <div className={classes.linkContainer}>
             <Typography variant="body2">
               <Link to="/login" className={classes.link}>¿Ya tienes una cuenta registrada?</Link>

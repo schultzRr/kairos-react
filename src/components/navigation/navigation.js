@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import sessionActions from '../../http/sessionActions';
 
+import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -24,7 +25,7 @@ const styles = {
   },
   menuButton: {
     margin: 0,
-    color: 'rgba(235,25,126,1)',
+    color: colors.pink,
   },
   logo: {
     height: 40,

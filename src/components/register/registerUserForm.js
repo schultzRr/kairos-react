@@ -191,7 +191,7 @@ class registerUserForm extends Component {
             variant="contained" 
             color="primary"
           >
-            Continuar
+            Siguiente >
           </Button>
         </div>
       </form>

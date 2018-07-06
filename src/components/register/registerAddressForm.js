@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 
+import ButtonLoader from '../common/buttonLoader';
+
 const validate = values => {
   const errors = {}
   if (!values.address) {
@@ -43,19 +45,12 @@ const styles = theme => ({
       background: 'transparent',
     },
   },
-  button: {
-    marginTop: theme.spacing.unit * 4
-  },
 });
 
 class registerAddressForm extends Component {
 
-  state = {
-    age: 10
-  }
-
   render() {
-    const { classes, handleSubmit } = this.props;
+    const { classes, handleSubmit, loading } = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -113,14 +108,16 @@ class registerAddressForm extends Component {
           </Field>
         </div>
         <div>
-          <Button 
-            className={classes.button}
-            type="submit"
-            variant="contained" 
-            color="primary"
-          >
-            Registrar
-          </Button>
+          <ButtonLoader loading={loading}>
+            <Button 
+              type="submit" 
+              variant="contained" 
+              color="primary"
+              disabled={loading}
+            >
+              Registrar
+            </Button>
+          </ButtonLoader>
         </div>
       </form>
     )

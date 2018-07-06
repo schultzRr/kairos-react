@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+
+import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 const styles = {
   footer: {
-    backgroundColor: 'rgba(235,25,126,1)',
+    backgroundColor: colors.pink,
     color: 'white',
     fontSize: '0.9rem',
     padding: '1rem',
