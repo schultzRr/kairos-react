@@ -36,9 +36,6 @@ const form = {
 }
 
 const styles = theme => ({
-  textfield: {
-    width: '80%'
-  },
   selectfield: {
     textAlign: 'start',
     '&:focus': {
@@ -59,7 +56,6 @@ class registerAddressForm extends Component {
             name="address"
             component={TextField}
             label="Calle, número y colonia *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -68,7 +64,6 @@ class registerAddressForm extends Component {
             name="city"
             component={TextField}
             label="Ciudad *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -77,7 +72,6 @@ class registerAddressForm extends Component {
             name="state"
             component={TextField}
             label="Estado *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -86,7 +80,6 @@ class registerAddressForm extends Component {
             name="zip"
             component={TextField}
             label="Código postal *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -95,7 +88,6 @@ class registerAddressForm extends Component {
             name="country"
             component={TextField}
             label="País *"
-            className={classes.textfield}
             inputProps={{
               className: classes.selectfield
             }}
@@ -112,7 +104,7 @@ class registerAddressForm extends Component {
             <Button 
               type="submit" 
               variant="contained" 
-              color="primary"
+              color="secondary"
               disabled={loading}
             >
               Registrar

@@ -10,21 +10,38 @@ import App from './app';
 axios.defaults.baseURL = 'http://servicios.coderia.mx:8083';
 
 const theme = createMuiTheme({
-  overrides: {
-    // Name of the component ⚛️ / style sheet
-    MuiButton: {
-      // Name of the rule
-      root: {
-        // Some CSS
-        background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 48,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-      },
+  palette: {
+    primary: {
+      light: '#ff60ad',
+      main: '#eb1a7e',
+      dark: '#b30052',
+      contrastText: '#fff',
     },
+    secondary: {
+      light: '#c5fc6e',
+      main: '#92c93c',
+      dark: '#609800',
+      contrastText: '#fff',
+    },
+  },
+  typography: {
+    fontSize: 12,
+  },
+  overrides: {
+    MuiButton: {
+      root: {
+        borderRadius: 3,
+        textTransform: 'none'
+      },
+      contained: {
+        boxShadow: 'none',
+      }
+    },
+    MuiFormControl: {
+      root: {
+        width: '60%',
+      }
+    }
   },
 });
 

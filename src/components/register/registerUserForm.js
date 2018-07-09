@@ -65,9 +65,6 @@ const form = {
 }
 
 const styles = theme => ({
-  textfield: {
-    width: '80%'
-  },
   button: {
     marginTop: theme.spacing.unit * 4
   },
@@ -85,7 +82,6 @@ class registerUserForm extends Component {
             name="name"
             component={TextField}
             label="Nombre *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -94,7 +90,6 @@ class registerUserForm extends Component {
             name="lastname"
             component={TextField}
             label="Apellido(s) *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -103,7 +98,6 @@ class registerUserForm extends Component {
             name="email"
             component={TextField}
             label="Correo electrónico *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -112,7 +106,6 @@ class registerUserForm extends Component {
             name="externalId"
             component={TextField}
             label="ID Omein *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -121,7 +114,6 @@ class registerUserForm extends Component {
             name="sponsorExternalId"
             component={TextField}
             label="ID Omein de patrocinio *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -130,7 +122,6 @@ class registerUserForm extends Component {
             name="placementExternalId"
             component={TextField}
             label="ID Omein de colocación *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -139,7 +130,6 @@ class registerUserForm extends Component {
             name="iuvareId"
             component={TextField}
             label="ID Iuvare *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -148,7 +138,6 @@ class registerUserForm extends Component {
             name="transactionNumber"
             component={TextField}
             label="Número de registro *"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -160,7 +149,6 @@ class registerUserForm extends Component {
             inputProps={{
               maxLength: 15,
             }}
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -170,7 +158,6 @@ class registerUserForm extends Component {
             component={TextField}
             type="password"
             label="Contraseña"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -180,7 +167,6 @@ class registerUserForm extends Component {
             component={TextField}
             type="password"
             label="Confirmar contraseña"
-            className={classes.textfield}
             margin="dense"
           />
         </div>
@@ -189,7 +175,7 @@ class registerUserForm extends Component {
             className={classes.button}
             type="submit"
             variant="contained" 
-            color="primary"
+            color="secondary"
           >
             Siguiente >
           </Button>

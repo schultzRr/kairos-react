@@ -24,9 +24,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 4 + 'px 0',
     textAlign: 'center',
   },
-  textfield: {
-    width: '80%'
-  },
   linkContainer: {
     marginTop: theme.spacing.unit * 4
   },
@@ -87,7 +84,6 @@ class LoginContainer extends Component {
                   name="email"
                   component={TextField}
                   label="Correo electrónico"
-                  className={classes.textfield}
                   margin="normal"
                 />
               </div>
@@ -97,7 +93,6 @@ class LoginContainer extends Component {
                   component={TextField}
                   label="Contraseña"
                   type="password"
-                  className={classes.textfield}
                   margin="normal"
                 />
               </div>
@@ -106,7 +101,7 @@ class LoginContainer extends Component {
                   <Button 
                     type="submit" 
                     variant="contained" 
-                    color="primary"
+                    color="secondary"
                     disabled={loading}
                   >
                     Iniciar sesión

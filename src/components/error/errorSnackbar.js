@@ -9,7 +9,7 @@ import amber from '@material-ui/core/colors/amber';
 
 const styles = theme => ({
   warning: {
-    backgroundColor: amber[700],
+    backgroundColor: amber[500],
   },
   icon: {
     fontSize: 20,
