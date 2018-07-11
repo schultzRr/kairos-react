@@ -12,8 +12,9 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import ErrorSnackbar from '../error/errorSnackbar';
+import PasswordField from '../common/passwordField';
 import ButtonLoader from '../common/buttonLoader';
+import ErrorSnackbar from '../error/errorSnackbar';
 
 import { login } from '../../http/sessionActions';
 import loginActions from './loginActions';
@@ -88,11 +89,9 @@ class LoginContainer extends Component {
                 />
               </div>
               <div>
-                <Field
+                <PasswordField 
                   name="password"
-                  component={TextField}
                   label="Contraseña"
-                  type="password"
                   margin="normal"
                 />
               </div>

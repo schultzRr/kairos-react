@@ -5,6 +5,8 @@ import { TextField } from 'redux-form-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import PasswordField from '../common/passwordField';
+
 const validate = values => {
   const errors = {}
   if (!values.name) {
@@ -153,19 +155,15 @@ class registerUserForm extends Component {
           />
         </div>
         <div>
-          <Field
+          <PasswordField 
             name="password"
-            component={TextField}
-            type="password"
             label="Contraseña"
             margin="dense"
           />
         </div>
         <div>
-          <Field
+          <PasswordField 
             name="confirmation"
-            component={TextField}
-            type="password"
             label="Confirmar contraseña"
             margin="dense"
           />
