@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import axios from 'axios';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import colors from './styles/colors';
 import App from './app';
 
 axios.defaults.baseURL = 'http://servicios.coderia.mx:8083';
@@ -13,33 +14,39 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#ff60ad',
-      main: '#eb1a7e',
+      main: colors.pink,
       dark: '#b30052',
       contrastText: '#fff',
     },
     secondary: {
       light: '#c5fc6e',
-      main: '#92c93c',
+      main: colors.green,
       dark: '#609800',
       contrastText: '#fff',
     },
-  },
-  typography: {
-    fontSize: 12,
+    background: {
+      default: "#f4f4f4"
+    }
   },
   overrides: {
     MuiButton: {
       root: {
-        borderRadius: 3,
-        textTransform: 'none'
+        borderRadius: 0,
+        textTransform: 'none',
       },
       contained: {
         boxShadow: 'none',
-      }
+      },
+      containedSecondary: {
+        '&$disabled': {
+          backgroundColor: colors.green,
+          color: colors.white
+        },
+      },
     },
     MuiFormControl: {
       root: {
-        width: '60%',
+        width: '100%',
       }
     }
   },

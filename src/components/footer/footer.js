@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
-import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const styles = {
+const styles = theme => ({
   footer: {
-    backgroundColor: colors.pink,
+    backgroundColor: theme.palette.primary.dark,
     color: 'white',
     fontSize: '0.9rem',
     padding: '1rem',
@@ -15,7 +14,7 @@ const styles = {
   text: {
     color: 'white',
   }
-};
+});
 
 class Footer extends Component {
   render() {

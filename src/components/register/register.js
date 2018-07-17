@@ -3,10 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import RegisterUserForm from './registerUserForm';
@@ -18,10 +16,17 @@ import { register } from '../../http/sessionActions';
 import registerActions from './registerActions';
 
 const styles = theme => ({
-  paper: {
-    padding: theme.spacing.unit * 4 + 'px 0' ,
-    textAlign: 'center',
+  mainContainer: {
+    margin: theme.spacing.unit * 8 + 'px 0',
+  },
+  title: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  formContainer: {
+    backgroundColor: 'white',
     color: theme.palette.text.secondary,
+    padding: theme.spacing.unit * 4 + 'px 15%',
+    textAlign: 'center',
   },
   linkContainer: {
     marginTop: theme.spacing.unit * 4
@@ -29,9 +34,8 @@ const styles = theme => ({
   link: {
     color: 'black',
     display: 'inline-block',
-    textDecoration: 'none',
     '&:hover': {
-      color: colors.green,
+      color: theme.palette.secondary.main,
     },
   },
 });
@@ -64,19 +68,22 @@ class RegisterContainer extends Component {
 
     return(
       <Grid container justify="center">
-        <Grid item xs={10} sm={7} md={4}>
-          <Paper className={classes.paper}>
-          {page === 1 && <RegisterUserForm onSubmit={this.handleContinue} />}
-          {page === 2 && <RegisterAddressForm onSubmit={this.handleSubmit} loading={loading} />}
-          <div className={classes.linkContainer}>
-            <Typography variant="body2">
-              <Link to="/login" className={classes.link}>¿Ya tienes una cuenta registrada?</Link>
-            </Typography>
-            <Typography variant="body2">
-              <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
-            </Typography>
+        <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
+          <Typography variant="title" align="center" className={classes.title}>
+            Crear cuenta
+          </Typography>
+          <div className={classes.formContainer}>
+            {page === 1 && <RegisterUserForm onSubmit={this.handleContinue} />}
+            {page === 2 && <RegisterAddressForm onSubmit={this.handleSubmit} loading={loading} />}
+            <div className={classes.linkContainer}>
+              <Typography variant="body2">
+                <Link to="/login" className={classes.link}>¿Ya tienes una cuenta registrada?</Link>
+              </Typography>
+              <Typography variant="body2">
+                <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+              </Typography>
+            </div>
           </div>
-          </Paper>
         </Grid>
         <ErrorSnackbar 
           error={error}

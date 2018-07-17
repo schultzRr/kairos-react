@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
-import colors from '../../styles/colors';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
@@ -20,9 +18,16 @@ import { login } from '../../http/sessionActions';
 import loginActions from './loginActions';
 
 const styles = theme => ({
-  paper: {
+  mainContainer: {
+    margin: theme.spacing.unit * 8 + 'px 0',
+  },
+  title: {
+    marginBottom: theme.spacing.unit * 2
+  },
+  formContainer: {
+    backgroundColor: 'white',
     color: theme.palette.text.secondary,
-    padding: theme.spacing.unit * 4 + 'px 0',
+    padding: theme.spacing.unit * 4 + 'px 15%',
     textAlign: 'center',
   },
   linkContainer: {
@@ -31,9 +36,8 @@ const styles = theme => ({
   link: {
     color: 'black',
     display: 'inline-block',
-    textDecoration: 'none',
     '&:hover': {
-      color: colors.green,
+      color: theme.palette.secondary.main,
     },
   },
 });
@@ -68,6 +72,7 @@ class LoginContainer extends Component {
   };
 
   handleSubmit = (values) => {
+    console.log('enviar');
     this.props.login(values);
   }
 
@@ -76,9 +81,11 @@ class LoginContainer extends Component {
 
     return(
       <Grid container justify="center">
-        <Grid item xs={10} sm={7} md={4}>
-          <Paper className={classes.paper}>
-          
+        <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
+          <Typography variant="title" align="center" className={classes.title}>
+            Bienvenido
+          </Typography>
+          <div className={classes.formContainer}>
             <form onSubmit={handleSubmit(this.handleSubmit)}>
               <div>
                 <Field
@@ -100,6 +107,7 @@ class LoginContainer extends Component {
                   <Button 
                     type="submit" 
                     variant="contained" 
+                    size="large"
                     color="secondary"
                     disabled={loading}
                   >
@@ -116,7 +124,7 @@ class LoginContainer extends Component {
                 </Typography>
               </div>
             </form>
-          </Paper>
+          </div>
         </Grid>
         <ErrorSnackbar 
           error={error}
