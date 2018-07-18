@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import RegisterUserForm from './registerUserForm';
 import RegisterAddressForm from './registerAddressForm';
 
-import ErrorSnackbar from '../error/errorSnackbar';
+import Snackbar from '../notification/snackbar';
 
 import { register } from '../../http/sessionActions';
 import registerActions from './registerActions';
@@ -85,9 +85,9 @@ class RegisterContainer extends Component {
             </div>
           </div>
         </Grid>
-        <ErrorSnackbar 
-          error={error}
-          displayError={displayError}
+        <Snackbar 
+          message={error}
+          open={displayError}
           handleClose={this.handleSnackClose} 
           handleExited={this.handleSnackExit}
         />

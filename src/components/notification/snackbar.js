@@ -24,10 +24,10 @@ const styles = theme => ({
   },
 });
 
-class ErrorSnackbar extends Component {
+class SnackbarNotification extends Component {
 
   render() {
-    const { classes, error, displayError, handleClose, handleExited } = this.props;
+    const { classes, message, open, type, handleClose, handleExited } = this.props;
 
     return(
       <Snackbar
@@ -35,16 +35,16 @@ class ErrorSnackbar extends Component {
           vertical: 'top',
           horizontal: 'right',
         }}
-        open={displayError}
+        open={open}
         onClose={handleClose}
         onExited={handleExited}
       >
         <SnackbarContent
-          className={classes.warning}
+          className={type == 'warning' ? classes.warning : ''}
           message={
             <span id="register-snackbar" className={classes.message}>
               <WarningIcon className={classNames(classes.icon, classes.iconVariant)} />
-              {error}
+              {message}
             </span>
           }
         />
@@ -53,4 +53,4 @@ class ErrorSnackbar extends Component {
   }
 }
 
-export default withStyles(styles)(ErrorSnackbar);
+export default withStyles(styles)(SnackbarNotification);

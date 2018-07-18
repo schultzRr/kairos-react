@@ -63,11 +63,20 @@ function registerUser(user) {
 
 };
 
-var registerAddress = function(address){
+function registerAddress(address){
   return axios.post('/shipping_addresses', { 
     shipping_address: address 
   });
 };
+
+function recoverPassword(email) {
+  return axios.post('/users/password', {
+    utf8: 'V',
+    user: {
+      'email': email,
+    }
+  });
+}
 
 function signout() {
   return axios.get('/logout')
@@ -100,6 +109,7 @@ const session = {
   login,
   registerUser,
   registerAddress,
+  recoverPassword,
   signout,
   getIpInfo
 };

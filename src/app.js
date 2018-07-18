@@ -9,6 +9,7 @@ import Grid from '@material-ui/core/Grid';
 
 import LoginView from './views/login/loginView';
 import RegisterView from './views/register/registerView';
+import ForgotView from './views/forgot/forgotView';
 import DashboardView from './views/dashboard/dashboardView';
 
 import Navigation from './components/navigation/navigation';
@@ -61,6 +62,7 @@ class App extends Component {
               <Switch>
                 <Route exact path="/login" component={LoginView} />
                 <Route path="/register" component={RegisterView} />
+                <Route path="/forgot" component={ForgotView} />
                 <PrivateRoute path="/dashboard" component={DashboardView}/>
                 <Redirect to="/login" />
               </Switch>

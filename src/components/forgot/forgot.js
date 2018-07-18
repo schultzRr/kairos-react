@@ -10,12 +10,11 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import PasswordField from '../common/passwordField';
 import ButtonLoader from '../common/buttonLoader';
 import Snackbar from '../notification/snackbar';
 
-import { login } from '../../http/sessionActions';
-import loginActions from './loginActions';
+import { recoverPassword } from '../../http/sessionActions';
+import forgotActions from './forgotActions';
 
 const styles = theme => ({
   mainContainer: {
@@ -49,56 +48,50 @@ const validate = values => {
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'No es un correo electrónico válido'
   }
-  if (!values.password) {
-    errors.password = 'Escribe la contraseña de tu cuenta'
-  }
   return errors;
 }
 
 const form = {
-  form: 'login',
+  form: 'forgot',
   validate
 }
 
 
-class LoginContainer extends Component {
+class ForgotContainer extends Component {
 
-  handleSnackClose = (event, reason) => {
-    this.props.hideError();
+  handleSnackbarClose = (event, reason) => {
+    this.props.hideNotification();
   };
 
-  handleSnackExit = (event, reason) => {
-    this.props.resetError();
+  handleSnackbarExit = (event, reason) => {
+    this.props.resetNotification();
   };
 
   handleSubmit = (values) => {
-    console.log('enviar');
-    this.props.login(values);
+    this.props.recoverPassword(values);
   }
 
   render() {
-    const { classes, handleSubmit, loading, error, displayError } = this.props;
+    const { classes, handleSubmit, loading, message, notification, type } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
           <Typography variant="title" align="center" className={classes.title}>
-            Bienvenido
+            Recuperar contraseña
           </Typography>
           <div className={classes.formContainer}>
             <form onSubmit={handleSubmit(this.handleSubmit)}>
+              <div>
+                <Typography variant="body1">
+                  Proporciona tu correo electrónico registrado
+                </Typography>
+              </div>
               <div>
                 <Field
                   name="email"
                   component={TextField}
                   label="Correo electrónico"
-                  margin="normal"
-                />
-              </div>
-              <div>
-                <PasswordField 
-                  name="password"
-                  label="Contraseña"
                   margin="normal"
                 />
               </div>
@@ -111,26 +104,24 @@ class LoginContainer extends Component {
                     color="secondary"
                     disabled={loading}
                   >
-                    Iniciar sesión
+                    Recuperar
                   </Button>
                 </ButtonLoader>
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">
-                  <Link to="/forgot" className={classes.link}>¿Olvidaste tu contraseña?</Link>
-                </Typography>
-                <Typography variant="body2">
-                  <Link to="/register" className={classes.link}>Crear una cuenta</Link>
+                  <Link to="/login" className={classes.link}>Iniciar sesión</Link>
                 </Typography>
               </div>
             </form>
           </div>
         </Grid>
         <Snackbar 
-          message={error}
-          open={displayError}
-          handleClose={this.handleSnackClose} 
-          handleExited={this.handleSnackExit}
+          message={message}
+          open={notification}
+          type={type}
+          handleClose={this.handleSnackbarClose} 
+          handleExited={this.handleSnackbarExit}
         />
       </Grid>
     )
@@ -139,20 +130,21 @@ class LoginContainer extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.get('login').get('loading'),
-    error: state.get('login').get('error'),
-    displayError: state.get('login').get('displayError'),
+    loading: state.get('forgot').get('loading'),
+    message: state.get('forgot').get('message'),
+    notification: state.get('forgot').get('notification'),
+    type: state.get('forgot').get('type'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators({ login }, dispatch),
-    bindActionCreators(loginActions, dispatch),
+    bindActionCreators({ recoverPassword }, dispatch),
+    bindActionCreators(forgotActions, dispatch),
   );
 }
 
 export default withStyles(styles)(reduxForm(form)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginContainer)));
+)(ForgotContainer)));
