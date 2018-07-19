@@ -114,6 +114,15 @@ class LoginContainer extends Component {
                     Iniciar sesión
                   </Button>
                 </ButtonLoader>
+                <Button 
+                    type="submit" 
+                    variant="contained" 
+                    size="large"
+                    color="secondary"
+                    disabled={loading}
+                  >
+                    Iniciar sesión
+                  </Button>
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">

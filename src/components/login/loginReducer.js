@@ -10,7 +10,7 @@ import {
 } from './loginActions';
 
 const initialState = fromJS({
-  loading: false,
+  loading: true,
   error: '',
   displayError: false
 })

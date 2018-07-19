@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 import Fade from '@material-ui/core/Fade';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = theme => ({
   buttonContainer: {
@@ -34,8 +34,8 @@ class ButtonLoader extends Component {
           }}
           unmountOnExit
         >
-          <div className={classes.loader}>
-            <CircularProgress size={24} />
+          <div>
+            <LinearProgress />
           </div>
         </Fade>
       </div>
