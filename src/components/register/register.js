@@ -8,9 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import RegisterUserForm from './registerUserForm';
-import RegisterAddressForm from './registerAddressForm';
-
-import Snackbar from '../notification/snackbar';
+import RegisterMemberForm from './registerMemberForm';
 
 import { register } from '../../http/sessionActions';
 import registerActions from './registerActions';
@@ -46,14 +44,6 @@ class RegisterContainer extends Component {
     page: 1,
   };
 
-  handleSnackClose = (event, reason) => {
-    this.props.hideError();
-  };
-
-  handleSnackExit = (event, reason) => {
-    this.props.resetError();
-  };
-
   handleContinue = () => {
     this.setState({page: this.state.page + 1})
   }
@@ -63,7 +53,7 @@ class RegisterContainer extends Component {
   }
 
   render() {
-    const { classes, loading, error, displayError } = this.props;
+    const { classes, loading, error } = this.props;
     const { page } = this.state;
 
     return(
@@ -74,7 +64,7 @@ class RegisterContainer extends Component {
           </Typography>
           <div className={classes.formContainer}>
             {page === 1 && <RegisterUserForm onSubmit={this.handleContinue} />}
-            {page === 2 && <RegisterAddressForm onSubmit={this.handleSubmit} loading={loading} />}
+            {page === 2 && <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} />}
             <div className={classes.linkContainer}>
               <Typography variant="body2">
                 <Link to="/login" className={classes.link}>¿Ya tienes una cuenta registrada?</Link>
@@ -85,12 +75,6 @@ class RegisterContainer extends Component {
             </div>
           </div>
         </Grid>
-        <Snackbar 
-          message={error}
-          open={displayError}
-          handleClose={this.handleSnackClose} 
-          handleExited={this.handleSnackExit}
-        />
       </Grid>
     )
   }
@@ -100,7 +84,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('register').get('loading'),
     error: state.get('register').get('error'),
-    displayError: state.get('register').get('displayError'),
   };
 };
 

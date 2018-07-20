@@ -5,33 +5,25 @@ import {
   LOGIN_ERROR,
 } from '../../http/sessionActions';
 import {
-  HIDE_LOGIN_ERROR,
   RESET_LOGIN_ERROR,
 } from './loginActions';
 
 const initialState = fromJS({
-  loading: true,
+  loading: false,
   error: '',
-  displayError: false
 })
 
 function loginReducer(state = initialState, action) {
   switch(action.type){
     case LOGIN_FETCH: 
-      return state.merge({
-        loading: true,
-        error: '',
-      })
+      return state.set('loading', true)
     case LOGIN_SUCCESS: 
       return state.set('loading', false)
     case LOGIN_ERROR: 
       return state.merge({
         loading: false,
         error: action.payload,
-        displayError: true
       })
-    case HIDE_LOGIN_ERROR:
-      return state.set('displayError', false)
     case RESET_LOGIN_ERROR:
       return state.set('error', '')
     default:

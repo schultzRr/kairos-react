@@ -18,33 +18,12 @@ const validate = values => {
   if (!values.email) {
     errors.email = 'Requerido';
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'No es un correo electrónico válido';
-  }
-  if (!values.externalId) {
-    errors.externalId = 'Requerido';
-  } else if (isNaN(Number(values.externalId))) {
-    errors.externalId = 'Por favor introduce un ID Omein válido';
-  }
-  if (!values.sponsorExternalId) {
-    errors.sponsorExternalId = 'Requerido';
-  } else if (isNaN(Number(values.sponsorExternalId))) {
-    errors.sponsorExternalId = 'Por favor introduce un ID Omein de patrocinio válido';
-  }
-  if (!values.placementExternalId) {
-    errors.placementExternalId = 'Requerido';
-  } else if (isNaN(Number(values.placementExternalId))) {
-    errors.placementExternalId = 'Por favor introduce un ID Omein de colocación válido';
-  }
-  if (!values.iuvareId) {
-    errors.iuvareId = 'Requerido';
-  }
-  if (!values.transactionNumber) {
-    errors.transactionNumber = 'Requerido';
+    errors.email = 'Introduce un correo electrónico válido';
   }
   if (!values.phone) {
     errors.phone = 'Requerido';
   } else if (!/^[0-9 ]{7,20}$/i.test(values.phone)) {
-    errors.phone = 'Por favor introduce un teléfono válido';
+    errors.phone = 'Introduce sólo números y espacios';
   }
   if (!values.password) {
     errors.password = 'Requerido';
@@ -54,7 +33,7 @@ const validate = values => {
   if (!values.confirmation) {
     errors.confirmation = 'Requerido';
   } else if (values.confirmation != values.password) {
-    errors.confirmation = 'Las contraseñas no coinciden';
+    errors.confirmation = 'Las contraseñas deben ser iguales';
   }
   return errors;
 }
@@ -72,7 +51,7 @@ const styles = theme => ({
   },
 });
 
-class registerUserForm extends Component {
+class RegisterUserForm extends Component {
 
   render() {
     const { classes, handleSubmit } = this.props;
@@ -105,49 +84,10 @@ class registerUserForm extends Component {
         </div>
         <div>
           <Field
-            name="externalId"
-            component={TextField}
-            label="ID Omein *"
-            margin="dense"
-          />
-        </div>
-        <div>
-          <Field
-            name="sponsorExternalId"
-            component={TextField}
-            label="ID Omein de patrocinio *"
-            margin="dense"
-          />
-        </div>
-        <div>
-          <Field
-            name="placementExternalId"
-            component={TextField}
-            label="ID Omein de colocación *"
-            margin="dense"
-          />
-        </div>
-        <div>
-          <Field
-            name="iuvareId"
-            component={TextField}
-            label="ID Iuvare *"
-            margin="dense"
-          />
-        </div>
-        <div>
-          <Field
-            name="transactionNumber"
-            component={TextField}
-            label="Número de registro *"
-            margin="dense"
-          />
-        </div>
-        <div>
-          <Field
             name="phone"
             component={TextField}
-            label="Teléfono (sólo números y espacios) *"
+            label="Teléfono *"
+            helperText="Sólo números y espacios"
             inputProps={{
               maxLength: 15,
             }}
@@ -183,4 +123,4 @@ class registerUserForm extends Component {
   }
 }
 
-export default withStyles(styles)(reduxForm(form)(registerUserForm));
+export default withStyles(styles)(reduxForm(form)(RegisterUserForm));

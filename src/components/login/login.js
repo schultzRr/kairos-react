@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 
 import PasswordField from '../common/passwordField';
 import ButtonLoader from '../common/buttonLoader';
-import Snackbar from '../notification/snackbar';
 
 import { login } from '../../http/sessionActions';
 import loginActions from './loginActions';
@@ -24,11 +23,19 @@ const styles = theme => ({
   title: {
     marginBottom: theme.spacing.unit * 2
   },
+  error: {
+    color: 'red',
+    marginTop: theme.spacing.unit * 2,
+    textAlign: 'left'
+  },
   formContainer: {
     backgroundColor: 'white',
     color: theme.palette.text.secondary,
     padding: theme.spacing.unit * 4 + 'px 15%',
     textAlign: 'center',
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 4,
   },
   linkContainer: {
     marginTop: theme.spacing.unit * 4
@@ -45,12 +52,10 @@ const styles = theme => ({
 const validate = values => {
   const errors = {}
   if (!values.email) {
-    errors.email = 'Escribe una dirección de correo electrónico'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'No es un correo electrónico válido'
+    errors.email = 'Introduce una dirección de correo electrónico'
   }
   if (!values.password) {
-    errors.password = 'Escribe la contraseña de tu cuenta'
+    errors.password = 'Introduce la contraseña de tu cuenta'
   }
   return errors;
 }
@@ -63,21 +68,12 @@ const form = {
 
 class LoginContainer extends Component {
 
-  handleSnackClose = (event, reason) => {
-    this.props.hideError();
-  };
-
-  handleSnackExit = (event, reason) => {
-    this.props.resetError();
-  };
-
   handleSubmit = (values) => {
-    console.log('enviar');
     this.props.login(values);
   }
 
   render() {
-    const { classes, handleSubmit, loading, error, displayError } = this.props;
+    const { classes, handleSubmit, loading, error } = this.props;
 
     return(
       <Grid container justify="center">
@@ -102,27 +98,21 @@ class LoginContainer extends Component {
                   margin="normal"
                 />
               </div>
-              <div>
-                <ButtonLoader loading={loading}>
-                  <Button 
-                    type="submit" 
-                    variant="contained" 
-                    size="large"
-                    color="secondary"
-                    disabled={loading}
-                  >
-                    Iniciar sesión
-                  </Button>
-                </ButtonLoader>
-                <Button 
-                    type="submit" 
-                    variant="contained" 
-                    size="large"
-                    color="secondary"
-                    disabled={loading}
-                  >
-                    Iniciar sesión
-                  </Button>
+              <Typography variant="body1" className={classes.error}>
+                {error}
+              </Typography>
+              <div className={classes.buttonContainer}>
+                <div>
+                    <Button 
+                      type="submit" 
+                      variant="contained" 
+                      size="large"
+                      color="secondary"
+                      disabled={loading}
+                    >
+                      Iniciar sesión
+                    </Button>
+                </div>
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">
@@ -135,12 +125,6 @@ class LoginContainer extends Component {
             </form>
           </div>
         </Grid>
-        <Snackbar 
-          message={error}
-          open={displayError}
-          handleClose={this.handleSnackClose} 
-          handleExited={this.handleSnackExit}
-        />
       </Grid>
     )
   }
@@ -150,7 +134,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('login').get('loading'),
     error: state.get('login').get('error'),
-    displayError: state.get('login').get('displayError'),
   };
 };
 

@@ -7,16 +7,17 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 const styles = theme => ({
   buttonContainer: {
     display: 'inline-block',
-    marginTop: theme.spacing.unit * 4,
-    paddingLeft: 36,
-    paddingRight: 36,
     position: 'relative'
   },
   loader: {
     position: 'absolute',
-    right: 0,
-    top: 6
+    bottom: 0,
+    left: 0,
+    width: '100%'
   },
+  root: {
+    height: '3px'
+  }
 });
 
 class ButtonLoader extends Component {
@@ -34,8 +35,8 @@ class ButtonLoader extends Component {
           }}
           unmountOnExit
         >
-          <div>
-            <LinearProgress />
+          <div className={classes.loader}>
+            <LinearProgress className={classes.root}/>
           </div>
         </Fade>
       </div>
