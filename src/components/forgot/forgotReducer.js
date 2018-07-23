@@ -5,46 +5,27 @@ import {
   PASSWORD_RECOVERY_ERROR,
 } from '../../http/sessionActions';
 import {
-  HIDE_FORGOT_NOTIFICATION,
-  RESET_FORGOT_NOTIFICATION,
+  RESET_FORGOT_ERROR,
 } from './forgotActions';
 
 const initialState = fromJS({
   loading: false,
-  message: '',
-  notification: false,
-  type: ''
+  error: '',
 })
 
 function forgotReducer(state = initialState, action) {
   switch(action.type){
     case PASSWORD_RECOVERY_FETCH: 
-      return state.merge({
-        loading: true,
-      })
+      return state.set('loading', true)
     case PASSWORD_RECOVERY_SUCCESS: 
-      return state.merge({
-        loading: false,
-        message: action.payload,
-        notification: true,
-        type: ''
-      })
+      return state.set('loading', false)
     case PASSWORD_RECOVERY_ERROR: 
       return state.merge({
         loading: false,
-        message: action.payload,
-        notification: true,
-        type: 'warning'
+        error: action.payload,
       })
-    case HIDE_FORGOT_NOTIFICATION:
-      return state.merge({
-        notification: false,
-      })
-    case RESET_FORGOT_NOTIFICATION:
-      return state.merge({
-        message: '',
-        type: ''
-      })
+    case RESET_FORGOT_ERROR:
+      return state.set('error', '')
     default:
       return state;
   }

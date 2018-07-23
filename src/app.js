@@ -41,11 +41,11 @@ class App extends Component {
       session.configHttpHeaders();
       this.props.getCurrentSession()
       .then(response => {
-        this.setState({validatedSession: true});
+        this.setState({ validatedSession: true });
         return response;
       });
     } else {
-      this.setState({validatedSession: true});
+      this.setState({ validatedSession: true });
     }
   }
 

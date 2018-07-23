@@ -38,6 +38,7 @@
     "axios": "0.18.0",
     "immutable": "3.8.2",
     "prop-types": "15.6.1",
+    "query-string": "^6.1.0",
     "react": "16.3.0",
     "react-dom": "16.3.0",
     "react-redux": "5.0.7",

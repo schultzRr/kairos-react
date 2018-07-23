@@ -14,7 +14,6 @@ import PasswordField from '../common/passwordField';
 import ButtonLoader from '../common/buttonLoader';
 
 import { login } from '../../http/sessionActions';
-import loginActions from './loginActions';
 
 const styles = theme => ({
   mainContainer: {
@@ -25,7 +24,7 @@ const styles = theme => ({
   },
   error: {
     color: 'red',
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 3,
     textAlign: 'left'
   },
   formContainer: {
@@ -102,7 +101,7 @@ class LoginContainer extends Component {
                 {error}
               </Typography>
               <div className={classes.buttonContainer}>
-                <div>
+                <ButtonLoader loading={loading}>
                     <Button 
                       type="submit" 
                       variant="contained" 
@@ -112,7 +111,7 @@ class LoginContainer extends Component {
                     >
                       Iniciar sesión
                     </Button>
-                </div>
+                </ButtonLoader>
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">
@@ -140,7 +139,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ login }, dispatch),
-    bindActionCreators(loginActions, dispatch),
   );
 }
 

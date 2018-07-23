@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 
 import Forgot from '../../components/forgot/forgot';
 
@@ -8,13 +9,14 @@ class ForgotView extends Component {
   
   render() {
     const { from } = this.props.location.state || { from: { pathname: "/dashboard" } };
+    const params = queryString.parse(this.props.location.search);
 
     if (this.props.redirectToReferrer) {
       return <Redirect to={from} />;
     }
-    
+
     return (
-      <Forgot/>
+      <Forgot token={params.reset_password_token}/>
     )
   }
 }

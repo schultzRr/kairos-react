@@ -115,7 +115,28 @@ export function recoverPassword(values) {
     .then(response => {
       dispatch({ 
         type: PASSWORD_RECOVERY_SUCCESS,
-        payload: 'Se ha enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.'
+      });
+    })
+    .catch(e => {
+      dispatch({ 
+        type: PASSWORD_RECOVERY_ERROR, 
+        payload: e.response.data.errors[0].title
+      });
+      
+    })
+  }
+}
+
+export function resetPassword(values, token) {
+
+  return (dispatch) => {
+    dispatch({ 
+      type: PASSWORD_RECOVERY_FETCH,
+    });
+    return session.resetPassword(values.password, token)
+    .then(response => {
+      dispatch({ 
+        type: PASSWORD_RECOVERY_SUCCESS,
       });
     })
     .catch(e => {
@@ -174,6 +195,8 @@ export function getCurrentSession() {
 const sessionActions = {
   login,
   register,
+  recoverPassword,
+  resetPassword,
   signout,
   getCurrentSession
 };

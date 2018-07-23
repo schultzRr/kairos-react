@@ -78,6 +78,17 @@ function recoverPassword(email) {
   });
 }
 
+function resetPassword(password, token) {
+  return axios.put('/auth/password', {
+    utf8: 'V',
+    user: {
+      reset_password_token: token,
+      password: password,
+      password_confirmation: password
+    }
+  });
+}
+
 function signout() {
   return axios.get('/logout')
   .then(response => {
@@ -110,6 +121,7 @@ const session = {
   registerUser,
   registerAddress,
   recoverPassword,
+  resetPassword,
   signout,
   getIpInfo
 };

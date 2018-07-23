@@ -1,27 +1,16 @@
-export const HIDE_FORGOT_NOTIFICATION = 'HIDE_FORGOT_NOTIFICATION';
-export const RESET_FORGOT_NOTIFICATION = 'RESET_FORGOT_NOTIFICATION';
+export const RESET_FORGOT_ERROR = 'RESET_FORGOT_ERROR';
 
-export function hideNotification() {
-
-  return (dispatch) => {
-    dispatch({ 
-      type: HIDE_FORGOT_NOTIFICATION,
-    });
-  }
-}
-
-export function resetNotification() {
+export function resetError() {
 
   return (dispatch) => {
     dispatch({ 
-      type: RESET_FORGOT_NOTIFICATION,
+      type: RESET_FORGOT_ERROR,
     });
   }
 }
 
 const forgotActions = {
-  hideNotification,
-  resetNotification
+  resetError
 };
 
 export default forgotActions;

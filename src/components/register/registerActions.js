@@ -1,14 +1,4 @@
-export const HIDE_REGISTER_ERROR = 'HIDE_REGISTER_ERROR';
 export const RESET_REGISTER_ERROR = 'RESET_REGISTER_ERROR';
-
-export function hideError() {
-
-  return (dispatch) => {
-    dispatch({ 
-      type: HIDE_REGISTER_ERROR,
-    });
-  }
-}
 
 export function resetError() {
 
@@ -20,7 +10,6 @@ export function resetError() {
 }
 
 const registerActions = {
-  hideError,
   resetError
 };
 

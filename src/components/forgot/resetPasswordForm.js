@@ -1,0 +1,83 @@
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { reduxForm, Field } from 'redux-form/immutable';
+
+import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+import PasswordField from '../common/passwordField';
+import ButtonLoader from '../common/buttonLoader';
+
+const styles = theme => ({
+  error: {
+    color: 'red',
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left'
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 4,
+  },
+});
+
+const validate = values => {
+  const errors = {}
+  if (!values.email) {
+    errors.email = 'Introduce una dirección de correo electrónico'
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Introduce un correo electrónico válido';
+  }
+  return errors;
+}
+
+const form = {
+  form: 'recoverPassword',
+  validate
+}
+
+class ForgotContainer extends Component {
+  state = {
+    loading: false,
+    error: ''
+  }
+
+  render() {
+    const { classes, handleSubmit } = this.props;
+    const { loading, error } = this.state;
+
+    return(
+      <form onSubmit={handleSubmit}>
+        <div>
+          <Typography variant="body1" align="left">
+            Introduce la nueva contraseña que deseas usar para iniciar sesión
+          </Typography>
+        </div>
+        <div>
+          <PasswordField 
+            name="password"
+            label="Contraseña"
+            margin="dense"
+          />
+        </div>
+        <Typography variant="body1" className={classes.error}>
+          {error}
+        </Typography>
+        <div className={classes.buttonContainer}>
+          <ButtonLoader loading={loading}>
+            <Button 
+              type="submit" 
+              variant="contained" 
+              size="large"
+              color="secondary"
+              disabled={loading}
+            >
+              Recuperar contraseña
+            </Button>
+          </ButtonLoader>
+        </div>
+      </form>
+    )
+  }
+}
+
+export default withStyles(styles)(reduxForm(form)(ForgotContainer));

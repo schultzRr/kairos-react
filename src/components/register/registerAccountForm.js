@@ -4,6 +4,7 @@ import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import PasswordField from '../common/passwordField';
 
@@ -16,7 +17,7 @@ const validate = values => {
     errors.lastname = 'Requerido';
   }
   if (!values.email) {
-    errors.email = 'Requerido';
+    errors.email = 'Introduce una dirección de correo electrónico'
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
     errors.email = 'Introduce un correo electrónico válido';
   }
@@ -46,7 +47,12 @@ const form = {
 }
 
 const styles = theme => ({
-  button: {
+  error: {
+    color: 'red',
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left'
+  },
+  buttonContainer: {
     marginTop: theme.spacing.unit * 4
   },
 });
@@ -54,7 +60,7 @@ const styles = theme => ({
 class RegisterUserForm extends Component {
 
   render() {
-    const { classes, handleSubmit } = this.props;
+    const { classes, handleSubmit, formError } = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -109,13 +115,17 @@ class RegisterUserForm extends Component {
           />
         </div>
         <div>
+          <Typography variant="body1" className={classes.error}>
+            {formError}
+          </Typography>
+        </div>
+        <div className={classes.buttonContainer}>
           <Button 
-            className={classes.button}
             type="submit"
             variant="contained" 
             color="secondary"
           >
-            Siguiente >
+            Siguiente
           </Button>
         </div>
       </form>

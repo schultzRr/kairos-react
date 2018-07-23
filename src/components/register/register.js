@@ -7,11 +7,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import RegisterUserForm from './registerUserForm';
+import RegisterAccountForm from './registerAccountForm';
 import RegisterMemberForm from './registerMemberForm';
 
 import { register } from '../../http/sessionActions';
-import registerActions from './registerActions';
 
 const styles = theme => ({
   mainContainer: {
@@ -45,7 +44,7 @@ class RegisterContainer extends Component {
   };
 
   handleContinue = () => {
-    this.setState({page: this.state.page + 1})
+    this.setState({ page: this.state.page + 1 })
   }
 
   handleSubmit = (values) => {
@@ -63,11 +62,11 @@ class RegisterContainer extends Component {
             Crear cuenta
           </Typography>
           <div className={classes.formContainer}>
-            {page === 1 && <RegisterUserForm onSubmit={this.handleContinue} />}
-            {page === 2 && <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} />}
+            {page === 1 && <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />}
+            {page === 2 && <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={error} />}
             <div className={classes.linkContainer}>
               <Typography variant="body2">
-                <Link to="/login" className={classes.link}>¿Ya tienes una cuenta registrada?</Link>
+                <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
               </Typography>
               <Typography variant="body2">
                 <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
@@ -90,7 +89,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ register }, dispatch),
-    bindActionCreators(registerActions, dispatch),
   );
 }
 

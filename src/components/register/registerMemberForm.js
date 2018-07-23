@@ -4,6 +4,9 @@ import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
+import ButtonLoader from '../common/buttonLoader';
 
 const validate = values => {
   const errors = {}
@@ -39,7 +42,12 @@ const form = {
 }
 
 const styles = theme => ({
-  button: {
+  error: {
+    color: 'red',
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left'
+  },
+  buttonContainer: {
     marginTop: theme.spacing.unit * 4
   },
 });
@@ -47,7 +55,7 @@ const styles = theme => ({
 class RegisterMemberForm extends Component {
 
   render() {
-    const { classes, handleSubmit } = this.props;
+    const { classes, handleSubmit, loading, formError } = this.props;
 
     return (
       <form onSubmit={handleSubmit}>
@@ -91,7 +99,10 @@ class RegisterMemberForm extends Component {
             margin="dense"
           />
         </div>
-        <div>
+        <Typography variant="body1" className={classes.error}>
+          {formError}
+        </Typography>
+        <div className={classes.buttonContainer}>
           <ButtonLoader loading={loading}>
             <Button 
               type="submit" 
@@ -99,7 +110,7 @@ class RegisterMemberForm extends Component {
               color="secondary"
               disabled={loading}
             >
-              Registrar
+              Crear cuenta
             </Button>
           </ButtonLoader>
         </div>
