@@ -93,7 +93,6 @@ export function register(values) {
 
       })
       .catch(e => {
-        console.log(e.response);
         dispatch({ 
           type: REGISTER_ERROR, 
           payload: e.response.data.errors[0].title
@@ -122,7 +121,6 @@ export function recoverPassword(values) {
         type: PASSWORD_RECOVERY_ERROR, 
         payload: e.response.data.errors[0].title
       });
-      
     })
   }
 }
@@ -144,7 +142,6 @@ export function resetPassword(values, token) {
         type: PASSWORD_RECOVERY_ERROR, 
         payload: e.response.data.errors[0].title
       });
-      
     })
   }
 }
@@ -167,7 +164,6 @@ export function signout() {
         type: SIGNOUT_ERROR, 
         payload: e.response.data.errors[0].title
       });
-      
     })
   }
 }
@@ -187,7 +183,6 @@ export function getCurrentSession() {
         type: LOGIN_ERROR, 
         payload: e.response.data.errors[0].title
       });
-      
     })
   }
 }

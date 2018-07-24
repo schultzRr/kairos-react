@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
@@ -35,15 +36,10 @@ const form = {
   validate
 }
 
-class ForgotContainer extends Component {
-  state = {
-    loading: false,
-    error: ''
-  }
+class RecoverPasswordForm extends Component {
 
   render() {
-    const { classes, handleSubmit } = this.props;
-    const { loading, error } = this.state;
+    const { classes, handleSubmit, loading, error } = this.props;
 
     return(
       <form onSubmit={handleSubmit}>
@@ -81,4 +77,18 @@ class ForgotContainer extends Component {
   }
 }
 
-export default withStyles(styles)(reduxForm(form)(ForgotContainer));
+const mapStateToProps = function mapStateToProps(state, props) {
+  return {
+    loading: state.get('forgot').get('loading'),
+    error: state.get('forgot').get('error'),
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {}
+}
+
+export default withStyles(styles)(reduxForm(form)(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecoverPasswordForm)));

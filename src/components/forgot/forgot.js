@@ -10,6 +10,7 @@ import RecoverPasswordForm from './recoverPasswordForm';
 import ResetPasswordForm from './resetPasswordForm';
 
 import { recoverPassword, resetPassword } from '../../http/sessionActions';
+import { changeView } from '../../components/forgot/forgotActions';
 
 const styles = theme => ({
   mainContainer: {
@@ -26,34 +27,32 @@ const styles = theme => ({
   },
 });
 
+const views = {
+  recoverPasswordForm: 'recoverPasswordForm',
+  recoverPasswordInstructions: 'recoverPasswordInstructions',
+  resetPassword: 'resetPassword'
+}
+
 class ForgotContainer extends Component {
-  state = {
-    view: 'recoverPasswordForm',
-  }
 
   componentDidMount() {
     if(this.props.token){
-      this.setState({ view: 'resetPassword' });
+      this.props.changeView(views.resetPassword);
+    } else {
+      this.props.changeView(views.recoverPasswordForm);
     }
   }
 
   handleRecoverPassword = (values) => {
-    this.props.recoverPassword(values)
-    .then(response => {
-      this.setState({ view: 'recoverPasswordInstructions' });
-    });
+    this.props.recoverPassword(values);
   }
 
   handleResetPassword = (values) => {
-    this.props.resetPassword(values, this.props.token)
-    .then(response => {
-      console.log(response);
-    });
+    this.props.resetPassword(values, this.props.token);
   }
 
   render() {
-    const { classes } = this.props;
-    const { view } = this.state;
+    const { classes, view } = this.props;
 
     return(
       <Grid container justify="center">
@@ -62,15 +61,15 @@ class ForgotContainer extends Component {
             Recuperar contraseña
           </Typography>
           <div className={classes.formContainer}>
-            { view == 'recoverPasswordForm' &&
+            { view == views.recoverPasswordForm &&
               <RecoverPasswordForm onSubmit={this.handleRecoverPassword} />
             }
-            { view == 'recoverPasswordInstructions' &&
+            { view == views.recoverPasswordInstructions &&
               <Typography variant="body1" align="left">
                 Se ha enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
               </Typography>
             }
-            { view == 'resetPassword' &&
+            { view == views.resetPassword &&
               <ResetPasswordForm onSubmit={this.handleResetPassword} />
             }
           </div>
@@ -81,13 +80,16 @@ class ForgotContainer extends Component {
 }
 
 const mapStateToProps = function mapStateToProps(state, props) {
-  return {};
+  return {
+    view: state.get('forgot').get('view'),
+  };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ recoverPassword }, dispatch),
     bindActionCreators({ resetPassword }, dispatch),
+    bindActionCreators({ changeView }, dispatch),
   );
 }
 
