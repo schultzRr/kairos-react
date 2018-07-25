@@ -12,6 +12,8 @@ import ResetPasswordForm from './resetPasswordForm';
 import { recoverPassword, resetPassword } from '../../http/sessionActions';
 import { changeView } from '../../components/forgot/forgotActions';
 
+import views from './forgotConstants';
+
 const styles = theme => ({
   mainContainer: {
     margin: theme.spacing.unit * 8 + 'px 0',
@@ -27,19 +29,13 @@ const styles = theme => ({
   },
 });
 
-const views = {
-  recoverPasswordForm: 'recoverPasswordForm',
-  recoverPasswordInstructions: 'recoverPasswordInstructions',
-  resetPassword: 'resetPassword'
-}
-
 class ForgotContainer extends Component {
 
   componentDidMount() {
     if(this.props.token){
-      this.props.changeView(views.resetPassword);
+      this.props.changeView(views.RESET_PASSWORD_VIEW);
     } else {
-      this.props.changeView(views.recoverPasswordForm);
+      this.props.changeView(views.RECOVER_PASSWORD_FORM_VIEW);
     }
   }
 
@@ -61,15 +57,15 @@ class ForgotContainer extends Component {
             Recuperar contraseña
           </Typography>
           <div className={classes.formContainer}>
-            { view == views.recoverPasswordForm &&
+            { view == views.RECOVER_PASSWORD_FORM_VIEW &&
               <RecoverPasswordForm onSubmit={this.handleRecoverPassword} />
             }
-            { view == views.recoverPasswordInstructions &&
+            { view == views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW &&
               <Typography variant="body1" align="left">
                 Se ha enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
               </Typography>
             }
-            { view == views.resetPassword &&
+            { view == views.RESET_PASSWORD_VIEW &&
               <ResetPasswordForm onSubmit={this.handleResetPassword} />
             }
           </div>

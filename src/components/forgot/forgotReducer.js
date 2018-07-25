@@ -1,4 +1,5 @@
 import { fromJS } from 'immutable';
+import views from './forgotConstants';
 import {
   PASSWORD_RECOVERY_FETCH,
   PASSWORD_RECOVERY_SUCCESS,
@@ -22,7 +23,7 @@ function forgotReducer(state = initialState, action) {
     case PASSWORD_RECOVERY_SUCCESS: 
       return state.merge({
         loading: false,
-        view: 'recoverPasswordInstructions',
+        view: views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW,
       })
     case PASSWORD_RECOVERY_ERROR: 
       return state.merge({
