@@ -57,10 +57,9 @@ function register(user) {
 };
 
 function confirmRegistration(token) {
-  return axios.get('/auth/confirmation', {
+  return axios.get('/users/confirm', {
     params : {
-      confirmation_token: token,
-      redirect_url: 'http://localhost:9000'
+      confirmation_token: token
     }
   });
 };
