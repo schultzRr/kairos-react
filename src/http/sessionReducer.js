@@ -1,7 +1,6 @@
 import { fromJS } from 'immutable';
 import {
   LOGIN_SUCCESS,
-  REGISTER_SUCCESS,
   SIGNOUT_SUCCESS,
 } from './sessionActions';
 
@@ -17,16 +16,11 @@ function sessionReducer(state = initialState, action) {
         isAuthenticated: true,
         user: action.payload.user,
       })
-    case REGISTER_SUCCESS:
-      return state.merge({
-        isAuthenticated: true,
-        user: action.payload.user,
-      })
     case SIGNOUT_SUCCESS:
-    return state.merge({
-      isAuthenticated: false,
-      user: {},
-    })
+      return state.merge({
+        isAuthenticated: false,
+        user: {},
+      })
     default:
       return state;
   }

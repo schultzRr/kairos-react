@@ -67,7 +67,7 @@ class ForgotContainer extends Component {
             { view == views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW &&
               <React.Fragment>
                 <Typography variant="body1" align="left">
-                  Se ha enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
+                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
                 </Typography>
                 <div className={classes.buttonContainer}>
                   <LinkButton to="/login" text="Continuar" />
@@ -80,7 +80,7 @@ class ForgotContainer extends Component {
             { view == views.RESET_PASSWORD_INSTRUCTIONS_VIEW &&
               <React.Fragment>
                 <Typography variant="body1" align="left">
-                  ¡Tu contraseña ha sido actualizada!, ya puedes iniciar sesión con tu nueva contraseña
+                  ¡Tu contraseña ha sido actualizada! Ya puedes iniciar sesión con tu nueva contraseña.
                 </Typography>
                 <div className={classes.buttonContainer}>
                   <LinkButton to="/login" text="Continuar" />

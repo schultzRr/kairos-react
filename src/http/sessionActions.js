@@ -6,6 +6,9 @@ export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const REGISTER_FETCH = 'REGISTER_FETCH';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
+export const CONFIRM_REGISTRATION_FETCH = 'CONFIRM_REGISTRATION_FETCH';
+export const CONFIRM_REGISTRATION_SUCCESS = 'CONFIRM_REGISTRATION_SUCCESS';
+export const CONFIRM_REGISTRATION_ERROR = 'CONFIRM_REGISTRATION_ERROR';
 export const PASSWORD_RECOVERY_FETCH = 'PASSWORD_RECOVERY_FETCH';
 export const PASSWORD_RECOVERY_SUCCESS = 'PASSWORD_RECOVERY_SUCCESS';
 export const PASSWORD_RECOVERY_ERROR = 'PASSWORD_RECOVERY_ERROR';
@@ -46,58 +49,88 @@ export function register(values) {
       type: REGISTER_FETCH,
     });
 
+    const user = {
+      first_name: values.name,
+      last_name: values.lastname,
+      email: values.email,
+      external_id: values.externalId,
+      sponsor_external_id: values.sponsorExternalId,
+      placement_external_id: values.placementExternalId,
+      transaction_number: values.transactionNumber,
+      iuvare_id: values.iuvareId,
+      phone: values.phone,
+      password: values.password,
+      password_confirmation: values.confirmation
+    };
+
+    session.register(user)
+    .then(response => {
+      dispatch({ 
+        type: REGISTER_SUCCESS,
+        payload: response.data
+      });
+    })
+    .catch(e => {
+      dispatch({ 
+        type: REGISTER_ERROR, 
+        payload: e.response.data.errors[0].title
+      });
+    });
+  }
+}
+
+export function confirmRegistration(token) {
+
+  return (dispatch) => {
+    dispatch({ 
+      type: CONFIRM_REGISTRATION_FETCH,
+    });
+
+    session.confirmRegistration(token)
+    .then(response => {
+      dispatch({ 
+        type: CONFIRM_REGISTRATION_SUCCESS,
+      });
+    })
+    .catch(e => {
+      dispatch({ 
+        type: CONFIRM_REGISTRATION_ERROR, 
+        payload: 'ERROR'
+      });
+    });
+  }
+}
+
+export function registerAddress(values) {
+
+  return (dispatch) => {
+    dispatch({ 
+      type: 'ALGO_FETCH',
+    });
+
     return session.getIpInfo()
     .then(location => {
 
-      const user = {
-        first_name: values.name,
-        last_name: values.lastname,
-        email: values.email,
-        external_id: values.externalId,
-        sponsor_external_id: values.sponsorExternalId,
-        placement_external_id: values.placementExternalId,
-        transaction_number: values.transactionNumber,
-        iuvare_id: values.iuvareId,
-        phone: values.phone,
-        password: values.password,
-        password_confirmation: values.confirmation
+      const address = {
+        address: values.address,
+        zip: values.zip,
+        country: values.country,
+        state: values.state,
+        location: location
       };
 
-      session.registerUser(user)
+      session.registerAddress(address)
       .then(response => {
-
-        const address = {
-          address: values.address,
-          zip: values.zip,
-          country: values.country,
-          state: values.state,
-          location: location
-        };
-
-        const user = response.data;
-
-        session.registerAddress(address)
-        .then(response => {
-          dispatch({ 
-            type: REGISTER_SUCCESS,
-            payload: user
-          });
-        })
-        .catch(e => {
-          dispatch({ 
-            type: REGISTER_ERROR, 
-            payload: e.response.data.errors[0].title
-          });
-          
+        dispatch({ 
+          type: 'ALGO_SUCCES',
+          payload: user
         });
-
       })
       .catch(e => {
         dispatch({ 
-          type: REGISTER_ERROR, 
+          type: 'ALGO_ERROR', 
           payload: e.response.data.errors[0].title
         });
-        
       });
       
     });
@@ -192,6 +225,7 @@ export function getCurrentSession() {
 const sessionActions = {
   login,
   register,
+  confirmRegistration,
   recoverPassword,
   resetPassword,
   signout,

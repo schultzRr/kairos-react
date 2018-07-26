@@ -9,8 +9,12 @@ import Typography from '@material-ui/core/Typography';
 
 import RegisterAccountForm from './registerAccountForm';
 import RegisterMemberForm from './registerMemberForm';
+import LinkButton from '../common/linkButton';
 
-import { register } from '../../http/sessionActions';
+import { register, confirmRegistration } from '../../http/sessionActions';
+import { changeView } from '../../components/register/registerActions';
+
+import views from './registerConstants';
 
 const styles = theme => ({
   mainContainer: {
@@ -24,6 +28,9 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     padding: theme.spacing.unit * 4 + 'px 15%',
     textAlign: 'center',
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 4,
   },
   linkContainer: {
     marginTop: theme.spacing.unit * 4
@@ -39,21 +46,24 @@ const styles = theme => ({
 
 class RegisterContainer extends Component {
 
-  state = {
-    page: 1,
-  };
-
   handleContinue = () => {
-    this.setState({ page: this.state.page + 1 })
+    this.props.changeView(views.REGISTER_STEP_2_VIEW);
   }
 
   handleSubmit = (values) => {
     this.props.register(values);
   }
 
+  componentDidMount() {
+    if(this.props.token){
+      this.props.confirmRegistration(this.props.token);
+    } else {
+      this.props.changeView(views.REGISTER_STEP_1_VIEW);
+    }
+  }
+
   render() {
-    const { classes, loading, error } = this.props;
-    const { page } = this.state;
+    const { classes, loading, error, view } = this.props;
 
     return(
       <Grid container justify="center">
@@ -62,16 +72,64 @@ class RegisterContainer extends Component {
             Crear cuenta
           </Typography>
           <div className={classes.formContainer}>
-            {page === 1 && <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />}
-            {page === 2 && <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={error} />}
-            <div className={classes.linkContainer}>
-              <Typography variant="body2">
-                <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
-              </Typography>
-              <Typography variant="body2">
-                <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
-              </Typography>
-            </div>
+            { view == views.REGISTER_STEP_1_VIEW &&
+              <React.Fragment>
+                <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />
+                <div className={classes.linkContainer}>
+                  <Typography variant="body2">
+                    <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
+                  </Typography>
+                  <Typography variant="body2">
+                    <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                  </Typography>
+                </div>
+              </React.Fragment>
+            }
+            { view == views.REGISTER_STEP_2_VIEW &&
+              <React.Fragment>
+                <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={error} />
+                <div className={classes.linkContainer}>
+                  <Typography variant="body2">
+                    <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
+                  </Typography>
+                  <Typography variant="body2">
+                    <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                  </Typography>
+                </div>
+              </React.Fragment>
+            }
+            { view == views.REGISTER_INSTRUCTIONS_VIEW &&
+              <React.Fragment>
+                <Typography variant="body1" align="left">
+                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder activar tu cuenta.
+                </Typography>
+                <div className={classes.buttonContainer}>
+                  <LinkButton to="/login" text="Continuar" />
+                </div>
+              </React.Fragment>
+            }
+            { view == views.REGISTER_CONFIRMATION_VIEW &&
+              <React.Fragment>
+                <Typography variant="body1" align="left">
+                  ¡Gracias por confirmar tu dirección de correo! Ya puedes iniciar sesión.
+                </Typography>
+                <div className={classes.buttonContainer}>
+                  <LinkButton to="/login" text="Continuar" />
+                </div>
+              </React.Fragment>
+            }
+            { view == views.REGISTER_CONFIRMATION_ERROR_VIEW &&
+              <React.Fragment>
+                <Typography variant="body1" align="left">
+                  Hubo un error al confirmar tu dirección de correo
+                </Typography>
+                <div className={classes.linkContainer}>
+                  <Typography variant="body2">
+                    <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                  </Typography>
+                </div>
+              </React.Fragment>
+            }
           </div>
         </Grid>
       </Grid>
@@ -83,12 +141,15 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('register').get('loading'),
     error: state.get('register').get('error'),
+    view: state.get('register').get('view'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ register }, dispatch),
+    bindActionCreators({ confirmRegistration }, dispatch),
+    bindActionCreators({ changeView }, dispatch),
   );
 }
 

@@ -50,17 +50,19 @@ function login(email, password) {
   });
 }
 
-function registerUser(user) {
+function register(user) {
   return axios.post('/users/sign_up', { 
     user: user
-  })
-  .then(response => {
-    if(response.data.user){
-      setHttpHeaders(response.headers);
-    }
-    return response;
   });
+};
 
+function confirmRegistration(token) {
+  return axios.get('/auth/confirmation', {
+    params : {
+      confirmation_token: token,
+      redirect_url: 'http://localhost:9000'
+    }
+  });
 };
 
 function registerAddress(address){
@@ -118,7 +120,8 @@ const session = {
   unsetHttpHeaders,
   getCurrentSession,
   login,
-  registerUser,
+  register,
+  confirmRegistration,
   registerAddress,
   recoverPassword,
   resetPassword,
