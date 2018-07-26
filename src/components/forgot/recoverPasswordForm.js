@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
@@ -8,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import ButtonLoader from '../common/buttonLoader';
+import LoaderButton from '../common/loaderButton';
 
 const styles = theme => ({
   error: {
@@ -60,7 +59,7 @@ class RecoverPasswordForm extends Component {
           {error}
         </Typography>
         <div className={classes.buttonContainer}>
-          <ButtonLoader loading={loading}>
+          <LoaderButton loading={loading}>
             <Button 
               type="submit" 
               variant="contained" 
@@ -70,7 +69,7 @@ class RecoverPasswordForm extends Component {
             >
               Recuperar contraseña
             </Button>
-          </ButtonLoader>
+          </LoaderButton>
         </div>
       </form>
     )

@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import ButtonLoader from '../common/buttonLoader';
+import LoaderButton from '../common/loaderButton';
 
 const validate = values => {
   const errors = {}
@@ -103,7 +103,7 @@ class RegisterMemberForm extends Component {
           {formError}
         </Typography>
         <div className={classes.buttonContainer}>
-          <ButtonLoader loading={loading}>
+          <LoaderButton loading={loading}>
             <Button 
               type="submit" 
               variant="contained" 
@@ -112,7 +112,7 @@ class RegisterMemberForm extends Component {
             >
               Crear cuenta
             </Button>
-          </ButtonLoader>
+          </LoaderButton>
         </div>
       </form>
     )

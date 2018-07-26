@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 import RecoverPasswordForm from './recoverPasswordForm';
 import ResetPasswordForm from './resetPasswordForm';
+import LinkButton from '../common/linkButton';
 
 import { recoverPassword, resetPassword } from '../../http/sessionActions';
 import { changeView } from '../../components/forgot/forgotActions';
@@ -26,6 +27,9 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
     padding: theme.spacing.unit * 4 + 'px 15%',
     textAlign: 'center',
+  },
+  buttonContainer: {
+    marginTop: theme.spacing.unit * 4,
   },
 });
 
@@ -61,12 +65,27 @@ class ForgotContainer extends Component {
               <RecoverPasswordForm onSubmit={this.handleRecoverPassword} />
             }
             { view == views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW &&
-              <Typography variant="body1" align="left">
-                Se ha enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
-              </Typography>
+              <React.Fragment>
+                <Typography variant="body1" align="left">
+                  Se ha enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
+                </Typography>
+                <div className={classes.buttonContainer}>
+                  <LinkButton to="/login" text="Continuar" />
+                </div>
+              </React.Fragment>
             }
             { view == views.RESET_PASSWORD_VIEW &&
               <ResetPasswordForm onSubmit={this.handleResetPassword} />
+            }
+            { view == views.RESET_PASSWORD_INSTRUCTIONS_VIEW &&
+              <React.Fragment>
+                <Typography variant="body1" align="left">
+                  ¡Tu contraseña ha sido actualizada!, ya puedes iniciar sesión con tu nueva contraseña
+                </Typography>
+                <div className={classes.buttonContainer}>
+                  <LinkButton to="/login" text="Continuar" />
+                </div>
+              </React.Fragment>
             }
           </div>
         </Grid>

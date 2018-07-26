@@ -129,18 +129,20 @@ export function resetPassword(values, token) {
 
   return (dispatch) => {
     dispatch({ 
-      type: PASSWORD_RECOVERY_FETCH,
+      type: PASSWORD_RESET_FETCH,
     });
     return session.resetPassword(values.password, token)
     .then(response => {
       dispatch({ 
-        type: PASSWORD_RECOVERY_SUCCESS,
+        type: PASSWORD_RESET_SUCCESS,
       });
     })
     .catch(e => {
+      const error = e.response.data.errors[0];
+      const errorText = (error.id == 'reset_password_token' ? 'El token es inválido' : e.response.data.errors[0].title)
       dispatch({ 
-        type: PASSWORD_RECOVERY_ERROR, 
-        payload: e.response.data.errors[0].title
+        type: PASSWORD_RESET_ERROR, 
+        payload: errorText
       });
     })
   }

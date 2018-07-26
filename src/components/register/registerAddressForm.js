@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import ButtonLoader from '../common/buttonLoader';
+import LoaderButton from '../common/loaderButton';
 
 const validate = values => {
   const errors = {}
@@ -100,7 +100,7 @@ class registerAddressForm extends Component {
           </Field>
         </div>
         <div>
-          <ButtonLoader loading={loading}>
+          <LoaderButton loading={loading}>
             <Button 
               type="submit" 
               variant="contained" 
@@ -109,7 +109,7 @@ class registerAddressForm extends Component {
             >
               Registrar
             </Button>
-          </ButtonLoader>
+          </LoaderButton>
         </div>
       </form>
     )

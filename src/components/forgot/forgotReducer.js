@@ -4,6 +4,9 @@ import {
   PASSWORD_RECOVERY_FETCH,
   PASSWORD_RECOVERY_SUCCESS,
   PASSWORD_RECOVERY_ERROR,
+  PASSWORD_RESET_FETCH,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_ERROR
 } from '../../http/sessionActions';
 import {
   FORGOT_VIEW_CHANGE,
@@ -13,7 +16,7 @@ import {
 const initialState = fromJS({
   loading: false,
   error: '',
-  view: 'recoverPasswordForm'
+  view: views.RECOVER_PASSWORD_FORM_VIEW
 })
 
 function forgotReducer(state = initialState, action) {
@@ -26,6 +29,18 @@ function forgotReducer(state = initialState, action) {
         view: views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW,
       })
     case PASSWORD_RECOVERY_ERROR: 
+      return state.merge({
+        loading: false,
+        error: action.payload,
+      })
+    case PASSWORD_RESET_FETCH: 
+      return state.set('loading', true)
+    case PASSWORD_RESET_SUCCESS: 
+      return state.merge({
+        loading: false,
+        view: views.RESET_PASSWORD_INSTRUCTIONS_VIEW,
+      })
+    case PASSWORD_RESET_ERROR: 
       return state.merge({
         loading: false,
         error: action.payload,

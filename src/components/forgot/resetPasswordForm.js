@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form/immutable';
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form/immutable';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import PasswordField from '../common/passwordField';
-import ButtonLoader from '../common/buttonLoader';
+import LoaderButton from '../common/loaderButton';
 
 const styles = theme => ({
   error: {
@@ -22,28 +22,23 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
-  if (!values.email) {
-    errors.email = 'Introduce una dirección de correo electrónico'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Introduce un correo electrónico válido';
+  if (!values.password) {
+    errors.password = 'Introduce una nueva contraseña para tu cuenta';
+  } else if (values.password.length < 8) {
+    errors.password = 'Usa al menos 8 caracteres';
   }
   return errors;
 }
 
 const form = {
-  form: 'recoverPassword',
+  form: 'resetPassword',
   validate
 }
 
-class ForgotContainer extends Component {
-  state = {
-    loading: false,
-    error: ''
-  }
+class ResetPasswordForm extends Component {
 
   render() {
-    const { classes, handleSubmit } = this.props;
-    const { loading, error } = this.state;
+    const { classes, handleSubmit, loading, error } = this.props;
 
     return(
       <form onSubmit={handleSubmit}>
@@ -56,14 +51,14 @@ class ForgotContainer extends Component {
           <PasswordField 
             name="password"
             label="Contraseña"
-            margin="dense"
+            margin="normal"
           />
         </div>
         <Typography variant="body1" className={classes.error}>
           {error}
         </Typography>
         <div className={classes.buttonContainer}>
-          <ButtonLoader loading={loading}>
+          <LoaderButton loading={loading}>
             <Button 
               type="submit" 
               variant="contained" 
@@ -71,13 +66,27 @@ class ForgotContainer extends Component {
               color="secondary"
               disabled={loading}
             >
-              Recuperar contraseña
+              Actualizar contraseña
             </Button>
-          </ButtonLoader>
+          </LoaderButton>
         </div>
       </form>
     )
   }
 }
 
-export default withStyles(styles)(reduxForm(form)(ForgotContainer));
+const mapStateToProps = function mapStateToProps(state, props) {
+  return {
+    loading: state.get('forgot').get('loading'),
+    error: state.get('forgot').get('error'),
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {}
+}
+
+export default withStyles(styles)(reduxForm(form)(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ResetPasswordForm)));

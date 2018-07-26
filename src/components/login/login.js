@@ -11,7 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import PasswordField from '../common/passwordField';
-import ButtonLoader from '../common/buttonLoader';
+import LoaderButton from '../common/loaderButton';
 
 import { login } from '../../http/sessionActions';
 
@@ -101,7 +101,7 @@ class LoginContainer extends Component {
                 {error}
               </Typography>
               <div className={classes.buttonContainer}>
-                <ButtonLoader loading={loading}>
+                <LoaderButton loading={loading}>
                     <Button 
                       type="submit" 
                       variant="contained" 
@@ -111,7 +111,7 @@ class LoginContainer extends Component {
                     >
                       Iniciar sesión
                     </Button>
-                </ButtonLoader>
+                </LoaderButton>
               </div>
               <div className={classes.linkContainer}>
                 <Typography variant="body2">

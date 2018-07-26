@@ -20,7 +20,7 @@ const styles = theme => ({
   }
 });
 
-class ButtonLoader extends Component {
+class LoaderButton extends Component {
 
   render(){
     const { classes, loading } = this.props;
@@ -44,4 +44,4 @@ class ButtonLoader extends Component {
   }
 }
 
-export default withStyles(styles)(ButtonLoader);
+export default withStyles(styles)(LoaderButton);
