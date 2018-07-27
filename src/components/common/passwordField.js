@@ -46,6 +46,7 @@ class PasswordField extends Component {
                             aria-label="Activar/desactivar visibilidad del password"
                             onClick={this.handleClickShowPassword}
                             onMouseDown={this.handleMouseDownPassword}
+                            tabIndex="-1"
                           >
                             {this.state.showPassword ? <VisibilityOff style={{ fontSize: 20 }} /> : <Visibility style={{ fontSize: 20 }}fontSize={20} />}
                           </IconButton>

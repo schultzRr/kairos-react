@@ -98,7 +98,7 @@ export function register(values) {
       iuvare_id: values.iuvareId,
       phone: values.phone,
       password: values.password,
-      password_confirmation: values.confirmation
+      password_confirmation: values.password
     };
 
     session.register(user)

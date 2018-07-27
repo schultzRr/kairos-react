@@ -31,11 +31,6 @@ const validate = values => {
   } else if (values.password.length < 8) {
     errors.password = 'Usa al menos 8 caracteres';
   }
-  if (!values.confirmation) {
-    errors.confirmation = 'Requerido';
-  } else if (values.confirmation != values.password) {
-    errors.confirmation = 'Las contraseñas deben ser iguales';
-  }
   return errors;
 }
 
@@ -104,13 +99,6 @@ class RegisterUserForm extends Component {
           <PasswordField 
             name="password"
             label="Contraseña"
-            margin="dense"
-          />
-        </div>
-        <div>
-          <PasswordField 
-            name="confirmation"
-            label="Confirmar contraseña"
             margin="dense"
           />
         </div>
