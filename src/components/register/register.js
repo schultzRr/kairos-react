@@ -46,20 +46,20 @@ const styles = theme => ({
 
 class RegisterContainer extends Component {
 
-  handleContinue = () => {
-    this.props.changeView(views.REGISTER_STEP_2_VIEW);
-  }
-
-  handleSubmit = (values) => {
-    this.props.register(values);
-  }
-
   componentDidMount() {
     if(this.props.token){
       this.props.confirmRegistration(this.props.token);
     } else {
       this.props.changeView(views.REGISTER_STEP_1_VIEW);
     }
+  }
+
+  handleContinue = () => {
+    this.props.changeView(views.REGISTER_STEP_2_VIEW);
+  }
+
+  handleSubmit = (values) => {
+    this.props.register(values);
   }
 
   render() {

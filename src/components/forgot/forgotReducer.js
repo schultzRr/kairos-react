@@ -22,7 +22,10 @@ const initialState = fromJS({
 function forgotReducer(state = initialState, action) {
   switch(action.type){
     case PASSWORD_RECOVERY_FETCH: 
-      return state.set('loading', true)
+      return state.merge({
+        loading: true,
+        error: '',
+      })
     case PASSWORD_RECOVERY_SUCCESS: 
       return state.merge({
         loading: false,
@@ -34,7 +37,10 @@ function forgotReducer(state = initialState, action) {
         error: action.payload,
       })
     case PASSWORD_RESET_FETCH: 
-      return state.set('loading', true)
+      return state.merge({
+        loading: true,
+        error: '',
+      })
     case PASSWORD_RESET_SUCCESS: 
       return state.merge({
         loading: false,

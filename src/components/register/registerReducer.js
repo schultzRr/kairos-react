@@ -22,7 +22,10 @@ const initialState = fromJS({
 function registerReducer(state = initialState, action) {
   switch(action.type){
     case REGISTER_FETCH:
-      return state.set('loading', true)
+      return state.merge({
+        loading: true,
+        error: '',
+      })
     case REGISTER_SUCCESS:
       return state.merge({
         loading: false,
@@ -34,7 +37,10 @@ function registerReducer(state = initialState, action) {
         error: action.payload,
       })
     case CONFIRM_REGISTRATION_FETCH:
-      return state.set('loading', true)
+      return state.merge({
+        loading: true,
+        error: '',
+      })
     case CONFIRM_REGISTRATION_SUCCESS:
       return state.merge({
         loading: false,

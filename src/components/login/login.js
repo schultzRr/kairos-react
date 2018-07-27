@@ -15,6 +15,7 @@ import LoaderButton from '../common/loaderButton';
 import LinkButton from '../common/linkButton';
 
 import { login, resendConfirmationEmail } from '../../http/sessionActions';
+import { changeView } from '../../components/login/loginActions';
 
 import views from './loginConstants';
 
@@ -77,6 +78,10 @@ const form = {
 const selector = formValueSelector('login')
 
 class LoginContainer extends Component {
+
+  componentDidMount() {
+    this.props.changeView(views.LOGIN_FORM_VIEW);
+  }
 
   handleSubmit = (values) => {
     this.props.login(values);
@@ -196,6 +201,7 @@ function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ login }, dispatch),
     bindActionCreators({ resendConfirmationEmail }, dispatch),
+    bindActionCreators({ changeView }, dispatch),
   );
 }
 
