@@ -101,7 +101,7 @@ class RegisterContainer extends Component {
             { view == views.REGISTER_INSTRUCTIONS_VIEW &&
               <React.Fragment>
                 <Typography variant="body1" align="left">
-                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder activar tu cuenta.
+                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para activar tu cuenta.
                 </Typography>
                 <div className={classes.buttonContainer}>
                   <LinkButton to="/login" text="Continuar" />

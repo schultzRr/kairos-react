@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { reduxForm, Field } from 'redux-form/immutable';
+import { reduxForm, formValueSelector, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -12,8 +12,11 @@ import Typography from '@material-ui/core/Typography';
 
 import PasswordField from '../common/passwordField';
 import LoaderButton from '../common/loaderButton';
+import LinkButton from '../common/linkButton';
 
-import { login } from '../../http/sessionActions';
+import { login, resendConfirmationEmail } from '../../http/sessionActions';
+
+import views from './loginConstants';
 
 const styles = theme => ({
   mainContainer: {
@@ -46,6 +49,9 @@ const styles = theme => ({
       color: theme.palette.secondary.main,
     },
   },
+  bold: {
+    fontWeight: 500,
+  }
 });
 
 const validate = values => {
@@ -61,9 +67,14 @@ const validate = values => {
 
 const form = {
   form: 'login',
-  validate
+  validate,
+  initialValues: {
+    email: 'rosas_schultz@hotmail.com',
+    password: 'password'
+  }
 }
 
+const selector = formValueSelector('login')
 
 class LoginContainer extends Component {
 
@@ -71,8 +82,12 @@ class LoginContainer extends Component {
     this.props.login(values);
   }
 
+  handleResendConfirmation = () => {
+    this.props.resendConfirmationEmail(this.props.email);
+  }
+
   render() {
-    const { classes, handleSubmit, loading, error } = this.props;
+    const { classes, handleSubmit, loading, error, view, email } = this.props;
 
     return(
       <Grid container justify="center">
@@ -81,47 +96,86 @@ class LoginContainer extends Component {
             Bienvenido
           </Typography>
           <div className={classes.formContainer}>
-            <form onSubmit={handleSubmit(this.handleSubmit)}>
-              <div>
-                <Field
-                  name="email"
-                  component={TextField}
-                  label="Correo electrónico"
-                  margin="normal"
-                />
-              </div>
-              <div>
-                <PasswordField 
-                  name="password"
-                  label="Contraseña"
-                  margin="normal"
-                />
-              </div>
-              <Typography variant="body1" className={classes.error}>
-                {error}
-              </Typography>
-              <div className={classes.buttonContainer}>
-                <LoaderButton loading={loading}>
-                    <Button 
-                      type="submit" 
-                      variant="contained" 
-                      size="large"
-                      color="secondary"
-                      disabled={loading}
-                    >
-                      Iniciar sesión
-                    </Button>
-                </LoaderButton>
-              </div>
-              <div className={classes.linkContainer}>
-                <Typography variant="body2">
-                  <Link to="/forgot" className={classes.link}>¿Olvidaste tu contraseña?</Link>
+            { view == views.LOGIN_FORM_VIEW && 
+              <form onSubmit={handleSubmit(this.handleSubmit)}>
+                <div>
+                  <Field
+                    name="email"
+                    component={TextField}
+                    label="Correo electrónico"
+                    margin="normal"
+                  />
+                </div>
+                <div>
+                  <PasswordField 
+                    name="password"
+                    label="Contraseña"
+                    margin="normal"
+                  />
+                </div>
+                <Typography variant="body1" className={classes.error}>
+                  {error}
                 </Typography>
-                <Typography variant="body2">
-                  <Link to="/register" className={classes.link}>Crear una cuenta</Link>
+                <div className={classes.buttonContainer}>
+                  <LoaderButton loading={loading}>
+                      <Button 
+                        type="submit" 
+                        variant="contained" 
+                        size="large"
+                        color="secondary"
+                        disabled={loading}
+                      >
+                        Iniciar sesión
+                      </Button>
+                  </LoaderButton>
+                </div>
+                <div className={classes.linkContainer}>
+                  <Typography variant="body2">
+                    <Link to="/forgot" className={classes.link}>¿Olvidaste tu contraseña?</Link>
+                  </Typography>
+                  <Typography variant="body2">
+                    <Link to="/register" className={classes.link}>Crear una cuenta</Link>
+                  </Typography>
+                </div>
+              </form>
+            }
+            { view == views.CONFIRM_EMAIL_ERROR_VIEW &&
+              <React.Fragment>
+                <Typography variant="body1" align="left" gutterBottom>
+                  Anteriormente enviamos un correo a <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
                 </Typography>
-              </div>
-            </form>
+                <Typography variant="body1" align="left">
+                  Si no lo recibiste podemos volver a enviarlo.
+                </Typography>
+                <Typography variant="body1" className={classes.error}>
+                  {error}
+                </Typography>
+                <div className={classes.buttonContainer}>
+                  <LoaderButton loading={loading}>
+                      <Button 
+                        type="submit" 
+                        variant="contained" 
+                        size="large"
+                        color="secondary"
+                        disabled={loading}
+                        onClick={this.handleResendConfirmation}
+                      >
+                        Reenviar correo
+                      </Button>
+                  </LoaderButton>
+                </div>
+              </React.Fragment>
+            }
+            { view == views.CONFIRM_EMAIL_INTRUCTIONS_VIEW &&
+              <React.Fragment>
+                <Typography variant="body1" align="left">
+                  En breve recibirás un correo electrónico en <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
+                </Typography>
+                <div className={classes.buttonContainer}>
+                  <LinkButton to="/login" text="Continuar" />
+                </div>
+              </React.Fragment>
+            }
           </div>
         </Grid>
       </Grid>
@@ -133,12 +187,15 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('login').get('loading'),
     error: state.get('login').get('error'),
+    view: state.get('login').get('view'),
+    email: selector(state, 'email')
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ login }, dispatch),
+    bindActionCreators({ resendConfirmationEmail }, dispatch),
   );
 }
 

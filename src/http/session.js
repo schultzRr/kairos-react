@@ -50,6 +50,12 @@ function login(email, password) {
   });
 }
 
+function resendConfirmationEmail(user) {
+  return axios.post('/auth/confirmation', { 
+    user: user
+  });
+};
+
 function register(user) {
   return axios.post('/users/sign_up', { 
     user: user
@@ -119,6 +125,7 @@ const session = {
   unsetHttpHeaders,
   getCurrentSession,
   login,
+  resendConfirmationEmail,
   register,
   confirmRegistration,
   registerAddress,

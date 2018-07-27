@@ -3,6 +3,10 @@ import session from './session';
 export const LOGIN_FETCH = 'LOGIN_FETCH';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGIN_CONFIRMATION_ERROR = 'LOGIN_CONFIRMATION_ERROR';
+export const RESEND_CONFIRMATION_EMAIL_FETCH = 'RESEND_CONFIRMATION_EMAIL_FETCH';
+export const RESEND_CONFIRMATION_EMAIL_SUCCESS = 'RESEND_CONFIRMATION_EMAIL_SUCCESS';
+export const RESEND_CONFIRMATION_EMAIL_ERROR = 'RESEND_CONFIRMATION_EMAIL_ERROR';
 export const REGISTER_FETCH = 'REGISTER_FETCH';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
@@ -33,12 +37,46 @@ export function login(values) {
       });
     })
     .catch(e => {
-      dispatch({ 
-        type: LOGIN_ERROR, 
-        payload: e.response.data.errors[0].title
-      });
+      const error = e.response.data.errors[0];
+      if (error.id == "unconfirmed_email"){
+        dispatch({ 
+          type: LOGIN_CONFIRMATION_ERROR, 
+          payload: e.response.data.errors[0].title
+        });
+      } else {
+        dispatch({ 
+          type: LOGIN_ERROR, 
+          payload: e.response.data.errors[0].title
+        });
+      }
       
     })
+  }
+}
+
+export function resendConfirmationEmail(email) {
+
+  return (dispatch) => {
+    dispatch({ 
+      type: RESEND_CONFIRMATION_EMAIL_FETCH,
+    });
+
+    const user = {
+      email: email,
+    };
+
+    session.resendConfirmationEmail(user)
+    .then(response => {
+      dispatch({ 
+        type: RESEND_CONFIRMATION_EMAIL_SUCCESS,
+      });
+    })
+    .catch(e => {
+      dispatch({ 
+        type: RESEND_CONFIRMATION_EMAIL_ERROR, 
+        payload: 'Hubo un error al reenviar el correo. Por favor intenta nuevamente.'
+      });
+    });
   }
 }
 
@@ -95,7 +133,7 @@ export function confirmRegistration(token) {
     .catch(e => {
       dispatch({ 
         type: CONFIRM_REGISTRATION_ERROR, 
-        payload: 'ERROR'
+        payload: e.response.data.errors[0].title
       });
     });
   }
