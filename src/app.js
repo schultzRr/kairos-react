@@ -16,7 +16,7 @@ import Navigation from './components/navigation/navigation';
 import Footer from './components/footer/footer';
 
 import session from '../src/http/session';
-import sessionActions from '../src/http/sessionActions';
+import { getCurrentSession } from '../src/http/sessionActions';
 
 const styles = {
   root: {
@@ -81,7 +81,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators(sessionActions, dispatch),
+    bindActionCreators({ getCurrentSession }, dispatch),
   );
 }
 

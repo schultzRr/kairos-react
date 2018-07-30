@@ -65,7 +65,7 @@ export function resendConfirmationEmail(email) {
       email: email,
     };
 
-    session.resendConfirmationEmail(user)
+    return session.resendConfirmationEmail(user)
     .then(response => {
       dispatch({ 
         type: RESEND_CONFIRMATION_EMAIL_SUCCESS,
@@ -101,7 +101,7 @@ export function register(values) {
       password_confirmation: values.password
     };
 
-    session.register(user)
+    return session.register(user)
     .then(response => {
       dispatch({ 
         type: REGISTER_SUCCESS,
@@ -124,7 +124,7 @@ export function confirmRegistration(token) {
       type: CONFIRM_REGISTRATION_FETCH,
     });
 
-    session.confirmRegistration(token)
+    return session.confirmRegistration(token)
     .then(response => {
       dispatch({ 
         type: CONFIRM_REGISTRATION_SUCCESS,
