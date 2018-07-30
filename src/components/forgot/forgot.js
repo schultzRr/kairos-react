@@ -37,9 +37,15 @@ class ForgotContainer extends Component {
 
   componentDidMount() {
     if(this.props.token){
-      this.props.changeView(views.RESET_PASSWORD_VIEW);
+      this.props.changeView({
+        view: views.RESET_PASSWORD_VIEW,
+        title: 'Nueva contraseña'
+      });
     } else {
-      this.props.changeView(views.RECOVER_PASSWORD_FORM_VIEW);
+      this.props.changeView({
+        view: views.RECOVER_PASSWORD_FORM_VIEW,
+        title: 'Recuperar contraseña'
+      });
     }
   }
 
@@ -52,13 +58,13 @@ class ForgotContainer extends Component {
   }
 
   render() {
-    const { classes, view } = this.props;
+    const { classes, view, title } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
           <Typography variant="title" align="center" className={classes.title}>
-            Recuperar contraseña
+            {title}
           </Typography>
           <div className={classes.formContainer}>
             { view == views.RECOVER_PASSWORD_FORM_VIEW &&
@@ -67,7 +73,7 @@ class ForgotContainer extends Component {
             { view == views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW &&
               <React.Fragment>
                 <Typography variant="body1" align="left">
-                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder recuperar tu contraseña.
+                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder actualizar tu contraseña.
                 </Typography>
                 <div className={classes.buttonContainer}>
                   <LinkButton to="/login" text="Continuar" />
@@ -97,6 +103,7 @@ class ForgotContainer extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     view: state.get('forgot').get('view'),
+    title: state.get('forgot').get('title'),
   };
 };
 

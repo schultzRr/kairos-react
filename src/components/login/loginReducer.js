@@ -10,13 +10,15 @@ import {
   RESEND_CONFIRMATION_EMAIL_ERROR,
 } from '../../http/sessionActions';
 import {
+  LOGIN_VIEW_CHANGE,
   RESET_LOGIN_ERROR,
 } from './loginActions';
 
 const initialState = fromJS({
   loading: false,
   error: '',
-  view: views.LOGIN_FORM_VIEW
+  view: views.LOGIN_FORM_VIEW,
+  title: 'Bienvenido',
 })
 
 function loginReducer(state = initialState, action) {
@@ -37,6 +39,7 @@ function loginReducer(state = initialState, action) {
       return state.merge({
         loading: false,
         view: views.CONFIRM_EMAIL_ERROR_VIEW,
+        title: 'Confirma tu correo electrónico',
       })
     case RESEND_CONFIRMATION_EMAIL_FETCH:
       return state.merge({
@@ -47,11 +50,17 @@ function loginReducer(state = initialState, action) {
       return state.merge({
         loading: false,
         view: views.CONFIRM_EMAIL_INTRUCTIONS_VIEW,
+        title: 'Correo enviado',
       })
     case RESEND_CONFIRMATION_EMAIL_ERROR:
       return state.merge({
         loading: false,
         error: action.payload,
+      })
+    case LOGIN_VIEW_CHANGE:
+      return state.merge({
+        view: action.payload.view,
+        title: action.payload.title,
       })
     case RESET_LOGIN_ERROR:
       return state.set('error', '')

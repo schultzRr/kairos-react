@@ -50,12 +50,18 @@ class RegisterContainer extends Component {
     if(this.props.token){
       this.props.confirmRegistration(this.props.token);
     } else {
-      this.props.changeView(views.REGISTER_STEP_1_VIEW);
+      this.props.changeView({
+        view: views.REGISTER_STEP_1_VIEW,
+        title: 'Crear cuenta',
+      });
     }
   }
 
   handleContinue = () => {
-    this.props.changeView(views.REGISTER_STEP_2_VIEW);
+    this.props.changeView({
+      view: views.REGISTER_STEP_2_VIEW,
+      title: 'Crear cuenta',
+    });
   }
 
   handleSubmit = (values) => {
@@ -63,13 +69,13 @@ class RegisterContainer extends Component {
   }
 
   render() {
-    const { classes, loading, error, view } = this.props;
+    const { classes, loading, error, view, title } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
           <Typography variant="title" align="center" className={classes.title}>
-            Crear cuenta
+            {title}
           </Typography>
           <div className={classes.formContainer}>
             { view == views.REGISTER_STEP_1_VIEW &&
@@ -101,7 +107,7 @@ class RegisterContainer extends Component {
             { view == views.REGISTER_INSTRUCTIONS_VIEW &&
               <React.Fragment>
                 <Typography variant="body1" align="left">
-                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para activar tu cuenta.
+                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para confirmar tu correo electrónico y activar tu cuenta.
                 </Typography>
                 <div className={classes.buttonContainer}>
                   <LinkButton to="/login" text="Continuar" />
@@ -142,6 +148,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
     loading: state.get('register').get('loading'),
     error: state.get('register').get('error'),
     view: state.get('register').get('view'),
+    title: state.get('register').get('title'),
   };
 };
 

@@ -16,7 +16,8 @@ import {
 const initialState = fromJS({
   loading: false,
   error: '',
-  view: views.RECOVER_PASSWORD_FORM_VIEW
+  view: views.RECOVER_PASSWORD_FORM_VIEW,
+  title: 'Recuperar contraseña'
 })
 
 function forgotReducer(state = initialState, action) {
@@ -30,6 +31,7 @@ function forgotReducer(state = initialState, action) {
       return state.merge({
         loading: false,
         view: views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW,
+        title: 'Correo enviado',
       })
     case PASSWORD_RECOVERY_ERROR: 
       return state.merge({
@@ -45,6 +47,7 @@ function forgotReducer(state = initialState, action) {
       return state.merge({
         loading: false,
         view: views.RESET_PASSWORD_INSTRUCTIONS_VIEW,
+        title: 'Contraseña actualizada',
       })
     case PASSWORD_RESET_ERROR: 
       return state.merge({
@@ -52,7 +55,10 @@ function forgotReducer(state = initialState, action) {
         error: action.payload,
       })
     case FORGOT_VIEW_CHANGE:
-      return state.set('view', action.payload);
+      return state.merge({
+        view: action.payload.view,
+        title: action.payload.title,
+      })
     case RESET_FORGOT_ERROR:
       return state.set('error', '')
     default:

@@ -80,7 +80,10 @@ const selector = formValueSelector('login')
 class LoginContainer extends Component {
 
   componentDidMount() {
-    this.props.changeView(views.LOGIN_FORM_VIEW);
+    this.props.changeView({
+      view: views.LOGIN_FORM_VIEW,
+      title: 'Bienvenido'
+    });
   }
 
   handleSubmit = (values) => {
@@ -92,13 +95,13 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, loading, error, view, email } = this.props;
+    const { classes, handleSubmit, loading, error, view, title, email } = this.props;
 
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
           <Typography variant="title" align="center" className={classes.title}>
-            Bienvenido
+            {title}
           </Typography>
           <div className={classes.formContainer}>
             { view == views.LOGIN_FORM_VIEW && 
@@ -177,7 +180,7 @@ class LoginContainer extends Component {
                   En breve recibirás un correo electrónico en <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
                 </Typography>
                 <div className={classes.buttonContainer}>
-                  <LinkButton to="/login" text="Continuar" />
+                  <LinkButton to="/login/refresh" text="Continuar" />
                 </div>
               </React.Fragment>
             }
@@ -193,6 +196,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
     loading: state.get('login').get('loading'),
     error: state.get('login').get('error'),
     view: state.get('login').get('view'),
+    title: state.get('login').get('title'),
     email: selector(state, 'email')
   };
 };

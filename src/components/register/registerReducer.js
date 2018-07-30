@@ -16,7 +16,8 @@ import {
 const initialState = fromJS({
   loading: false,
   error: '',
-  view: views.REGISTER_STEP_1_VIEW
+  view: views.REGISTER_STEP_1_VIEW,
+  title: 'Crear cuenta',
 })
 
 function registerReducer(state = initialState, action) {
@@ -30,6 +31,7 @@ function registerReducer(state = initialState, action) {
       return state.merge({
         loading: false,
         view: views.REGISTER_INSTRUCTIONS_VIEW,
+        title: 'Confirma tu correo electrónico'
       })
     case REGISTER_ERROR:
       return state.merge({
@@ -45,16 +47,20 @@ function registerReducer(state = initialState, action) {
       return state.merge({
         loading: false,
         view: views.REGISTER_CONFIRMATION_VIEW,
+        title: 'Correo electrónico confirmado'
       })
     case CONFIRM_REGISTRATION_ERROR:
-      console.log('CONFIRM_REGISTRATION_ERROR');
       return state.merge({
         loading: false,
         error: action.payload,
-        view: views.REGISTER_CONFIRMATION_ERROR_VIEW
+        view: views.REGISTER_CONFIRMATION_ERROR_VIEW,
+        title: 'Lo sentimos mucho'
       })
     case REGISTER_VIEW_CHANGE:
-      return state.set('view', action.payload);
+      return state.merge({
+        view: action.payload.view,
+        title: action.payload.title,
+      })
     case RESET_REGISTER_ERROR:
       return state.set('error', '')
     default:
