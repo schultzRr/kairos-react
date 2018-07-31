@@ -15,6 +15,9 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  logoContainer: {
+    flex: 1,
+  },
   logo: {
     display: 'inline-block',
   },
@@ -56,9 +59,11 @@ class Navigation extends Component {
           elevation={0}
         >
           <Toolbar>
-            <a href="/" className={classes.logo}>
-              <img src="/images/logo-white@2x.png" className={classes.img} alt="Logo Prana"/>
-            </a>
+            <div className={classes.logoContainer}>
+              <a href="/" className={classes.logo}>
+                <img src="/images/logo-white@2x.png" className={classes.img} alt="Logo Prana"/>
+              </a>
+            </div>
             {isAuthenticated && (
               <div>
                 <IconButton
