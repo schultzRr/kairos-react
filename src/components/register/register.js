@@ -89,64 +89,67 @@ class RegisterContainer extends Component {
                 {title}
               </Typography>
               <div className={classes.formContainer}>
-                { view == views.REGISTER_STEP_1_VIEW &&
-                  <React.Fragment>
-                    <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />
-                    <div className={classes.linkContainer}>
-                      <Typography variant="body2">
-                        <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
+
+                {{
+                  [views.REGISTER_STEP_1_VIEW]: (
+                    <React.Fragment>
+                      <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />
+                      <div className={classes.linkContainer}>
+                        <Typography variant="body2">
+                          <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
+                        </Typography>
+                        <Typography variant="body2">
+                          <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                        </Typography>
+                      </div>
+                    </React.Fragment>
+                  ),
+                  [views.REGISTER_STEP_2_VIEW]: (
+                    <React.Fragment>
+                      <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={error} />
+                      <div className={classes.linkContainer}>
+                        <Typography variant="body2">
+                          <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
+                        </Typography>
+                        <Typography variant="body2">
+                          <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                        </Typography>
+                      </div>
+                    </React.Fragment>
+                  ),
+                  [views.REGISTER_INSTRUCTIONS_VIEW]: (
+                    <React.Fragment>
+                      <Typography variant="body1" align="left">
+                        Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para confirmar tu correo electrónico y activar tu cuenta.
                       </Typography>
-                      <Typography variant="body2">
-                        <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                      <div className={classes.buttonContainer}>
+                        <LinkButton to="/login" text="Continuar" />
+                      </div>
+                    </React.Fragment>
+                  ),
+                  [views.REGISTER_CONFIRMATION_VIEW]: (
+                    <React.Fragment>
+                      <Typography variant="body1" align="left">
+                        ¡Gracias por confirmar tu dirección de correo! Ya puedes iniciar sesión.
                       </Typography>
-                    </div>
-                  </React.Fragment>
-                }
-                { view == views.REGISTER_STEP_2_VIEW &&
-                  <React.Fragment>
-                    <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={error} />
-                    <div className={classes.linkContainer}>
-                      <Typography variant="body2">
-                        <Link to="/login" className={classes.link}>¿Ya tienes una cuenta?</Link>
+                      <div className={classes.buttonContainer}>
+                        <LinkButton to="/login" text="Continuar" />
+                      </div>
+                    </React.Fragment>
+                  ),
+                  [views.REGISTER_CONFIRMATION_ERROR_VIEW]: (
+                    <React.Fragment>
+                      <Typography variant="body1" align="left">
+                        Hubo un error al confirmar tu dirección de correo
                       </Typography>
-                      <Typography variant="body2">
-                        <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
-                      </Typography>
-                    </div>
-                  </React.Fragment>
-                }
-                { view == views.REGISTER_INSTRUCTIONS_VIEW &&
-                  <React.Fragment>
-                    <Typography variant="body1" align="left">
-                      Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para confirmar tu correo electrónico y activar tu cuenta.
-                    </Typography>
-                    <div className={classes.buttonContainer}>
-                      <LinkButton to="/login" text="Continuar" />
-                    </div>
-                  </React.Fragment>
-                }
-                { view == views.REGISTER_CONFIRMATION_VIEW &&
-                  <React.Fragment>
-                    <Typography variant="body1" align="left">
-                      ¡Gracias por confirmar tu dirección de correo! Ya puedes iniciar sesión.
-                    </Typography>
-                    <div className={classes.buttonContainer}>
-                      <LinkButton to="/login" text="Continuar" />
-                    </div>
-                  </React.Fragment>
-                }
-                { view == views.REGISTER_CONFIRMATION_ERROR_VIEW &&
-                  <React.Fragment>
-                    <Typography variant="body1" align="left">
-                      Hubo un error al confirmar tu dirección de correo
-                    </Typography>
-                    <div className={classes.linkContainer}>
-                      <Typography variant="body2">
-                        <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
-                      </Typography>
-                    </div>
-                  </React.Fragment>
-                }
+                      <div className={classes.linkContainer}>
+                        <Typography variant="body2">
+                          <a href="mailto:info@prana.mx" className={classes.link}>¿Tienes algún problema?</a>
+                        </Typography>
+                      </div>
+                    </React.Fragment>
+                  ),
+                }[view]}
               </div>
             </Grid>
           </Grid>

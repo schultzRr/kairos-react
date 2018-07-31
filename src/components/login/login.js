@@ -69,10 +69,6 @@ const validate = values => {
 const form = {
   form: 'login',
   validate,
-  initialValues: {
-    email: 'rosas_schultz@hotmail.com',
-    password: 'password'
-  }
 }
 
 const selector = formValueSelector('login')
@@ -104,86 +100,88 @@ class LoginContainer extends Component {
             {title}
           </Typography>
           <div className={classes.formContainer}>
-            { view == views.LOGIN_FORM_VIEW && 
-              <form onSubmit={handleSubmit(this.handleSubmit)}>
-                <div>
-                  <Field
-                    name="email"
-                    component={TextField}
-                    label="Correo electrónico"
-                    margin="normal"
-                  />
-                </div>
-                <div>
-                  <PasswordField 
-                    name="password"
-                    label="Contraseña"
-                    margin="normal"
-                  />
-                </div>
-                <Typography variant="body1" className={classes.error}>
-                  {error}
-                </Typography>
-                <div className={classes.buttonContainer}>
-                  <LoaderButton loading={loading}>
-                      <Button 
-                        type="submit" 
-                        variant="contained" 
-                        size="large"
-                        color="secondary"
-                        disabled={loading}
-                      >
-                        Iniciar sesión
-                      </Button>
-                  </LoaderButton>
-                </div>
-                <div className={classes.linkContainer}>
-                  <Typography variant="body2">
-                    <Link to="/forgot" className={classes.link}>¿Olvidaste tu contraseña?</Link>
+            {{
+              [views.LOGIN_FORM_VIEW]: (
+                <form onSubmit={handleSubmit(this.handleSubmit)}>
+                  <div>
+                    <Field
+                      name="email"
+                      component={TextField}
+                      label="Correo electrónico"
+                      margin="normal"
+                    />
+                  </div>
+                  <div>
+                    <PasswordField 
+                      name="password"
+                      label="Contraseña"
+                      margin="normal"
+                    />
+                  </div>
+                  <Typography variant="body1" className={classes.error}>
+                    {error}
                   </Typography>
-                  <Typography variant="body2">
-                    <Link to="/register" className={classes.link}>Crear una cuenta</Link>
+                  <div className={classes.buttonContainer}>
+                    <LoaderButton loading={loading}>
+                        <Button 
+                          type="submit" 
+                          variant="contained" 
+                          size="large"
+                          color="secondary"
+                          disabled={loading}
+                        >
+                          Iniciar sesión
+                        </Button>
+                    </LoaderButton>
+                  </div>
+                  <div className={classes.linkContainer}>
+                    <Typography variant="body2">
+                      <Link to="/forgot" className={classes.link}>¿Olvidaste tu contraseña?</Link>
+                    </Typography>
+                    <Typography variant="body2">
+                      <Link to="/register" className={classes.link}>Crear una cuenta</Link>
+                    </Typography>
+                  </div>
+                </form>
+              ),
+              [views.CONFIRM_EMAIL_ERROR_VIEW]: (
+                <React.Fragment>
+                  <Typography variant="body1" align="left" gutterBottom>
+                    Anteriormente enviamos un correo a <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
                   </Typography>
-                </div>
-              </form>
-            }
-            { view == views.CONFIRM_EMAIL_ERROR_VIEW &&
-              <React.Fragment>
-                <Typography variant="body1" align="left" gutterBottom>
-                  Anteriormente enviamos un correo a <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
-                </Typography>
-                <Typography variant="body1" align="left">
-                  Si no lo recibiste podemos volver a enviarlo.
-                </Typography>
-                <Typography variant="body1" className={classes.error}>
-                  {error}
-                </Typography>
-                <div className={classes.buttonContainer}>
-                  <LoaderButton loading={loading}>
-                      <Button 
-                        type="submit" 
-                        variant="contained" 
-                        size="large"
-                        color="secondary"
-                        disabled={loading}
-                        onClick={this.handleResendConfirmation}
-                      >
-                        Reenviar correo
-                      </Button>
-                  </LoaderButton>
-                </div>
-              </React.Fragment>
-            }
-            { view == views.CONFIRM_EMAIL_INTRUCTIONS_VIEW &&
-              <React.Fragment>
-                <Typography variant="body1" align="left">
-                  En breve recibirás un correo electrónico en <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
-                </Typography>
-                <div className={classes.buttonContainer}>
-                  <LinkButton to="/login/refresh" text="Continuar" />
-                </div>
-              </React.Fragment>
-            }
+                  <Typography variant="body1" align="left">
+                    Si no lo recibiste podemos volver a enviarlo.
+                  </Typography>
+                  <Typography variant="body1" className={classes.error}>
+                    {error}
+                  </Typography>
+                  <div className={classes.buttonContainer}>
+                    <LoaderButton loading={loading}>
+                        <Button 
+                          type="submit" 
+                          variant="contained" 
+                          size="large"
+                          color="secondary"
+                          disabled={loading}
+                          onClick={this.handleResendConfirmation}
+                        >
+                          Reenviar correo
+                        </Button>
+                    </LoaderButton>
+                  </div>
+                </React.Fragment>
+              ),
+              [views.CONFIRM_EMAIL_INTRUCTIONS_VIEW]: (
+                <React.Fragment>
+                  <Typography variant="body1" align="left">
+                    En breve recibirás un correo electrónico en <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
+                  </Typography>
+                  <div className={classes.buttonContainer}>
+                    <LinkButton to="/login/refresh" text="Continuar" />
+                  </div>
+                </React.Fragment>
+              ),
+            }[view]}
           </div>
         </Grid>
       </Grid>

@@ -67,32 +67,34 @@ class ForgotContainer extends Component {
             {title}
           </Typography>
           <div className={classes.formContainer}>
-            { view == views.RECOVER_PASSWORD_FORM_VIEW &&
-              <RecoverPasswordForm onSubmit={this.handleRecoverPassword} />
-            }
-            { view == views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW &&
-              <React.Fragment>
-                <Typography variant="body1" align="left">
-                  Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder actualizar tu contraseña.
-                </Typography>
-                <div className={classes.buttonContainer}>
-                  <LinkButton to="/login" text="Continuar" />
-                </div>
-              </React.Fragment>
-            }
-            { view == views.RESET_PASSWORD_VIEW &&
-              <ResetPasswordForm onSubmit={this.handleResetPassword} />
-            }
-            { view == views.RESET_PASSWORD_INSTRUCTIONS_VIEW &&
-              <React.Fragment>
-                <Typography variant="body1" align="left">
-                  ¡Tu contraseña ha sido actualizada! Ya puedes iniciar sesión con tu nueva contraseña.
-                </Typography>
-                <div className={classes.buttonContainer}>
-                  <LinkButton to="/login" text="Continuar" />
-                </div>
-              </React.Fragment>
-            }
+            {{
+              [views.RECOVER_PASSWORD_FORM_VIEW]: (
+                <RecoverPasswordForm onSubmit={this.handleRecoverPassword} />
+              ),
+              [views.RECOVER_PASSWORD_INSTRUCTIONS_VIEW]: (
+                <React.Fragment>
+                  <Typography variant="body1" align="left">
+                    Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder actualizar tu contraseña.
+                  </Typography>
+                  <div className={classes.buttonContainer}>
+                    <LinkButton to="/login" text="Continuar" />
+                  </div>
+                </React.Fragment>
+              ),
+              [views.RESET_PASSWORD_VIEW]: (
+                <ResetPasswordForm onSubmit={this.handleResetPassword} />
+              ),
+              [views.RESET_PASSWORD_INSTRUCTIONS_VIEW]: (
+                <React.Fragment>
+                  <Typography variant="body1" align="left">
+                    ¡Tu contraseña ha sido actualizada! Ya puedes iniciar sesión con tu nueva contraseña.
+                  </Typography>
+                  <div className={classes.buttonContainer}>
+                    <LinkButton to="/login" text="Continuar" />
+                  </div>
+                </React.Fragment>
+              ),
+            }[view]}
           </div>
         </Grid>
       </Grid>
