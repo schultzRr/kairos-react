@@ -8,11 +8,10 @@ import Forgot from '../../components/forgot/forgot';
 class ForgotView extends Component {
   
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/dashboard" } };
     const params = queryString.parse(this.props.location.search);
 
-    if (this.props.redirectToReferrer) {
-      return <Redirect to={from} />;
+    if (this.props.isAuthenticated) {
+      return <Redirect to="/dashboard" />;
     }
 
     return (
@@ -23,7 +22,7 @@ class ForgotView extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    redirectToReferrer: state.get('forgotView').get('redirectToReferrer'),
+    isAuthenticated: state.get('session').get('isAuthenticated'),
   };
 };
 
