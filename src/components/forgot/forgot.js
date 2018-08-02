@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import RecoverPasswordForm from './recoverPasswordForm';
@@ -29,7 +30,19 @@ const styles = theme => ({
     textAlign: 'center',
   },
   buttonContainer: {
+    marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit * 4,
+  },
+  footerContainer: {
+    padding: theme.spacing.unit * 1.5,
+  },
+  footerLink: {
+    color: '#666',
+    display: 'inline-block',
+    textDecoration: 'none',
+    '&:hover': {
+      color: '#666',
+    },
   },
 });
 
@@ -77,7 +90,14 @@ class ForgotContainer extends Component {
                     Hemos enviado un correo a la dirección que proporcionaste. Sigue las instrucciones para poder actualizar tu contraseña.
                   </Typography>
                   <div className={classes.buttonContainer}>
-                    <LinkButton to="/login" text="Continuar" />
+                    <LinkButton to="/login">
+                      <Button 
+                        variant="contained" 
+                        color="secondary"
+                      >
+                        Continuar
+                      </Button>
+                    </LinkButton>
                   </div>
                 </React.Fragment>
               ),
@@ -90,11 +110,23 @@ class ForgotContainer extends Component {
                     ¡Tu contraseña ha sido actualizada! Ya puedes iniciar sesión con tu nueva contraseña.
                   </Typography>
                   <div className={classes.buttonContainer}>
-                    <LinkButton to="/login" text="Continuar" />
+                    <LinkButton to="/login">
+                      <Button 
+                        variant="contained" 
+                        color="secondary"
+                      >
+                        Continuar
+                      </Button>
+                    </LinkButton>
                   </div>
                 </React.Fragment>
               ),
             }[view]}
+          </div>
+          <div className={classes.footerContainer}>
+            <Typography variant="body2" align="right">
+              <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
+            </Typography>
           </div>
         </Grid>
       </Grid>

@@ -20,17 +20,11 @@ const styles = theme => ({
 class LoaderButton extends Component {
 
   render(){
-    const { classes, to, text } = this.props;
+    const { classes, to } = this.props;
 
     return(
       <Link to={to} className={classes.link}>
-        <Button 
-          variant="contained" 
-          size="large"
-          color="secondary"
-        >
-          {text}
-        </Button>
+        {this.props.children}
       </Link>
     )
   }

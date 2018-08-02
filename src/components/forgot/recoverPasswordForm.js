@@ -16,7 +16,9 @@ const styles = theme => ({
     textAlign: 'left'
   },
   buttonContainer: {
+    marginBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 4,
+    textAlign: 'right',
   },
 });
 
@@ -63,7 +65,6 @@ class RecoverPasswordForm extends Component {
             <Button 
               type="submit" 
               variant="contained" 
-              size="large"
               color="secondary"
               disabled={loading}
             >

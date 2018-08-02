@@ -38,16 +38,32 @@ const styles = theme => ({
     textAlign: 'center',
   },
   buttonContainer: {
+    marginBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 4,
+    marginLeft: theme.spacing.unit * -2,
+    textAlign: 'right',
   },
   linkContainer: {
-    marginTop: theme.spacing.unit * 4
+    marginTop: theme.spacing.unit * 2
   },
   link: {
-    color: 'black',
+    color: theme.palette.secondary.main,
     display: 'inline-block',
+    textDecoration: 'none',
     '&:hover': {
+      backgroundColor: 'rgba(146, 201, 60, 0.08)',
       color: theme.palette.secondary.main,
+    },
+  },
+  footerContainer: {
+    padding: theme.spacing.unit * 1.5,
+  },
+  footerLink: {
+    color: '#666',
+    display: 'inline-block',
+    textDecoration: 'none',
+    '&:hover': {
+      color: '#666',
     },
   },
   bold: {
@@ -108,39 +124,50 @@ class LoginContainer extends Component {
                       name="email"
                       component={TextField}
                       label="Correo electrónico"
-                      margin="normal"
+                      margin="dense"
                     />
                   </div>
                   <div>
                     <PasswordField 
                       name="password"
                       label="Contraseña"
-                      margin="normal"
+                      margin="dense"
                     />
+                  </div>
+                  <div className={classes.linkContainer}>
+                    <Typography variant="body2" align="left">
+                      <Link to="/forgot" className={classes.link}>¿Has olvidado tu contraseña?</Link>
+                    </Typography>
                   </div>
                   <Typography variant="body1" className={classes.error}>
                     {error}
                   </Typography>
                   <div className={classes.buttonContainer}>
-                    <LoaderButton loading={loading}>
-                        <Button 
-                          type="submit" 
-                          variant="contained" 
-                          size="large"
-                          color="secondary"
-                          disabled={loading}
-                        >
-                          Iniciar sesión
-                        </Button>
-                    </LoaderButton>
-                  </div>
-                  <div className={classes.linkContainer}>
-                    <Typography variant="body2">
-                      <Link to="/forgot" className={classes.link}>¿Olvidaste tu contraseña?</Link>
-                    </Typography>
-                    <Typography variant="body2">
-                      <Link to="/register" className={classes.link}>Crear una cuenta</Link>
-                    </Typography>
+                    <Grid
+                      container
+                      direction="row"
+                      justify="space-between"
+                    >
+                      <Grid item>
+                        <LinkButton to="/register">
+                          <Button color="secondary">
+                            Crear cuenta
+                          </Button>
+                        </LinkButton>
+                      </Grid>
+                      <Grid item>
+                        <LoaderButton loading={loading}>
+                          <Button 
+                            type="submit" 
+                            variant="contained" 
+                            color="secondary"
+                            disabled={loading}
+                          >
+                            Iniciar sesión
+                          </Button>
+                        </LoaderButton>
+                      </Grid>
+                    </Grid>
                   </div>
                 </form>
               ),
@@ -157,16 +184,15 @@ class LoginContainer extends Component {
                   </Typography>
                   <div className={classes.buttonContainer}>
                     <LoaderButton loading={loading}>
-                        <Button 
-                          type="submit" 
-                          variant="contained" 
-                          size="large"
-                          color="secondary"
-                          disabled={loading}
-                          onClick={this.handleResendConfirmation}
-                        >
-                          Reenviar correo
-                        </Button>
+                      <Button 
+                        type="submit" 
+                        variant="contained" 
+                        color="secondary"
+                        disabled={loading}
+                        onClick={this.handleResendConfirmation}
+                      >
+                        Reenviar correo
+                      </Button>
                     </LoaderButton>
                   </div>
                 </React.Fragment>
@@ -177,11 +203,23 @@ class LoginContainer extends Component {
                     En breve recibirás un correo electrónico en <span className={classes.bold}>{email}</span> con las instrucciones para activar tu cuenta.
                   </Typography>
                   <div className={classes.buttonContainer}>
-                    <LinkButton to="/login/refresh" text="Continuar" />
+                    <LinkButton to="/login/refresh" >
+                      <Button 
+                        variant="contained" 
+                        color="secondary"
+                      >
+                        Continuar
+                      </Button>
+                    </LinkButton>
                   </div>
                 </React.Fragment>
               ),
             }[view]}
+          </div>
+          <div className={classes.footerContainer}>
+            <Typography variant="body2" align="right">
+              <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
+            </Typography>
           </div>
         </Grid>
       </Grid>
