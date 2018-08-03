@@ -12,21 +12,16 @@ import RegisterView from './views/register/registerView';
 import ForgotView from './views/forgot/forgotView';
 import DashboardView from './views/dashboard/dashboardView';
 
-import Navigation from './components/navigation/navigation';
-import Footer from './components/footer/footer';
-
 import session from '../src/http/session';
 import { getCurrentSession } from '../src/http/sessionActions';
 
 const styles = {
   root: {
     display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
-  mainContainer: {
-    flex: 1,
     flexGrow: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
   },
 }
 
@@ -57,17 +52,13 @@ class App extends Component {
         {this.state.validatedSession && 
           <React.Fragment>
             <CssBaseline />
-            <Navigation />
-            <Grid container className={classes.mainContainer}>
-              <Switch>
-                <Route exact path="/login" component={LoginView} />
-                <Route path="/register" component={RegisterView} />
-                <Route path="/forgot" component={ForgotView} />
-                <PrivateRoute path="/dashboard" component={DashboardView}/>
-                <Redirect to="/login" />
-              </Switch>
-            </Grid>
-            <Footer />
+            <Switch>
+              <Route exact path="/login" component={LoginView} />
+              <Route path="/register" component={RegisterView} />
+              <Route path="/forgot" component={ForgotView} />
+              <PrivateRoute path="/dashboard" component={DashboardView}/>
+              <Redirect to="/login" />
+            </Switch>
           </React.Fragment>
         }
       </div>

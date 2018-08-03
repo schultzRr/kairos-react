@@ -1,3 +1,4 @@
+import navigation from './components/navigation/navigationReducer';
 import loginView from './views/login/loginViewReducer';
 import login from './components/login/loginReducer';
 import registerView from './views/register/registerViewReducer';
@@ -9,6 +10,7 @@ import { reducer as reduxFormReducer } from 'redux-form';
 import { combineReducers } from 'redux-immutable';
 
 const reducers = combineReducers({
+  navigation,
   loginView,
   login,
   registerView,

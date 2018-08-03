@@ -1,5 +1,16 @@
-import session from '../../http/session';
+export const TOGGLE_MENU = 'TOGGLE_MENU';
 
-const navigationActions = {};
+export function toggleMenu() {
+
+  return (dispatch) => {
+    dispatch({ 
+      type: TOGGLE_MENU,
+    });
+  }
+}
+
+const navigationActions = {
+  toggleMenu
+};
 
 export default navigationActions;

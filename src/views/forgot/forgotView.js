@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
+import PublicTemplate from '../../templates/publicTemplate';
 import Forgot from '../../components/forgot/forgot';
 
 class ForgotView extends Component {
@@ -15,7 +16,9 @@ class ForgotView extends Component {
     }
 
     return (
-      <Forgot token={params.reset_password_token}/>
+      <PublicTemplate>
+        <Forgot token={params.reset_password_token}/>
+      </PublicTemplate>
     )
   }
 }

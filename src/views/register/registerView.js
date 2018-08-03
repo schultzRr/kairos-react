@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
+import PublicTemplate from '../../templates/publicTemplate';
 import Register from '../../components/register/register';
 
 class RegisterView extends Component {
@@ -15,7 +16,9 @@ class RegisterView extends Component {
     }
     
     return (
-      <Register token={params.confirmation_token}/>
+      <PublicTemplate>
+        <Register token={params.confirmation_token}/>
+      </PublicTemplate>
     )
   }
 }
