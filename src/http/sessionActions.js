@@ -251,12 +251,7 @@ export function getCurrentSession() {
         payload: response.data
       });
     })
-    .catch(e => {
-      dispatch({ 
-        type: LOGIN_ERROR, 
-        payload: e.response.data.errors[0].title
-      });
-    })
+    .catch(e => {})
   }
 }
 

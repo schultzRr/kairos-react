@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { toggleMenu } from './navigationActions';
 
 import { withStyles } from '@material-ui/core/styles';
+import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,7 +30,7 @@ const styles = theme => ({
 
 class Navigation extends Component {
 
-  handleMenuClick = event => {
+  toggleMenu = event => {
     this.props.toggleMenu();
   };
 
@@ -48,18 +49,20 @@ class Navigation extends Component {
               <img src="/images/logo-white@2x.png" className={classes.img} alt="Logo Prana"/>
             </a>
           </div>
-          {isAuthenticated && (
-            <div>
-              <IconButton
-                aria-label="Menu"
-                onClick={this.handleMenuClick}
-                className={classes.menuButton}
-                color="inherit"
-              >
-                <MenuIcon />
-              </IconButton>
-            </div>
-          )}
+          <Hidden mdUp>
+            {isAuthenticated && (
+              <div>
+                <IconButton
+                  aria-label="Menu"
+                  onClick={this.toggleMenu}
+                  className={classes.menuButton}
+                  color="inherit"
+                >
+                  <MenuIcon />
+                </IconButton>
+              </div>
+            )}
+          </Hidden>
         </Toolbar>
       </AppBar>
     );

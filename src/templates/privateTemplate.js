@@ -10,17 +10,22 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    height: '100vh',
     width: '100%',
   },
   toolbar: theme.mixins.toolbar,
-  content: {
+  main: {
     display: 'flex',
     flexDirection: 'row',
     flexGrow: 1,
     flex: 1,
-    minWidth: 0, // So the Typography noWrap works
+    minWidth: 0, // So the Typography noWrap works,
+    overflow: 'hidden',
+    overflowY: 'auto',
   },
+  content: {
+    width: '100%',
+  }
 });
 
 const PrivateTemplate = (props) => {
@@ -29,13 +34,13 @@ const PrivateTemplate = (props) => {
   return (
     <div className={classes.root}>
       <Navigation />
-      <div className={classes.toolbar} />
-      <main className={classes.content}>
+      <div className={classes.main}>
         <Menu />
-        <Grid container>
+        <div className={classes.content}>
+          <div className={classes.toolbar} />
           { props.children }
-        </Grid>
-      </main>
+        </div>
+      </div>
     </div>
   )
 

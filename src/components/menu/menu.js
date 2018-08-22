@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { toggleMenu } from '../navigation/navigationActions';
-import { signout } from '../../http/sessionActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
@@ -14,26 +13,58 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import StarIcon from '@material-ui/icons/Star';
-import ExitToApp from '@material-ui/icons/ExitToApp';
+import EditIcon from '@material-ui/icons/EditOutlined';
+import CreditCardIcon from '@material-ui/icons/CreditCardOutlined';
+import DateRangeIcon from '@material-ui/icons/DateRangeOutlined';
+import HelpIcon from '@material-ui/icons/HelpOutlineOutlined';
+import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 const styles = theme => ({
+  root: {
+    display: 'flex',
+    flex: 1,
+    flexDirection: 'column',
+  },
+  toolbar: theme.mixins.toolbar,
   drawerPaper: {
     position: 'relative',
-    maxWidth: drawerWidth,
+    width: drawerWidth,
   },
   profile: {
-    alignItems: 'center',
+    backgroundColor: 'black',
+    color: 'white',
     display: 'flex',
-    padding: theme.spacing.unit * 2 + 'px',
+    flexDirection: 'column',
+    padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 3}px`,
+    marginBottom: theme.spacing.unit,
+  },
+  profileText: {
+    color: 'white',
+  },
+  profileLower: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  profileTextContainer: {
+    maxWidth: 'calc(100% - 2em)',
+  },
+  editIcon: {
+    marginLeft: 'auto',
   },
   avatar: {
-    marginRight: theme.spacing.unit * 3
+    marginBottom: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    height: 60,
+    width: 60,
   },
+  terms: {
+    marginTop: 'auto',
+  },
+  termsText: {
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px`,
+  }
 });
 
 class Menu extends Component {
@@ -41,50 +72,62 @@ class Menu extends Component {
   toggleMenu = () => {
     this.props.toggleMenu();
   }
-
-  handleExit = () => {
-    this.props.signout();
-  }
   
   render() {
     const { classes, mobileOpen } = this.props;
 
     const drawer = (
-      <div>
-        <div className={classes.profile}>
-          <Avatar className={classes.avatar}>
-            <StarIcon />
-          </Avatar>
-          <div>
-            <Typography variant="body2">
-              Ricardo
-            </Typography>
-            <Typography variant="body1">
-              rosas_schultz@hotmail.com
-            </Typography>
+      <div className={classes.root}>
+        <div>
+          <div className={classes.profile}>
+            <Avatar src="/images/avatar.jpeg" className={classes.avatar}/>
+            <div className={classes.profileLower}>
+              <div className={classes.profileTextContainer}>
+                <Typography variant="body2" className={classes.profileText}>
+                  Ricardo Rosas
+                </Typography>
+                <Typography variant="body1" noWrap className={classes.profileText}>
+                  rosas_schultz@hotmail.com
+                </Typography>
+              </div>
+              <EditIcon className={classes.editIcon}/>
+            </div>
           </div>
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <CreditCardIcon />
+              </ListItemIcon>
+              <ListItemText primary="Compras" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <DateRangeIcon />
+              </ListItemIcon>
+              <ListItemText primary="Resultados" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <HelpIcon />
+              </ListItemIcon>
+              <ListItemText primary="Preguntas frecuentes" />
+            </ListItem>
+          </List>
+          <Divider />
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText primary="Cerrar sesión" />
+            </ListItem>
+          </List>
         </div>
-        <Divider />
-        <List>
-          <ListItem button>
-            <ListItemIcon>
-              <InboxIcon />
-            </ListItemIcon>
-            <ListItemText primary="Inbox" />
-          </ListItem>
-          <ListItem button>
-            <ListItemIcon>
-              <DraftsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Drafts" />
-          </ListItem>
-          <ListItem button onClick={this.handleExit}>
-            <ListItemIcon>
-              <ExitToApp />
-            </ListItemIcon>
-            <ListItemText primary="Cerrar sesión" />
-          </ListItem>
-        </List>
+        <div className={classes.terms}>
+          <Typography variant="body1" align="right" className={classes.termsText}>
+            Términos y condiciones
+          </Typography>
+        </div>
       </div>
     );
 
@@ -93,7 +136,7 @@ class Menu extends Component {
         <Hidden mdUp>
           <Drawer
             variant="temporary"
-            anchor="right"
+            anchor="left"
             open={mobileOpen}
             onClose={this.toggleMenu}
             classes={{
@@ -114,6 +157,7 @@ class Menu extends Component {
               paper: classes.drawerPaper,
             }}
           >
+            <div className={classes.toolbar} />
             {drawer}
           </Drawer>
         </Hidden>
@@ -131,7 +175,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ toggleMenu }, dispatch),
-    bindActionCreators({ signout }, dispatch),
   );
 }
 
