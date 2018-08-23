@@ -5,12 +5,11 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import PrivateRoute from './privateRoute';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 
 import LoginView from './views/login/loginView';
 import RegisterView from './views/register/registerView';
 import ForgotView from './views/forgot/forgotView';
-import DashboardView from './views/dashboard/dashboardView';
+import MembersView from './views/members/membersView';
 
 import session from '../src/http/session';
 import { getCurrentSession } from '../src/http/sessionActions';
@@ -56,7 +55,7 @@ class App extends Component {
               <Route exact path="/login" component={LoginView} />
               <Route path="/register" component={RegisterView} />
               <Route path="/forgot" component={ForgotView} />
-              <PrivateRoute path="/dashboard" component={DashboardView}/>
+              <PrivateRoute path="/members" component={MembersView}/>
               <Redirect to="/login" />
             </Switch>
           </React.Fragment>

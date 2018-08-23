@@ -12,7 +12,7 @@ class ForgotView extends Component {
     const params = queryString.parse(this.props.location.search);
 
     if (this.props.isAuthenticated) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to="/members" />;
     }
 
     return (

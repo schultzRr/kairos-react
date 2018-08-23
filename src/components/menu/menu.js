@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link, withRouter } from 'react-router-dom';
 import { toggleMenu } from '../navigation/navigationActions';
+import { signout } from '../../http/sessionActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
@@ -10,16 +12,15 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
+import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/EditOutlined';
 import CreditCardIcon from '@material-ui/icons/CreditCardOutlined';
 import DateRangeIcon from '@material-ui/icons/DateRangeOutlined';
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
-
-const drawerWidth = 300;
 
 const styles = theme => ({
   root: {
@@ -30,7 +31,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     position: 'relative',
-    width: drawerWidth,
+    width: 300,
   },
   profile: {
     backgroundColor: 'black',
@@ -38,6 +39,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 3}px`,
+    paddingRight: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
   },
   profileText: {
@@ -51,6 +53,7 @@ const styles = theme => ({
     maxWidth: 'calc(100% - 2em)',
   },
   editIcon: {
+    color: 'white',
     marginLeft: 'auto',
   },
   avatar: {
@@ -67,10 +70,43 @@ const styles = theme => ({
   }
 });
 
+const menu = [
+  {
+    id: 0,
+    label: 'Resumen',
+    icon: <DateRangeIcon />,
+    route: '/members',
+  },
+  {
+    id: 1,
+    label: 'Mis compras',
+    icon: <CreditCardIcon />,
+    route: '/members/orders',
+  },
+  {
+    id: 2,
+    label: 'Preguntas frecuentes',
+    icon: <HelpIcon />,
+    route: '/members/faq',
+  },
+]
+
 class Menu extends Component {
+  state = {
+    selectedMenuIndex: 0
+  }
 
   toggleMenu = () => {
     this.props.toggleMenu();
+  }
+
+  handleMenuItemClick = (index, route) => {
+    this.setState({selectedMenuIndex : index});
+    this.props.history.push(route);
+  }
+
+  handleSignoutClick = () => {
+    this.props.signout();
   }
   
   render() {
@@ -90,37 +126,36 @@ class Menu extends Component {
                   rosas_schultz@hotmail.com
                 </Typography>
               </div>
-              <EditIcon className={classes.editIcon}/>
+              <IconButton component={Link} to="/members/account" className={classes.editIcon}>
+                <EditIcon />
+              </IconButton>
             </div>
           </div>
           <List>
-            <ListItem button>
-              <ListItemIcon>
-                <CreditCardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Compras" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <DateRangeIcon />
-              </ListItemIcon>
-              <ListItemText primary="Resultados" />
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <HelpIcon />
-              </ListItemIcon>
-              <ListItemText primary="Preguntas frecuentes" />
-            </ListItem>
+            { menu.map((item, index) => {
+              return(
+                <MenuItem 
+                  button 
+                  selected={this.state.selectedMenuIndex == index}
+                  onClick={() => this.handleMenuItemClick(index, item.route)}
+                  key={item.id}
+                >
+                  <ListItemIcon>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText primary={item.label} />
+                </MenuItem>
+              )
+            })}
           </List>
           <Divider />
           <List>
-            <ListItem button>
+            <MenuItem button onClick={this.handleSignoutClick}>
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
               <ListItemText primary="Cerrar sesión" />
-            </ListItem>
+            </MenuItem>
           </List>
         </div>
         <div className={classes.terms}>
@@ -175,10 +210,11 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ toggleMenu }, dispatch),
+    bindActionCreators({ signout }, dispatch),
   );
 }
 
-export default withStyles(styles)(connect(
+export default withStyles(styles)(withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(Menu));
+)(Menu)));
