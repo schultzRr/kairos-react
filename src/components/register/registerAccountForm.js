@@ -3,12 +3,10 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import PasswordField from '../common/passwordField';
-import LinkButton from '../common/linkButton';
 
 const validate = values => {
   const errors = {}
@@ -69,6 +67,7 @@ class RegisterUserForm extends Component {
             component={TextField}
             label="Nombre *"
             margin="dense"
+            autoFocus={true}
           />
         </div>
         <div>
@@ -112,28 +111,14 @@ class RegisterUserForm extends Component {
           </Typography>
         </div>
         <div className={classes.buttonContainer}>
-          <Grid
-            container
-            direction="row"
-            justify="space-between"
+          <Button 
+            type="submit"
+            variant="contained" 
+            color="primary"
+            size="large"
           >
-            <Grid item>
-              <LinkButton to="/login">
-                <Button color="secondary">
-                Iniciar sesión
-                </Button>
-              </LinkButton>
-            </Grid>
-            <Grid item>
-              <Button 
-                type="submit"
-                variant="contained" 
-                color="secondary"
-              >
-                Siguiente
-              </Button>
-            </Grid>
-          </Grid>
+            Siguiente
+          </Button>
         </div>
       </form>
     )

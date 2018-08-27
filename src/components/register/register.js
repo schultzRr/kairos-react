@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -20,9 +19,12 @@ import views from './registerConstants';
 const styles = theme => ({
   mainContainer: {
     margin: theme.spacing.unit * 8 + 'px 0',
+    zIndex: 1,
   },
   title: {
-    marginBottom: theme.spacing.unit * 2
+    color: '#f4f4f4',
+    marginBottom: theme.spacing.unit * 6,
+    fontWeight: 400,
   },
   formContainer: {
     backgroundColor: 'white',

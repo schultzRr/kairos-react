@@ -22,17 +22,22 @@ import views from './loginConstants';
 const styles = theme => ({
   mainContainer: {
     margin: theme.spacing.unit * 8 + 'px 0',
+    marginTop: 120,
+    zIndex: 1,
   },
   title: {
-    marginBottom: theme.spacing.unit * 2
+    color: theme.palette.custom.lightGrey,
+    marginBottom: theme.spacing.unit * 6,
+    fontWeight: 400,
   },
   error: {
-    color: 'red',
+    color: theme.palette.error.main,
     marginTop: theme.spacing.unit * 3,
     textAlign: 'left'
   },
   formContainer: {
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.custom.white,
+    borderRadius: 4,
     color: theme.palette.text.secondary,
     padding: theme.spacing.unit * 4 + 'px 15%',
     textAlign: 'center',
@@ -51,19 +56,18 @@ const styles = theme => ({
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      backgroundColor: 'rgba(146, 201, 60, 0.08)',
-      color: theme.palette.secondary.main,
+      color: theme.palette.secondary.light,
     },
   },
   footerContainer: {
     padding: theme.spacing.unit * 1.5,
   },
   footerLink: {
-    color: '#666',
+    color: theme.palette.secondary.main,
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: '#666',
+      color: theme.palette.secondary.light,
     },
   },
   bold: {
@@ -94,7 +98,7 @@ class LoginContainer extends Component {
   componentDidMount() {
     this.props.changeView({
       view: views.LOGIN_FORM_VIEW,
-      title: 'Bienvenido'
+      title: 'Ingresa a tu cuenta'
     });
   }
 
@@ -125,6 +129,7 @@ class LoginContainer extends Component {
                       component={TextField}
                       label="Correo electrónico"
                       margin="dense"
+                      autoFocus={true}
                     />
                   </div>
                   <div>
@@ -150,7 +155,7 @@ class LoginContainer extends Component {
                     >
                       <Grid item>
                         <LinkButton to="/register">
-                          <Button color="secondary">
+                          <Button color="primary">
                             Crear cuenta
                           </Button>
                         </LinkButton>
@@ -160,10 +165,11 @@ class LoginContainer extends Component {
                           <Button 
                             type="submit" 
                             variant="contained" 
-                            color="secondary"
+                            color="primary"
+                            size="large"
                             disabled={loading}
                           >
-                            Iniciar sesión
+                            Ingresar
                           </Button>
                         </LoaderButton>
                       </Grid>
@@ -187,7 +193,7 @@ class LoginContainer extends Component {
                       <Button 
                         type="submit" 
                         variant="contained" 
-                        color="secondary"
+                        color="primary"
                         disabled={loading}
                         onClick={this.handleResendConfirmation}
                       >
@@ -206,7 +212,7 @@ class LoginContainer extends Component {
                     <LinkButton to="/login/refresh" >
                       <Button 
                         variant="contained" 
-                        color="secondary"
+                        color="primary"
                       >
                         Continuar
                       </Button>

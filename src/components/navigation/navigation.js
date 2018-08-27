@@ -6,13 +6,24 @@ import { toggleMenu } from './navigationActions';
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import AppBar from '@material-ui/core/AppBar';
+import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';;
+import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = theme => ({
-  appBar: {
+  root: {
+    backgroundColor: theme.palette.secondary.dark,
     zIndex: theme.zIndex.drawer + 1,
+  },
+  main: {
+    width: '100%',
+    [theme.breakpoints.up('lg')]: {
+      width: '90%',
+    },
+    [theme.breakpoints.up('xl')]: {
+      width: '75%',
+    },
   },
   logoContainer: {
     flex: 1,
@@ -41,29 +52,33 @@ class Navigation extends Component {
       <AppBar 
         position="absolute" 
         elevation={0}
-        className={classes.appBar}
+        className={classes.root}
       >
-        <Toolbar>
-          <div className={classes.logoContainer}>
-            <a href="/" className={classes.logo}>
-              <img src="/images/logo-white@2x.png" className={classes.img} alt="Logo Prana"/>
-            </a>
-          </div>
-          <Hidden mdUp>
-            {isAuthenticated && (
-              <div>
-                <IconButton
-                  aria-label="Menu"
-                  onClick={this.toggleMenu}
-                  className={classes.menuButton}
-                  color="inherit"
-                >
-                  <MenuIcon />
-                </IconButton>
+        <Grid container justify="center">
+          <Grid item className={classes.main}>
+            <Toolbar>
+              <div className={classes.logoContainer}>
+                <a href="/" className={classes.logo}>
+                  <img src="/images/logo@2x.png" className={classes.img} alt="Logo Prana"/>
+                </a>
               </div>
-            )}
-          </Hidden>
-        </Toolbar>
+              <Hidden mdUp>
+                {isAuthenticated && (
+                  <div>
+                    <IconButton
+                      aria-label="Menu"
+                      onClick={this.toggleMenu}
+                      className={classes.menuButton}
+                      color="inherit"
+                    >
+                      <MenuIcon />
+                    </IconButton>
+                  </div>
+                )}
+              </Hidden>
+            </Toolbar>
+          </Grid>
+        </Grid>
       </AppBar>
     );
   }

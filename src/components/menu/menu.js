@@ -24,6 +24,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const styles = theme => ({
   root: {
+    backgroundColor: theme.palette.custom.lightGrey,
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
@@ -31,11 +32,9 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     position: 'relative',
-    width: 300,
+    width: 280,
   },
   profile: {
-    backgroundColor: 'black',
-    color: 'white',
     display: 'flex',
     flexDirection: 'column',
     padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 3}px`,
@@ -43,24 +42,11 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
   },
   profileText: {
-    color: 'white',
-  },
-  profileLower: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  profileTextContainer: {
-    maxWidth: 'calc(100% - 2em)',
+    color: 'black',
   },
   editIcon: {
-    color: 'white',
+    color: 'black',
     marginLeft: 'auto',
-  },
-  avatar: {
-    marginBottom: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    height: 60,
-    width: 60,
   },
   terms: {
     marginTop: 'auto',
@@ -116,21 +102,14 @@ class Menu extends Component {
       <div className={classes.root}>
         <div>
           <div className={classes.profile}>
-            <Avatar src="/images/avatar.jpeg" className={classes.avatar}/>
-            <div className={classes.profileLower}>
-              <div className={classes.profileTextContainer}>
-                <Typography variant="body2" className={classes.profileText}>
-                  Ricardo Rosas
-                </Typography>
-                <Typography variant="body1" noWrap className={classes.profileText}>
-                  rosas_schultz@hotmail.com
-                </Typography>
-              </div>
-              <IconButton component={Link} to="/members/account" className={classes.editIcon}>
-                <EditIcon />
-              </IconButton>
-            </div>
+            <Typography variant="body2" className={classes.profileText}>
+              Ricardo Rosas
+            </Typography>
+            <Typography variant="body1" noWrap className={classes.profileText}>
+              rosas_schultz@hotmail.com
+            </Typography>
           </div>
+          <Divider />
           <List>
             { menu.map((item, index) => {
               return(

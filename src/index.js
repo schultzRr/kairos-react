@@ -6,6 +6,7 @@ import store from './store';
 import axios from 'axios';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import colors from './styles/colors';
+import amber from '@material-ui/core/colors/amber'
 import App from './app';
 
 axios.defaults.baseURL = 'http://servicios.coderia.mx:8083';
@@ -14,24 +15,31 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       light: '#ff60ad',
-      main: colors.pink,
+      main: '#9CCC65',
       dark: '#b30052',
       contrastText: '#fff',
     },
     secondary: {
-      light: '#c5fc6e',
-      main: colors.green,
-      dark: '#609800',
-      contrastText: '#fff',
+      light: '#616161',
+      main: '#111',
+      dark: '#000',
+      contrastText: '#f4f4f4',
+    },
+    error: {
+      main: '#ff5a5f',
+    },
+    custom: {
+      lightGrey: '#f4f4f4',
+      white: '#fff',
     },
     background: {
-      default: "#f4f4f4"
+      default: "#fff"
     }
   },
   overrides: {
     MuiButton: {
       root: {
-        borderRadius: 0,
+        borderRadius: 4,
         textTransform: 'none',
       },
       contained: {
@@ -43,6 +51,32 @@ const theme = createMuiTheme({
           color: colors.white
         },
       },
+    },
+    MuiInput: {
+      underline: {
+        '&:before': {
+          borderBottom: `1px solid #999`,
+        },
+        '&:after': {
+          borderBottom: `2px solid #9CCC65`,
+        }
+      }
+    },
+    MuiFormLabel: {
+      root: {
+        color: '#999',
+        '&$focused': {
+          color: '#9ccc65',
+        },
+        '&$error': {
+          color: '#999',
+        },
+      },
+      focused: {
+        '&$error': {
+          color: '#ff5a5f',
+        },
+      }
     },
     MuiFormControl: {
       root: {

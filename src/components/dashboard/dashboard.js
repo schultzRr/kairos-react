@@ -107,18 +107,18 @@ class DashboardView extends Component {
                     <TableHead>
                       <TableRow>
                         <CustomTableCell></CustomTableCell>
-                        <CustomTableCell numeric>Junio</CustomTableCell>
                         <CustomTableCell numeric>Julio</CustomTableCell>
+                        <CustomTableCell numeric>Junio</CustomTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       <TableRow>
-                        <CustomTableCell>Ptos. personales</CustomTableCell>
+                        <CustomTableCell>Vol. personal</CustomTableCell>
                         <CustomTableCell numeric>1000</CustomTableCell>
                         <CustomTableCell numeric>5000</CustomTableCell>
                       </TableRow>
                       <TableRow>
-                        <CustomTableCell>Ptos. grupales</CustomTableCell>
+                        <CustomTableCell>Vol. grupal</CustomTableCell>
                         <CustomTableCell numeric>5000</CustomTableCell>
                         <CustomTableCell numeric>8000</CustomTableCell>
                       </TableRow>
