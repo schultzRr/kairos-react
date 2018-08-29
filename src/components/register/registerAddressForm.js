@@ -104,7 +104,7 @@ class registerAddressForm extends Component {
             <Button 
               type="submit" 
               variant="contained" 
-              color="secondary"
+              color="primary"
               disabled={loading}
             >
               Registrar

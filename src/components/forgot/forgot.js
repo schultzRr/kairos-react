@@ -18,30 +18,35 @@ import views from './forgotConstants';
 
 const styles = theme => ({
   mainContainer: {
-    margin: theme.spacing.unit * 8 + 'px 0',
+    margin: theme.spacing.unit * 6 + 'px 0',
+    zIndex: 1,
   },
   title: {
-    marginBottom: theme.spacing.unit * 2
+    color: theme.palette.custom.lightGrey,
+    marginBottom: theme.spacing.unit * 6,
+    fontWeight: 400,
   },
   formContainer: {
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.custom.white,
     color: theme.palette.text.secondary,
-    padding: theme.spacing.unit * 4 + 'px 15%',
+    padding: theme.spacing.unit * 6 + 'px 15%',
     textAlign: 'center',
   },
   buttonContainer: {
-    marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit * 4,
+    marginLeft: theme.spacing.unit * -2,
+    textAlign: 'right',
   },
   footerContainer: {
     padding: theme.spacing.unit * 1.5,
+    height: theme.spacing.unit * 9,
   },
   footerLink: {
-    color: '#666',
+    color: theme.palette.secondary.main,
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: '#666',
+      color: theme.palette.secondary.light,
     },
   },
 });
@@ -93,7 +98,7 @@ class ForgotContainer extends Component {
                     <LinkButton to="/login">
                       <Button 
                         variant="contained" 
-                        color="secondary"
+                        color="primary"
                       >
                         Continuar
                       </Button>
@@ -113,7 +118,7 @@ class ForgotContainer extends Component {
                     <LinkButton to="/login">
                       <Button 
                         variant="contained" 
-                        color="secondary"
+                        color="primary"
                       >
                         Continuar
                       </Button>
@@ -124,9 +129,11 @@ class ForgotContainer extends Component {
             }[view]}
           </div>
           <div className={classes.footerContainer}>
-            <Typography variant="body2" align="right">
-              <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
-            </Typography>
+            { (view == views.RECOVER_PASSWORD_FORM_VIEW || view == views.RECOVER_PASSWORD_FORM_VIEW) && (
+              <Typography variant="body2" align="right">
+                <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
+              </Typography>
+            )}
           </div>
         </Grid>
       </Grid>

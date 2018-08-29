@@ -20,11 +20,12 @@ const styles = theme => ({
     flexGrow: 1,
     flex: 1,
     minWidth: 0, // So the Typography noWrap works
+    position: 'relative',
   },
   background: {
-    height: 340,
+    height: '50%',
     position: 'absolute',
-    backgroundColor: theme.palette.secondary.main,
+    backgroundColor: theme.palette.custom.background,
     width: '100%',
   },
   grid: {
@@ -42,7 +43,8 @@ const PublicTemplate = (props) => {
       <main className={classes.content}>
         <div className={classes.background}></div>
         <Grid 
-          container 
+          container
+          alignItems="center"
           justify="center"
           className={classes.grid}
         >

@@ -9,14 +9,14 @@ const styles = theme => ({
     display: 'inline-block',
     position: 'relative'
   },
-  loader: {
+  loaderContainer: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%'
+    bottom: 1,
+    left: 4,
+    width: `calc(100% - 8px)`,
   },
-  root: {
-    height: '3px'
+  loader: {
+    height: '1px'
   }
 });
 
@@ -35,8 +35,8 @@ class LoaderButton extends Component {
           }}
           unmountOnExit
         >
-          <div className={classes.loader}>
-            <LinearProgress className={classes.root}/>
+          <div className={classes.loaderContainer}>
+            <LinearProgress className={classes.loader}/>
           </div>
         </Fade>
       </div>

@@ -43,14 +43,14 @@ const form = {
 
 const styles = theme => ({
   error: {
-    color: 'red',
+    color: theme.palette.error.main,
     marginTop: theme.spacing.unit * 3,
     textAlign: 'left'
   },
   buttonContainer: {
-    marginBottom: theme.spacing.unit * 2,
-    marginTop: theme.spacing.unit * 6,
-    textAlign: 'right'
+    marginTop: theme.spacing.unit * 4,
+    marginLeft: theme.spacing.unit * -2,
+    textAlign: 'right',
   },
 });
 
@@ -115,7 +115,6 @@ class RegisterUserForm extends Component {
             type="submit"
             variant="contained" 
             color="primary"
-            size="large"
           >
             Siguiente
           </Button>

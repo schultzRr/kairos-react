@@ -18,43 +18,35 @@ import views from './registerConstants';
 
 const styles = theme => ({
   mainContainer: {
-    margin: theme.spacing.unit * 8 + 'px 0',
+    margin: theme.spacing.unit * 6 + 'px 0',
     zIndex: 1,
   },
   title: {
-    color: '#f4f4f4',
+    color: theme.palette.custom.lightGrey,
     marginBottom: theme.spacing.unit * 6,
     fontWeight: 400,
   },
   formContainer: {
-    backgroundColor: 'white',
+    backgroundColor: theme.palette.custom.white,
     color: theme.palette.text.secondary,
-    padding: theme.spacing.unit * 4 + 'px 15%',
+    padding: theme.spacing.unit * 6 + 'px 15%',
     textAlign: 'center',
   },
   buttonContainer: {
-    marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit * 4,
-  },
-  linkContainer: {
-    marginTop: theme.spacing.unit * 4
-  },
-  link: {
-    color: 'black',
-    display: 'inline-block',
-    '&:hover': {
-      color: theme.palette.secondary.main,
-    },
+    marginLeft: theme.spacing.unit * -2,
+    textAlign: 'right',
   },
   footerContainer: {
     padding: theme.spacing.unit * 1.5,
+    height: theme.spacing.unit * 9,
   },
   footerLink: {
-    color: '#666',
+    color: theme.palette.secondary.main,
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: '#666',
+      color: theme.palette.secondary.light,
     },
   },
 });
@@ -104,7 +96,6 @@ class RegisterContainer extends Component {
                 {title}
               </Typography>
               <div className={classes.formContainer}>
-
                 {{
                   [views.REGISTER_STEP_1_VIEW]: (
                     <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />
@@ -121,7 +112,7 @@ class RegisterContainer extends Component {
                         <LinkButton to="/login">
                           <Button 
                             variant="contained" 
-                            color="secondary"
+                            color="primary"
                           >
                             Continuar
                           </Button>
@@ -138,7 +129,7 @@ class RegisterContainer extends Component {
                         <LinkButton to="/login">
                           <Button 
                             variant="contained" 
-                            color="secondary"
+                            color="primary"
                           >
                             Continuar
                           </Button>
@@ -154,9 +145,11 @@ class RegisterContainer extends Component {
                 }[view]}
               </div>
               <div className={classes.footerContainer}>
-                <Typography variant="body2" align="right">
-                  <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
-                </Typography>
+                { (view == views.REGISTER_STEP_1_VIEW || view == views.REGISTER_STEP_2_VIEW) && (
+                  <Typography variant="body2" align="right">
+                    <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
+                  </Typography>
+                )}
               </div>
             </Grid>
           </Grid>

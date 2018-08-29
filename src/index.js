@@ -5,18 +5,21 @@ import { Provider } from 'react-redux';
 import store from './store';
 import axios from 'axios';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import pink from '@material-ui/core/colors/pink';
+import purple from '@material-ui/core/colors/purple';
+import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
 import colors from './styles/colors';
-import amber from '@material-ui/core/colors/amber'
 import App from './app';
 
 axios.defaults.baseURL = 'http://servicios.coderia.mx:8083';
 
+const mainColor = blue[500];
+
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: '#ff60ad',
-      main: '#9CCC65',
-      dark: '#b30052',
+      main: mainColor,
       contrastText: '#fff',
     },
     secondary: {
@@ -30,7 +33,9 @@ const theme = createMuiTheme({
     },
     custom: {
       lightGrey: '#f4f4f4',
+      darkGrey: '#111',
       white: '#fff',
+      background: '#111',
     },
     background: {
       default: "#fff"
@@ -58,7 +63,7 @@ const theme = createMuiTheme({
           borderBottom: `1px solid #999`,
         },
         '&:after': {
-          borderBottom: `2px solid #9CCC65`,
+          borderBottom: `2px solid ${mainColor}`,
         }
       }
     },
@@ -66,7 +71,7 @@ const theme = createMuiTheme({
       root: {
         color: '#999',
         '&$focused': {
-          color: '#9ccc65',
+          color: mainColor,
         },
         '&$error': {
           color: '#999',

@@ -21,8 +21,7 @@ import views from './loginConstants';
 
 const styles = theme => ({
   mainContainer: {
-    margin: theme.spacing.unit * 8 + 'px 0',
-    marginTop: 120,
+    margin: theme.spacing.unit * 6 + 'px 0',
     zIndex: 1,
   },
   title: {
@@ -30,20 +29,19 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 6,
     fontWeight: 400,
   },
+  formContainer: {
+    backgroundColor: theme.palette.custom.white,
+    borderRadius: 4,
+    color: theme.palette.text.secondary,
+    padding: theme.spacing.unit * 6 + 'px 15%',
+    textAlign: 'center',
+  },
   error: {
     color: theme.palette.error.main,
     marginTop: theme.spacing.unit * 3,
     textAlign: 'left'
   },
-  formContainer: {
-    backgroundColor: theme.palette.custom.white,
-    borderRadius: 4,
-    color: theme.palette.text.secondary,
-    padding: theme.spacing.unit * 4 + 'px 15%',
-    textAlign: 'center',
-  },
   buttonContainer: {
-    marginBottom: theme.spacing.unit * 2,
     marginTop: theme.spacing.unit * 4,
     marginLeft: theme.spacing.unit * -2,
     textAlign: 'right',
@@ -61,6 +59,7 @@ const styles = theme => ({
   },
   footerContainer: {
     padding: theme.spacing.unit * 1.5,
+    height: theme.spacing.unit * 9,
   },
   footerLink: {
     color: theme.palette.secondary.main,
@@ -166,8 +165,6 @@ class LoginContainer extends Component {
                             type="submit" 
                             variant="contained" 
                             color="primary"
-                            size="large"
-                            disabled={loading}
                           >
                             Ingresar
                           </Button>
@@ -223,9 +220,11 @@ class LoginContainer extends Component {
             }[view]}
           </div>
           <div className={classes.footerContainer}>
-            <Typography variant="body2" align="right">
-              <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
-            </Typography>
+            { view == views.LOGIN_FORM_VIEW && (  
+              <Typography variant="body2" align="right">
+                <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
+              </Typography>
+            )}
           </div>
         </Grid>
       </Grid>
