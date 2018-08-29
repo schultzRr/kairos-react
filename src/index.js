@@ -44,11 +44,13 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        borderRadius: 4,
         textTransform: 'none',
       },
       contained: {
         boxShadow: 'none',
+      },
+      outlined: {
+        borderColor: mainColor,
       },
       containedSecondary: {
         '&$disabled': {
@@ -56,6 +58,9 @@ const theme = createMuiTheme({
           color: colors.white
         },
       },
+      outlinedSecondary: {
+        borderColor: 'black',
+      }
     },
     MuiInput: {
       underline: {

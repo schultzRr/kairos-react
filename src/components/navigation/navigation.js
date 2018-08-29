@@ -54,7 +54,7 @@ class Navigation extends Component {
     return (
       <AppBar 
         position="absolute" 
-        elevation={0}
+        elevation={1}
         className={classes.root}
       >
         <Grid container justify="center">

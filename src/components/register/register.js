@@ -28,6 +28,7 @@ const styles = theme => ({
   },
   formContainer: {
     backgroundColor: theme.palette.custom.white,
+    borderRadius: 4,
     color: theme.palette.text.secondary,
     padding: theme.spacing.unit * 6 + 'px 15%',
     textAlign: 'center',

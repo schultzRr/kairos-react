@@ -12,11 +12,9 @@ import TableRow from '@material-ui/core/TableRow';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: theme.palette.primary.light,
     color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
+    height: 48,
   },
 }))(TableCell);
 
@@ -47,6 +45,7 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 6}px`,
     },
+    border: `1px solid ${theme.palette.custom.lightGrey}`,
   },
   paperTitleContainer: {
     display: 'flex',
@@ -63,6 +62,9 @@ const styles = theme => ({
       margin: 0,
       width: '100%',
     },
+  },
+  tableHead: {
+    height: 48,
   },
   lastRank: {
     paddingTop: theme.spacing.unit * 3,
@@ -88,12 +90,12 @@ class DashboardView extends Component {
             className={classes.container}
           >
             <div className={classes.title}>
-              <Typography variant="subheading">
+              <Typography variant="title">
                 Resumen
               </Typography>
             </div>
             <Grid item xs={12} lg={6}>
-              <Paper square={true} className={classes.paper}>
+              <Paper elevation={0} className={classes.paper}>
                 <div>
                   <div className={classes.paperTitleContainer}>
                     <Typography variant="subheading" className={classes.paperTitle}>
@@ -105,7 +107,7 @@ class DashboardView extends Component {
                   </div>
                   <Table className={classes.table}>
                     <TableHead>
-                      <TableRow>
+                      <TableRow className={classes.tableHead}>
                         <CustomTableCell></CustomTableCell>
                         <CustomTableCell numeric>Julio</CustomTableCell>
                         <CustomTableCell numeric>Junio</CustomTableCell>
@@ -131,7 +133,7 @@ class DashboardView extends Component {
               </Paper>
             </Grid>
             <Grid item xs={12} lg={6}>
-              <Paper square={true} className={classes.paper}>
+              <Paper elevation={0} className={classes.paper}>
                 <div>
                   <div className={classes.paperTitleContainer}>
                     <Typography variant="subheading" className={classes.paperTitle}>
@@ -140,7 +142,7 @@ class DashboardView extends Component {
                   </div>
                   <Table className={classes.table}>
                     <TableHead>
-                      <TableRow>
+                      <TableRow className={classes.tableHead}>
                         <CustomTableCell></CustomTableCell>
                         <CustomTableCell numeric>Junio</CustomTableCell>
                         <CustomTableCell numeric>Julio</CustomTableCell>

@@ -67,6 +67,7 @@ class RegisterMemberForm extends Component {
             component={TextField}
             label="ID Omein *"
             margin="dense"
+            autoFocus={true}
           />
         </div>
         <div>

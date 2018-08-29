@@ -57,6 +57,7 @@ class registerAddressForm extends Component {
             component={TextField}
             label="Calle, número y colonia *"
             margin="dense"
+            autoFocus={true}
           />
         </div>
         <div>

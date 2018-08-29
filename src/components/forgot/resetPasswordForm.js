@@ -54,6 +54,7 @@ class ResetPasswordForm extends Component {
             name="password"
             label="Contraseña"
             margin="normal"
+            autoFocus={true}
           />
         </div>
         <Typography variant="body1" className={classes.error}>

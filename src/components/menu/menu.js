@@ -15,11 +15,10 @@ import List from '@material-ui/core/List';
 import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/EditOutlined';
+import ListIcon from '@material-ui/icons/ListOutlined';
 import CreditCardIcon from '@material-ui/icons/CreditCardOutlined';
-import DateRangeIcon from '@material-ui/icons/DateRangeOutlined';
 import HelpIcon from '@material-ui/icons/HelpOutlineOutlined';
+import PersonIcon from '@material-ui/icons/PersonOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const styles = theme => ({
@@ -60,39 +59,50 @@ const menu = [
   {
     id: 0,
     label: 'Resumen',
-    icon: <DateRangeIcon />,
+    icon: <ListIcon />,
     route: '/members',
   },
   {
     id: 1,
+    label: 'Mis datos',
+    icon: <PersonIcon />,
+    route: '/members/account',
+  },
+  {
+    id: 2,
     label: 'Mis compras',
     icon: <CreditCardIcon />,
     route: '/members/orders',
   },
   {
-    id: 2,
+    id: 3,
     label: 'Preguntas frecuentes',
     icon: <HelpIcon />,
     route: '/members/faq',
-  },
+  }, 
 ]
 
 class Menu extends Component {
   state = {
-    selectedMenuIndex: 0
+    selectedMenuIndex: undefined
   }
 
   toggleMenu = () => {
     this.props.toggleMenu();
   }
 
-  handleMenuItemClick = (index, route) => {
-    this.setState({selectedMenuIndex : index});
+  handleMenuItemClick = route => {
+    this.setState({ selectedMenu : route });
     this.props.history.push(route);
   }
 
   handleSignoutClick = () => {
     this.props.signout();
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+    this.setState({ selectedMenu: location.pathname});
   }
   
   render() {
@@ -111,12 +121,12 @@ class Menu extends Component {
           </div>
           <Divider />
           <List>
-            { menu.map((item, index) => {
+            { menu.map(item => {
               return(
                 <MenuItem 
                   button 
-                  selected={this.state.selectedMenuIndex == index}
-                  onClick={() => this.handleMenuItemClick(index, item.route)}
+                  selected={this.state.selectedMenu == item.route}
+                  onClick={() => this.handleMenuItemClick(item.route)}
                   key={item.id}
                 >
                   <ListItemIcon>

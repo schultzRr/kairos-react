@@ -55,6 +55,7 @@ class RecoverPasswordForm extends Component {
             component={TextField}
             label="Correo electrónico"
             margin="normal"
+            autoFocus={true}
           />
         </div>
         <Typography variant="body1" className={classes.error}>

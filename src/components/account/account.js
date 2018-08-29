@@ -4,11 +4,8 @@ import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   root: {
@@ -37,6 +34,7 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 6}px`,
     },
+    border: `1px solid ${theme.palette.custom.lightGrey}`,
   },
   paperTitleContainer: {
     display: 'flex',
@@ -46,6 +44,15 @@ const styles = theme => ({
   paperTitle: {
     marginBottom: theme.spacing.unit * 3,
   },
+  dataContainer: {
+    margin: `${theme.spacing.unit * 2}px 0`,
+    '&:first-child': {
+      marginTop: 0,
+    }
+  },
+  data: {
+    color: 'rgba(0, 0, 0, 0.54)',
+  }
 });
 
 class Account extends Component {
@@ -66,15 +73,48 @@ class Account extends Component {
             className={classes.container}
           >
             <div className={classes.title}>
-              <Typography variant="subheading">
+              <Typography variant="title">
                 Mi cuenta
               </Typography>
             </div>
             <Grid item xs={12} lg={6}>
-              <Paper square={true} className={classes.paper}>
+              <Paper elevation={0} className={classes.paper}>
                 <div className={classes.paperTitleContainer}>
                   <Typography variant="subheading" className={classes.paperTitle}>
                     Datos personales
+                  </Typography>
+                </div>
+                <div className={classes.dataContainer}>
+                  <Typography variant="body2">
+                    Nombre:
+                  </Typography>
+                  <Typography variant="body1" className={classes.data}>
+                    Ricardo Rosas
+                  </Typography>
+                  <Button 
+                    variant="outlined" 
+                    size="small"
+                    color="secondary"
+                  >
+                    Editar
+                  </Button>
+                </div>
+                <Divider />
+                <div className={classes.dataContainer}>
+                  <Typography variant="body2">
+                    Teléfono:
+                  </Typography>
+                  <Typography variant="body1">
+                    5512345123
+                  </Typography>
+                </div>
+                <Divider />
+                <div className={classes.dataContainer}>
+                  <Typography variant="body2">
+                    Contraseña:
+                  </Typography>
+                  <Typography variant="body1">
+                    ********
                   </Typography>
                 </div>
               </Paper>
