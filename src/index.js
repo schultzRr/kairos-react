@@ -49,18 +49,6 @@ const theme = createMuiTheme({
       contained: {
         boxShadow: 'none',
       },
-      outlined: {
-        borderColor: mainColor,
-      },
-      containedSecondary: {
-        '&$disabled': {
-          backgroundColor: colors.green,
-          color: colors.white
-        },
-      },
-      outlinedSecondary: {
-        borderColor: 'black',
-      }
     },
     MuiInput: {
       underline: {

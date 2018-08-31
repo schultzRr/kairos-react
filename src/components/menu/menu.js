@@ -29,6 +29,9 @@ const styles = theme => ({
     flexDirection: 'column',
   },
   toolbar: theme.mixins.toolbar,
+  drawer: {
+    height: '100%',
+  },
   drawerPaper: {
     position: 'relative',
     width: 280,
@@ -180,6 +183,7 @@ class Menu extends Component {
             classes={{
               paper: classes.drawerPaper,
             }}
+            className={classes.drawer}
           >
             <div className={classes.toolbar} />
             {drawer}

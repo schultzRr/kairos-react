@@ -6,7 +6,10 @@ import {
 
 const initialState = fromJS({
   isAuthenticated: false,
-  user: {}
+  email: '',
+  name: '',
+  lastname: '',
+  phone: '',
 });
 
 function sessionReducer(state = initialState, action) {
@@ -14,12 +17,18 @@ function sessionReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return state.merge({
         isAuthenticated: true,
-        user: action.payload.user,
+        email: action.payload.user.email,
+        name: action.payload.user.first_name,
+        lastname: action.payload.user.last_name,
+        phone: action.payload.user.phone,
       })
     case SIGNOUT_SUCCESS:
       return state.merge({
         isAuthenticated: false,
-        user: {},
+        email: '',
+        name: '',
+        lastname: '',
+        phone: '',
       })
     default:
       return state;

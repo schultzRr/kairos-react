@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { reduxForm, formValueSelector, Field } from 'redux-form/immutable';
+import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -6,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
+
+import ResponsiveDialog from '../common/responsiveDialog';
 
 const styles = theme => ({
   root: {
@@ -45,6 +51,9 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 3,
   },
   dataContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     margin: `${theme.spacing.unit * 2}px 0`,
     '&:first-child': {
       marginTop: 0,
@@ -55,10 +64,31 @@ const styles = theme => ({
   }
 });
 
+const validate = values => {
+  const errors = {}
+  if (!values.newName) {
+    errors.newName = 'Requerido'
+  }
+  if (!values.newLastname) {
+    errors.newLastname = 'Requerido'
+  }
+  return errors;
+}
+
+const form = {
+  form: 'changeAccountName',
+  enableReinitialize: true,
+  validate,
+}
+
 class Account extends Component {
 
+  handleSubmit = (values) => {
+    console.log(this.props.name);
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, handleSubmit } = this.props;
 
     return (
       <Grid container 
@@ -85,37 +115,74 @@ class Account extends Component {
                   </Typography>
                 </div>
                 <div className={classes.dataContainer}>
-                  <Typography variant="body2">
-                    Nombre:
-                  </Typography>
-                  <Typography variant="body1" className={classes.data}>
-                    Ricardo Rosas
-                  </Typography>
+                  <div>
+                    <Typography variant="body2">
+                      Nombre:
+                    </Typography>
+                    <Typography variant="body1" className={classes.data}>
+                      Ricardo Rosas
+                    </Typography>
+                  </div>
+                  <ResponsiveDialog 
+                    title="Cambiar mi nombre"  
+                    handleSubmit={this.handleSubmit}
+                  >
+                    <form>
+                      <div>
+                        <Field
+                          name="newName"
+                          component={TextField}
+                          label="Nombre"
+                          margin="dense"
+                          autoFocus={true}
+                        />
+                      </div>
+                      <div>
+                        <Field
+                          name="newLastname"
+                          component={TextField}
+                          label="Apellido(s)"
+                          margin="dense"
+                        />
+                      </div>
+                    </form>
+                  </ResponsiveDialog>
+                </div>
+                <Divider />
+                <div className={classes.dataContainer}>
+                  <div>
+                    <Typography variant="body2">
+                      Teléfono:
+                    </Typography>
+                    <Typography variant="body1" className={classes.data}>
+                      5512345123
+                    </Typography>
+                  </div>
                   <Button 
                     variant="outlined" 
                     size="small"
-                    color="secondary"
+                    color="primary"
                   >
                     Editar
                   </Button>
                 </div>
                 <Divider />
                 <div className={classes.dataContainer}>
-                  <Typography variant="body2">
-                    Teléfono:
-                  </Typography>
-                  <Typography variant="body1">
-                    5512345123
-                  </Typography>
-                </div>
-                <Divider />
-                <div className={classes.dataContainer}>
-                  <Typography variant="body2">
-                    Contraseña:
-                  </Typography>
-                  <Typography variant="body1">
-                    ********
-                  </Typography>
+                  <div>
+                    <Typography variant="body2">
+                      Contraseña:
+                    </Typography>
+                    <Typography variant="body1" className={classes.data}>
+                      ********
+                    </Typography>
+                  </div>
+                  <Button 
+                    variant="outlined" 
+                    size="small"
+                    color="primary"
+                  >
+                    Editar
+                  </Button>
                 </div>
               </Paper>
             </Grid>
@@ -123,8 +190,26 @@ class Account extends Component {
         </Grid>
       </Grid>
     )
-  }
-  
+  } 
+}
+
+const mapStateToProps = function mapStateToProps(state, props) {
+  return {
+    initialValues: {
+      newName: 'Ricardo',
+      newLastname: 'Rosas',
+    }
+  };
 };
 
-export default withStyles(styles)(Account);
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+// To be able to initialize form values
+const connectedAccount = reduxForm(form)(Account);
+ 
+export default withStyles(styles)((connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(connectedAccount)));
