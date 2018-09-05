@@ -6,7 +6,7 @@ import register from './components/register/registerReducer';
 import forgotView from './views/forgot/forgotViewReducer';
 import forgot from './components/forgot/forgotReducer';
 import session from './http/sessionReducer';
-import { reducer as reduxFormReducer } from 'redux-form';
+import { reducer as reduxFormReducer } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 
 const reducers = combineReducers({

@@ -3,9 +3,11 @@ import {
   LOGIN_SUCCESS,
   SIGNOUT_SUCCESS,
 } from './sessionActions';
+import { ACCOUNT_UPDATE_SUCCESS } from '../components/account/accountActions';
 
 const initialState = fromJS({
   isAuthenticated: false,
+  id: '',
   email: '',
   name: '',
   lastname: '',
@@ -17,19 +19,21 @@ function sessionReducer(state = initialState, action) {
     case LOGIN_SUCCESS:
       return state.merge({
         isAuthenticated: true,
+        id: action.payload.user.id,
         email: action.payload.user.email,
         name: action.payload.user.first_name,
         lastname: action.payload.user.last_name,
         phone: action.payload.user.phone,
-      })
+      });
     case SIGNOUT_SUCCESS:
+      return initialState;
+    case ACCOUNT_UPDATE_SUCCESS:
       return state.merge({
-        isAuthenticated: false,
-        email: '',
-        name: '',
-        lastname: '',
-        phone: '',
-      })
+        email: action.payload.user.email,
+        name: action.payload.user.first_name,
+        lastname: action.payload.user.last_name,
+        phone: action.payload.user.phone,
+      });
     default:
       return state;
   }

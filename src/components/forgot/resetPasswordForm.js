@@ -24,9 +24,9 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
-  if (!values.password) {
+  if (!values.get('password')) {
     errors.password = 'Introduce una nueva contraseña para tu cuenta';
-  } else if (values.password.length < 8) {
+  } else if (values.get('password').length < 8) {
     errors.password = 'Usa al menos 8 caracteres';
   }
   return errors;
@@ -88,7 +88,7 @@ function mapDispatchToProps(dispatch) {
   return {}
 }
 
-export default withStyles(styles)(reduxForm(form)(connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(ResetPasswordForm)));
+)(reduxForm(form)(ResetPasswordForm)));

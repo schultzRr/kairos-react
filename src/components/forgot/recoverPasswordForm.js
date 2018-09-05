@@ -24,9 +24,9 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
-  if (!values.email) {
+  if (!values.get('email')) {
     errors.email = 'Introduce una dirección de correo electrónico'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {
     errors.email = 'Introduce un correo electrónico válido';
   }
   return errors;
@@ -89,7 +89,7 @@ function mapDispatchToProps(dispatch) {
   return {}
 }
 
-export default withStyles(styles)(reduxForm(form)(connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(RecoverPasswordForm)));
+)(reduxForm(form)(RecoverPasswordForm)));

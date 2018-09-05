@@ -10,21 +10,21 @@ import LoaderButton from '../common/loaderButton';
 
 const validate = values => {
   const errors = {}
-  if (!values.address) {
+  if (!values.get('address')) {
     errors.address = 'Requerido';
   }
-  if (!values.city) {
+  if (!values.get('city')) {
     errors.city = 'Requerido';
   }
-  if (!values.state) {
+  if (!values.get('state')) {
     errors.state = 'Requerido';
   }
-  if (!values.zip) {
+  if (!values.get('zip')) {
     errors.zip = 'Requerido';
-  } else if (isNaN(Number(values.zip)) || values.zip.length < 3 || values.zip.length > 8 ) {
+  } else if (isNaN(Number(values.get('zip'))) || values.get('zip').length < 3 || values.get('zip').length > 8 ) {
     errors.zip = 'Por favor introduce un código postal válido';
   }
-  if (!values.country) {
+  if (!values.get('country')) {
     errors.country = 'Requerido';
   }
   return errors;

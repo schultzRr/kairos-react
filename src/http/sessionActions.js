@@ -29,7 +29,7 @@ export function login(values) {
     dispatch({ 
       type: LOGIN_FETCH,
     });
-    return session.login(values.email, values.password)
+    return session.login(values)
     .then(response => {
       dispatch({ 
         type: LOGIN_SUCCESS,
@@ -61,11 +61,7 @@ export function resendConfirmationEmail(email) {
       type: RESEND_CONFIRMATION_EMAIL_FETCH,
     });
 
-    const user = {
-      email: email,
-    };
-
-    return session.resendConfirmationEmail(user)
+    return session.resendConfirmationEmail(email)
     .then(response => {
       dispatch({ 
         type: RESEND_CONFIRMATION_EMAIL_SUCCESS,
@@ -87,21 +83,7 @@ export function register(values) {
       type: REGISTER_FETCH,
     });
 
-    const user = {
-      first_name: values.name,
-      last_name: values.lastname,
-      email: values.email,
-      external_id: values.externalId,
-      sponsor_external_id: values.sponsorExternalId,
-      placement_external_id: values.placementExternalId,
-      transaction_number: values.transactionNumber,
-      iuvare_id: values.iuvareId,
-      phone: values.phone,
-      password: values.password,
-      password_confirmation: values.password
-    };
-
-    return session.register(user)
+    return session.register(values)
     .then(response => {
       dispatch({ 
         type: REGISTER_SUCCESS,
@@ -149,15 +131,7 @@ export function registerAddress(values) {
     return session.getIpInfo()
     .then(location => {
 
-      const address = {
-        address: values.address,
-        zip: values.zip,
-        country: values.country,
-        state: values.state,
-        location: location
-      };
-
-      session.registerAddress(address)
+      session.registerAddress(values)
       .then(response => {
         dispatch({ 
           type: 'ALGO_SUCCES',
@@ -181,7 +155,7 @@ export function recoverPassword(values) {
     dispatch({ 
       type: PASSWORD_RECOVERY_FETCH,
     });
-    return session.recoverPassword(values.email)
+    return session.recoverPassword(values)
     .then(response => {
       dispatch({ 
         type: PASSWORD_RECOVERY_SUCCESS,
@@ -202,7 +176,7 @@ export function resetPassword(values, token) {
     dispatch({ 
       type: PASSWORD_RESET_FETCH,
     });
-    return session.resetPassword(values.password, token)
+    return session.resetPassword(values, token)
     .then(response => {
       dispatch({ 
         type: PASSWORD_RESET_SUCCESS,

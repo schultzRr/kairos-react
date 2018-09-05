@@ -10,25 +10,25 @@ import PasswordField from '../common/passwordField';
 
 const validate = values => {
   const errors = {}
-  if (!values.name) {
+  if (!values.get('name')) {
     errors.name = 'Requerido';
   }
-  if (!values.lastname) {
+  if (!values.get('lastname')) {
     errors.lastname = 'Requerido';
   }
-  if (!values.email) {
+  if (!values.get('email')) {
     errors.email = 'Introduce una dirección de correo electrónico'
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.get('email'))) {
     errors.email = 'Introduce un correo electrónico válido';
   }
-  if (!values.phone) {
+  if (!values.get('phone')) {
     errors.phone = 'Requerido';
-  } else if (!/^[0-9 ]{7,20}$/i.test(values.phone)) {
+  } else if (!/^[0-9 ]{7,20}$/i.test(values.get('phone'))) {
     errors.phone = 'Introduce sólo números y espacios';
   }
-  if (!values.password) {
+  if (!values.get('password')) {
     errors.password = 'Requerido';
-  } else if (values.password.length < 8) {
+  } else if (values.get('password').length < 8) {
     errors.password = 'Usa al menos 8 caracteres';
   }
   return errors;

@@ -76,10 +76,10 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
-  if (!values.email) {
+  if (!values.get('email')) {
     errors.email = 'Introduce una dirección de correo electrónico'
   }
-  if (!values.password) {
+  if (!values.get('password')) {
     errors.password = 'Introduce la contraseña de tu cuenta'
   }
   return errors;
@@ -250,7 +250,7 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-export default withStyles(styles)(reduxForm(form)(connect(
+export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginContainer)));
+)(reduxForm(form)(LoginContainer)));

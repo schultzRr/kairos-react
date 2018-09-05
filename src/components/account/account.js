@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reduxForm, formValueSelector, Field } from 'redux-form/immutable';
-import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -11,7 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import Button from '@material-ui/core/Button';
 
-import ResponsiveDialog from '../common/responsiveDialog';
+import ChangeName from './changeName';
+import ChangePhone from './changePhone';
 
 const styles = theme => ({
   root: {
@@ -64,31 +63,10 @@ const styles = theme => ({
   }
 });
 
-const validate = values => {
-  const errors = {}
-  if (!values.newName) {
-    errors.newName = 'Requerido'
-  }
-  if (!values.newLastname) {
-    errors.newLastname = 'Requerido'
-  }
-  return errors;
-}
-
-const form = {
-  form: 'changeAccountName',
-  enableReinitialize: true,
-  validate,
-}
-
 class Account extends Component {
 
-  handleSubmit = (values) => {
-    console.log(this.props.name);
-  }
-
   render() {
-    const { classes, handleSubmit } = this.props;
+    const { classes, handleSubmit, name, lastname, phone } = this.props;
 
     return (
       <Grid container 
@@ -120,33 +98,10 @@ class Account extends Component {
                       Nombre:
                     </Typography>
                     <Typography variant="body1" className={classes.data}>
-                      Ricardo Rosas
+                      {name} {lastname}
                     </Typography>
                   </div>
-                  <ResponsiveDialog 
-                    title="Cambiar mi nombre"  
-                    handleSubmit={this.handleSubmit}
-                  >
-                    <form>
-                      <div>
-                        <Field
-                          name="newName"
-                          component={TextField}
-                          label="Nombre"
-                          margin="dense"
-                          autoFocus={true}
-                        />
-                      </div>
-                      <div>
-                        <Field
-                          name="newLastname"
-                          component={TextField}
-                          label="Apellido(s)"
-                          margin="dense"
-                        />
-                      </div>
-                    </form>
-                  </ResponsiveDialog>
+                  <ChangeName />
                 </div>
                 <Divider />
                 <div className={classes.dataContainer}>
@@ -155,16 +110,10 @@ class Account extends Component {
                       Teléfono:
                     </Typography>
                     <Typography variant="body1" className={classes.data}>
-                      5512345123
+                      {phone}
                     </Typography>
                   </div>
-                  <Button 
-                    variant="outlined" 
-                    size="small"
-                    color="primary"
-                  >
-                    Editar
-                  </Button>
+                  <ChangePhone />
                 </div>
                 <Divider />
                 <div className={classes.dataContainer}>
@@ -195,10 +144,9 @@ class Account extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    initialValues: {
-      newName: 'Ricardo',
-      newLastname: 'Rosas',
-    }
+    name: state.get('session').get('name'),
+    lastname: state.get('session').get('lastname'),
+    phone: state.get('session').get('phone'),
   };
 };
 
@@ -206,10 +154,7 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-// To be able to initialize form values
-const connectedAccount = reduxForm(form)(Account);
- 
 export default withStyles(styles)((connect(
   mapStateToProps,
   mapDispatchToProps
-)(connectedAccount)));
+)(Account)));

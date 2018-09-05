@@ -10,25 +10,25 @@ import LoaderButton from '../common/loaderButton';
 
 const validate = values => {
   const errors = {}
-  if (!values.externalId) {
+  if (!values.get('externalId')) {
     errors.externalId = 'Requerido';
-  } else if (isNaN(Number(values.externalId))) {
+  } else if (isNaN(Number(values.get('externalId')))) {
     errors.externalId = 'Por favor introduce un ID Omein válido';
   }
-  if (!values.sponsorExternalId) {
+  if (!values.get('sponsorExternalId')) {
     errors.sponsorExternalId = 'Requerido';
-  } else if (isNaN(Number(values.sponsorExternalId))) {
+  } else if (isNaN(Number(values.get('sponsorExternalId')))) {
     errors.sponsorExternalId = 'Por favor introduce un ID Omein de patrocinio válido';
   }
-  if (!values.placementExternalId) {
+  if (!values.get('placementExternalId')) {
     errors.placementExternalId = 'Requerido';
-  } else if (isNaN(Number(values.placementExternalId))) {
+  } else if (isNaN(Number(values.get('placementExternalId')))) {
     errors.placementExternalId = 'Por favor introduce un ID Omein de colocación válido';
   }
-  if (!values.iuvareId) {
+  if (!values.get('iuvareId')) {
     errors.iuvareId = 'Requerido';
   }
-  if (!values.transactionNumber) {
+  if (!values.get('transactionNumber')) {
     errors.transactionNumber = 'Requerido';
   }
   return errors;

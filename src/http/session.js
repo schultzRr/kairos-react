@@ -37,11 +37,11 @@ function getCurrentSession() {
   return axios.get('/session');
 }
 
-function login(email, password) {
+function login(values) {
   return axios.post('/users/sign_in', {
     user: {
-      'email': email,
-      'password': password
+      email: values.get('email'),
+      password: values.get('password'),
     }
   })
   .then(response => {
@@ -50,15 +50,29 @@ function login(email, password) {
   });
 }
 
-function resendConfirmationEmail(user) {
+function resendConfirmationEmail(email) {
   return axios.post('/auth/confirmation', { 
-    user: user
+    user: {
+      email: email,
+    }
   });
 };
 
-function register(user) {
+function register(values) {
   return axios.post('/users/sign_up', { 
-    user: user
+    user: {
+      first_name: values.get('name'),
+      last_name: values.get('lastname'),
+      email: values.get('email'),
+      external_id: values.get('externalId'),
+      sponsor_external_id: values.get('sponsorExternalId'),
+      placement_external_id: values.get('placementExternalId'),
+      transaction_number: values.get('transactionNumber'),
+      iuvare_id: values.get('iuvareId'),
+      phone: values.get('phone'),
+      password: values.get('password'),
+      password_confirmation: values.get('password'),
+    }
   });
 };
 
@@ -70,28 +84,34 @@ function confirmRegistration(token) {
   });
 };
 
-function registerAddress(address){
+function registerAddress(values){
   return axios.post('/shipping_addresses', { 
-    shipping_address: address 
+    shipping_address: {
+      address: values.get('address'),
+      zip: values.get('zip'),
+      country: values.get('country'),
+      state: values.get('state'),
+      location: location
+    } 
   });
 };
 
-function recoverPassword(email) {
+function recoverPassword(values) {
   return axios.post('/users/password', {
     utf8: 'V',
     user: {
-      'email': email,
+      email: values.get('email'),
     }
   });
 }
 
-function resetPassword(password, token) {
+function resetPassword(values, token) {
   return axios.put('/auth/password', {
     utf8: 'V',
     user: {
       reset_password_token: token,
-      password: password,
-      password_confirmation: password
+      password: values.get('password'),
+      password_confirmation: values.get('password'),
     }
   });
 }
