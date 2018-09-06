@@ -73,7 +73,7 @@ class ChangePhone extends React.Component {
     }
     this.props.updateAccount(user)
     .then(response => {
-      this.setState({ open: false });
+      this.handleClose();
     });
   };
 
@@ -95,22 +95,26 @@ class ChangePhone extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
           TransitionComponent={Transition}
+          disableRestoreFocus={true}
         >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex}>
-                Cambiar mi nombre
-              </Typography>
-              <Button color="inherit" onClick={handleSubmit(this.handleSubmit)}>
-                Guardar
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <div className={classes.dialogContent}>
-            <form>
+          <form onSubmit={handleSubmit(this.handleSubmit)}>
+            <AppBar className={classes.appBar}>
+              <Toolbar>
+                <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+                  <CloseIcon />
+                </IconButton>
+                <Typography variant="title" color="inherit" className={classes.flex}>
+                  Cambiar mi nombre
+                </Typography>
+                <Button 
+                  type="submit"
+                  color="inherit" 
+                >
+                  Guardar
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <div className={classes.dialogContent}>
               <div>
                 <Field
                   name="phone"
@@ -124,8 +128,8 @@ class ChangePhone extends React.Component {
                   autoFocus={true}
                 />
               </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </Dialog>
       </div>
     );

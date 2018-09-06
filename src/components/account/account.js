@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 
 import ChangeName from './changeName';
 import ChangePhone from './changePhone';
+import ChangePassword from './changePassword';
 
 const styles = theme => ({
   root: {
@@ -125,13 +126,7 @@ class Account extends Component {
                       ********
                     </Typography>
                   </div>
-                  <Button 
-                    variant="outlined" 
-                    size="small"
-                    color="primary"
-                  >
-                    Editar
-                  </Button>
+                  <ChangePassword />
                 </div>
               </Paper>
             </Grid>

@@ -9,7 +9,7 @@ export function updateAccount(user) {
     dispatch({ 
       type: ACCOUNT_UPDATE_FETCH,
     });
-    return axios.put(`/users/${user.id}`, {
+    return axios.put(`/usersx/${user.id}`, {
       user: user
     })
     .then(response => {
@@ -21,8 +21,9 @@ export function updateAccount(user) {
     .catch(e => {
       dispatch({ 
         type: ACCOUNT_UPDATE_ERROR, 
-        payload: e.response.data.errors[0].title
-      });      
+        payload: "Ocurrió un error al guardar tus cambios. Por favor intenta más tarde."
+      });
+      throw e;
     })
   }
 }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, formValueSelector, Field } from 'redux-form/immutable';
-import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
@@ -16,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
+import PasswordField from '../common/passwordField';
 import { updateAccount } from './accountActions';
 
 const styles = theme => ({
@@ -29,7 +29,12 @@ const styles = theme => ({
     width: 500, 
     padding: theme.spacing.unit * 4,
     paddingBottom: theme.spacing.unit * 8,
-  }
+  },
+  error: {
+    color: theme.palette.error.main,
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left'
+  },
 });
 
 const validate = values => {
@@ -43,7 +48,7 @@ const validate = values => {
 }
 
 const form = {
-  form: 'changeAccountPhone',
+  form: 'changeAccountPassword',
   enableReinitialize: true,
   validate,
 }
@@ -52,7 +57,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class ChangePhone extends React.Component {
+class ChangePassword extends React.Component {
   state = {
     open: false,
   };
@@ -69,16 +74,18 @@ class ChangePhone extends React.Component {
   handleSubmit = (values) => {
     const user = {
       id: this.props.id,
-      phone: values.get('phone'),
+      password: values.get('password'),
+      password_confirmation: values.get('password'),
     }
     this.props.updateAccount(user)
     .then(response => {
-      this.setState({ open: false });
-    });
+      this.handleClose();
+    })
+    .catch(e => {});
   };
 
   render() {
-    const { classes, handleSubmit, fullScreen } = this.props;
+    const { classes, handleSubmit, loading, error, fullScreen } = this.props;
 
     return (
       <div>
@@ -95,53 +102,53 @@ class ChangePhone extends React.Component {
           open={this.state.open}
           onClose={this.handleClose}
           TransitionComponent={Transition}
+          disableRestoreFocus={true}
         >
-          <AppBar className={classes.appBar}>
-            <Toolbar>
-              <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
-                <CloseIcon />
-              </IconButton>
-              <Typography variant="title" color="inherit" className={classes.flex}>
-                Cambiar mi nombre
-              </Typography>
-              <Button color="inherit" onClick={handleSubmit(this.handleSubmit)}>
-                Guardar
-              </Button>
-            </Toolbar>
-          </AppBar>
-          <div className={classes.dialogContent}>
-            <form>
+          <form onSubmit={handleSubmit(this.handleSubmit)}>
+            <AppBar className={classes.appBar}>
+              <Toolbar>
+                <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
+                  <CloseIcon />
+                </IconButton>
+                <Typography variant="title" color="inherit" className={classes.flex}>
+                  Cambiar mi contraseña
+                </Typography>
+                <Button 
+                  type="submit"
+                  color="inherit" 
+                >
+                  Guardar
+                </Button>
+              </Toolbar>
+            </AppBar>
+            <div className={classes.dialogContent}>
               <div>
-                <Field
-                  name="phone"
-                  component={TextField}
-                  label="Teléfono *"
-                  helperText="Sólo números y espacios"
-                  inputProps={{
-                    maxLength: 15,
-                  }}
+                <PasswordField 
+                  name="password"
+                  label="Nueva contraseña"
                   margin="dense"
-                  autoFocus={true}
                 />
               </div>
-            </form>
-          </div>
+              <Typography variant="body1" className={classes.error}>
+                {error}
+              </Typography>
+            </div>
+          </form>
         </Dialog>
       </div>
     );
   }
 }
 
-ChangePhone.propTypes = {
+ChangePassword.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     id: state.get('session').get('id'),
-    initialValues: {
-      phone: state.get('session').get('phone'),
-    }
+    error: state.get('account').get('error'),
+    loading: state.get('account').get('loading'),
   };
 };
 
@@ -154,4 +161,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)(withMobileDialog()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm(form)(ChangePhone))));
+)(reduxForm(form)(ChangePassword))));
