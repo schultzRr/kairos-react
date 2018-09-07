@@ -28,7 +28,7 @@ class PasswordField extends Component {
   };
 
   render() {
-    const { classes, name, label, margin } = this.props;
+    const { classes, name, label, margin, autoFocus } = this.props;
 
     return(
       <Field
@@ -37,6 +37,7 @@ class PasswordField extends Component {
         type={this.state.showPassword ? 'text' : 'password'}
         label={label}
         margin={margin}
+        autoFocus={autoFocus}
         inputProps={{
           className: classes.input,
         }}

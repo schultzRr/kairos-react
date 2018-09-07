@@ -16,7 +16,7 @@ const styles = theme => ({
     width: `calc(100% - 8px)`,
   },
   loader: {
-    height: '1px'
+    height: '2px'
   }
 });
 

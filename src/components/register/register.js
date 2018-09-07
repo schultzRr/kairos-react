@@ -86,7 +86,7 @@ class RegisterContainer extends Component {
   }
 
   render() {
-    const { classes, loading, error, view, title } = this.props;
+    const { classes, loading, formError, view, title } = this.props;
 
     return(
       <React.Fragment>
@@ -99,10 +99,10 @@ class RegisterContainer extends Component {
               <div className={classes.formContainer}>
                 {{
                   [views.REGISTER_STEP_1_VIEW]: (
-                    <RegisterAccountForm onSubmit={this.handleContinue} formError={error} />
+                    <RegisterAccountForm onSubmit={this.handleContinue} formError={formError} />
                   ),
                   [views.REGISTER_STEP_2_VIEW]: (
-                    <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={error} />
+                    <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={formError} />
                   ),
                   [views.REGISTER_INSTRUCTIONS_VIEW]: (
                     <React.Fragment>
@@ -163,7 +163,7 @@ class RegisterContainer extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('register').get('loading'),
-    error: state.get('register').get('error'),
+    formError: state.get('register').get('error'),
     view: state.get('register').get('view'),
     title: state.get('register').get('title'),
   };

@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -16,7 +17,8 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 
-import { updateAccount } from './accountActions';
+import { updateAccount, openDialog, closeDialog } from './accountActions';
+import dialogs from './accountConstants';
 
 const styles = theme => ({
   appBar: {
@@ -26,9 +28,26 @@ const styles = theme => ({
     flex: 1,
   },
   dialogContent: {
-    width: 500, 
     padding: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 8,
+    paddingBottom: theme.spacing.unit * 5,
+    maxWidth: '100%',
+    width: 500,
+  },
+  error: {
+    color: theme.palette.error.main,
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left'
+  },
+  overlay: {
+    background: '#fafafa',
+    bottom: 0,
+    left: 0,
+    opacity: '0.5',
+    outline: 'none',
+    position: 'absolute',
+    top: 0,
+    width: '100%',
+    zIndex: theme.zIndex.appBar + 1,
   }
 });
 
@@ -54,17 +73,14 @@ function Transition(props) {
 }
 
 class ChangeName extends React.Component {
-  state = {
-    open: false,
-  };
 
   handleClickOpen = () => {
-    this.setState({ open: true });
+    this.props.reset();
+    this.props.openDialog(dialogs.NAME_DIALOG);
   };
 
   handleClose = () => {
-    this.setState({ open: false });
-    this.props.reset();
+    this.props.closeDialog();
   };
 
   handleSubmit = (values) => {
@@ -73,14 +89,11 @@ class ChangeName extends React.Component {
       first_name: values.get('name'),
       last_name: values.get('lastname'),
     }
-    this.props.updateAccount(user)
-    .then(response => {
-      this.handleClose();
-    });
+    this.props.updateAccount(user);
   };
 
   render() {
-    const { classes, handleSubmit, fullScreen } = this.props;
+    const { classes, handleSubmit, loading, formError, dialog, fullScreen } = this.props;
 
     return (
       <div>
@@ -94,11 +107,16 @@ class ChangeName extends React.Component {
         </Button>
         <Dialog
           fullScreen={fullScreen}
-          open={this.state.open}
+          open={dialog == dialogs.NAME_DIALOG}
           onClose={this.handleClose}
           TransitionComponent={Transition}
           disableRestoreFocus={true}
         >
+          { loading && (
+            <div className={classes.overlay}>
+              <LinearProgress />
+            </div>
+          )}
           <form onSubmit={handleSubmit(this.handleSubmit)}>
             <AppBar className={classes.appBar}>
               <Toolbar>
@@ -134,6 +152,9 @@ class ChangeName extends React.Component {
                   margin="dense"
                 />
               </div>
+              <Typography variant="body1" className={classes.error}>
+                {formError}
+              </Typography>
             </div>
           </form>
         </Dialog>
@@ -149,6 +170,9 @@ ChangeName.propTypes = {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     id: state.get('session').get('id'),
+    loading: state.get('account').get('loading'),
+    formError: state.get('account').get('error'),
+    dialog: state.get('account').get('dialog'),
     initialValues: {
       name: state.get('session').get('name'),
       lastname: state.get('session').get('lastname'),
@@ -159,6 +183,8 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ updateAccount }, dispatch),
+    bindActionCreators({ openDialog }, dispatch),
+    bindActionCreators({ closeDialog }, dispatch),
   );
 }
  

@@ -40,7 +40,7 @@ const form = {
 class ResetPasswordForm extends Component {
 
   render() {
-    const { classes, handleSubmit, loading, error } = this.props;
+    const { classes, handleSubmit, loading, formError } = this.props;
 
     return(
       <form onSubmit={handleSubmit}>
@@ -58,7 +58,7 @@ class ResetPasswordForm extends Component {
           />
         </div>
         <Typography variant="body1" className={classes.error}>
-          {error}
+          {formError}
         </Typography>
         <div className={classes.buttonContainer}>
           <LoaderButton loading={loading}>
@@ -80,7 +80,7 @@ class ResetPasswordForm extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('forgot').get('loading'),
-    error: state.get('forgot').get('error'),
+    formError: state.get('forgot').get('error'),
   };
 };
 

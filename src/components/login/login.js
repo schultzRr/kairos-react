@@ -110,7 +110,7 @@ class LoginContainer extends Component {
   }
 
   render() {
-    const { classes, handleSubmit, loading, error, view, title, email } = this.props;
+    const { classes, handleSubmit, loading, formError, view, title, email } = this.props;
 
     return(
       <Grid container justify="center">
@@ -144,7 +144,7 @@ class LoginContainer extends Component {
                     </Typography>
                   </div>
                   <Typography variant="body1" className={classes.error}>
-                    {error}
+                    {formError}
                   </Typography>
                   <div className={classes.buttonContainer}>
                     <Grid
@@ -183,7 +183,7 @@ class LoginContainer extends Component {
                     Si no lo recibiste podemos volver a enviarlo.
                   </Typography>
                   <Typography variant="body1" className={classes.error}>
-                    {error}
+                    {formError}
                   </Typography>
                   <div className={classes.buttonContainer}>
                     <LoaderButton loading={loading}>
@@ -235,7 +235,7 @@ class LoginContainer extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('login').get('loading'),
-    error: state.get('login').get('error'),
+    formError: state.get('login').get('error'),
     view: state.get('login').get('view'),
     title: state.get('login').get('title'),
     email: selector(state, 'email')
