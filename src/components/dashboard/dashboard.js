@@ -66,10 +66,6 @@ const styles = theme => ({
   tableHead: {
     height: 48,
   },
-  lastRank: {
-    paddingTop: theme.spacing.unit * 3,
-    paddinBottom: theme.spacing.unit * 3,
-  }
 });
 
 class DashboardView extends Component {
@@ -102,7 +98,7 @@ class DashboardView extends Component {
                       Omein
                     </Typography>
                     <Typography variant="subheading" className={classes.paperTitle}>
-                      Rango: 20K
+                      Rango máximo: 20K
                     </Typography>
                   </div>
                   <Table className={classes.table}>
@@ -124,11 +120,13 @@ class DashboardView extends Component {
                         <CustomTableCell numeric>5000</CustomTableCell>
                         <CustomTableCell numeric>8000</CustomTableCell>
                       </TableRow>
+                      <TableRow>
+                        <CustomTableCell>Rango calificado</CustomTableCell>
+                        <CustomTableCell numeric>-</CustomTableCell>
+                        <CustomTableCell numeric>5K</CustomTableCell>
+                      </TableRow>
                     </TableBody>
                   </Table>
-                  <Typography variant="body1" align="right" className={classes.lastRank}>
-                    Último rango calificado: 5K
-                  </Typography>
                 </div>
               </Paper>
             </Grid>
@@ -144,18 +142,18 @@ class DashboardView extends Component {
                     <TableHead>
                       <TableRow className={classes.tableHead}>
                         <CustomTableCell></CustomTableCell>
-                        <CustomTableCell numeric>Junio</CustomTableCell>
                         <CustomTableCell numeric>Julio</CustomTableCell>
+                        <CustomTableCell numeric>Junio</CustomTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      <TableRow>
-                        <CustomTableCell>Ptos. personales</CustomTableCell>
+                    <TableRow>
+                        <CustomTableCell>Vol. personal</CustomTableCell>
                         <CustomTableCell numeric>1000</CustomTableCell>
                         <CustomTableCell numeric>5000</CustomTableCell>
                       </TableRow>
                       <TableRow>
-                        <CustomTableCell>Ptos. grupales</CustomTableCell>
+                        <CustomTableCell>Vol. grupal</CustomTableCell>
                         <CustomTableCell numeric>5000</CustomTableCell>
                         <CustomTableCell numeric>8000</CustomTableCell>
                       </TableRow>
