@@ -8,17 +8,18 @@ import { withStyles } from '@material-ui/core/styles';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
 
 import PasswordField from '../common/passwordField';
+import SnackbarNotification from '../notification/snackbar';
 import { updateAccount, openDialog, closeDialog } from './accountActions';
-import dialogs from './accountConstants';
+import { dialogs } from './accountConstants';
 
 const styles = theme => ({
   appBar: {
@@ -72,8 +73,11 @@ function Transition(props) {
 }
 
 class ChangePassword extends React.Component {
+  state = {
+    snackbar: false,
+  }
 
-  handleClickOpen = () => {
+  handleOpen = () => {
     this.props.reset();
     this.props.openDialog(dialogs.PASSWORD_DIALOG);
   };
@@ -82,13 +86,20 @@ class ChangePassword extends React.Component {
     this.props.closeDialog();
   };
 
+  handleSnackbarClose = () => {
+    this.setState({snackbar: false});
+  }
+
   handleSubmit = (values) => {
     const user = {
       id: this.props.id,
       password: values.get('password'),
       password_confirmation: values.get('password'),
     }
-    this.props.updateAccount(user);
+    this.props.updateAccount(user)
+    .then(response => {
+      this.setState({snackbar: true})
+    });
   };
 
   render() {
@@ -100,7 +111,7 @@ class ChangePassword extends React.Component {
           variant="outlined"
           size="small"
           color="primary"
-          onClick={this.handleClickOpen}
+          onClick={this.handleOpen}
         >
           Editar
         </Button>
@@ -148,6 +159,12 @@ class ChangePassword extends React.Component {
             </div>
           </form>
         </Dialog>
+        <SnackbarNotification 
+          message="Contraseña actualizada correctamente"
+          open={this.state.snackbar}
+          handleClose={this.handleSnackbarClose}
+          variant="success"
+        />
       </div>
     );
   }

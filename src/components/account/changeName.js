@@ -9,16 +9,17 @@ import { withStyles } from '@material-ui/core/styles';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
-import Slide from '@material-ui/core/Slide';
 
+import SnackbarNotification from '../notification/snackbar';
 import { updateAccount, openDialog, closeDialog } from './accountActions';
-import dialogs from './accountConstants';
+import { dialogs } from './accountConstants';
 
 const styles = theme => ({
   appBar: {
@@ -48,7 +49,18 @@ const styles = theme => ({
     top: 0,
     width: '100%',
     zIndex: theme.zIndex.appBar + 1,
-  }
+  },
+  snackbar: {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  icon: {
+    opacity: 0.9,
+    marginRight: theme.spacing.unit,
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 const validate = values => {
@@ -73,8 +85,11 @@ function Transition(props) {
 }
 
 class ChangeName extends React.Component {
+  state = {
+    snackbar: false,
+  }
 
-  handleClickOpen = () => {
+  handleOpen = () => {
     this.props.reset();
     this.props.openDialog(dialogs.NAME_DIALOG);
   };
@@ -83,13 +98,20 @@ class ChangeName extends React.Component {
     this.props.closeDialog();
   };
 
+  handleSnackbarClose = () => {
+    this.setState({snackbar: false});
+  }
+
   handleSubmit = (values) => {
     const user = {
       id: this.props.id,
       first_name: values.get('name'),
       last_name: values.get('lastname'),
     }
-    this.props.updateAccount(user);
+    this.props.updateAccount(user)
+    .then(response => {
+      this.setState({snackbar: true})
+    });
   };
 
   render() {
@@ -101,7 +123,7 @@ class ChangeName extends React.Component {
           variant="outlined"
           size="small"
           color="primary"
-          onClick={this.handleClickOpen}
+          onClick={this.handleOpen}
         >
           Editar
         </Button>
@@ -158,6 +180,12 @@ class ChangeName extends React.Component {
             </div>
           </form>
         </Dialog>
+        <SnackbarNotification 
+          message="Nombre actualizado correctamente"
+          open={this.state.snackbar}
+          handleClose={this.handleSnackbarClose}
+          variant="success"
+        />
       </div>
     );
   }
