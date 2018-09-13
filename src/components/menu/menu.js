@@ -69,7 +69,7 @@ const menu = [
     id: 1,
     label: 'Mis datos',
     icon: <PersonIcon />,
-    route: '/members/account',
+    route: '/members/profile',
   },
   {
     id: 2,

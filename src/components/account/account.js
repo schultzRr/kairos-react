@@ -7,31 +7,21 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import Button from '@material-ui/core/Button';
 
 import ChangeName from './changeName';
 import ChangePhone from './changePhone';
 import ChangePassword from './changePassword';
 
 const styles = theme => ({
-  root: {
-    height: 'auto',
-  },
-  container: {
-    padding: `${theme.spacing.unit * 4}px 0`,
-    [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing.unit * 6,
-    },
-  },
   title: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 4,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing.unit * 2,
+      paddingLeft: theme.spacing.unit * 0,
       marginTop: theme.spacing.unit,
-      marginBottom: theme.spacing.unit,
+      marginBottom: theme.spacing.unit * 3,
     }
   },
   paper: {
@@ -67,72 +57,58 @@ const styles = theme => ({
 class Account extends Component {
 
   render() {
-    const { classes, handleSubmit, name, lastname, phone } = this.props;
+    const { classes, name, lastname, phone } = this.props;
 
     return (
-      <Grid container 
-        justify="center"
-        className={classes.root}
-      >
-        <Grid item xs={12} xl={9}>
-          <Grid 
-            container 
-            alignContent="stretch"
-            spacing={32}
-            className={classes.container}
-          >
-            <div className={classes.title}>
-              <Typography variant="title">
-                Mi cuenta
+      <React.Fragment>
+        <div className={classes.title}>
+          <Typography variant="title">
+            Mi cuenta
+          </Typography>
+        </div>
+        <Paper elevation={0} className={classes.paper}>
+          <div className={classes.paperTitleContainer}>
+            <Typography variant="subheading" className={classes.paperTitle}>
+              Datos personales
+            </Typography>
+          </div>
+          <div className={classes.dataContainer}>
+            <div>
+              <Typography variant="body2">
+                Nombre:
+              </Typography>
+              <Typography variant="body1" className={classes.data}>
+                {name} {lastname}
               </Typography>
             </div>
-            <Grid item xs={12} lg={6}>
-              <Paper elevation={0} className={classes.paper}>
-                <div className={classes.paperTitleContainer}>
-                  <Typography variant="subheading" className={classes.paperTitle}>
-                    Datos personales
-                  </Typography>
-                </div>
-                <div className={classes.dataContainer}>
-                  <div>
-                    <Typography variant="body2">
-                      Nombre:
-                    </Typography>
-                    <Typography variant="body1" className={classes.data}>
-                      {name} {lastname}
-                    </Typography>
-                  </div>
-                  <ChangeName />
-                </div>
-                <Divider />
-                <div className={classes.dataContainer}>
-                  <div>
-                    <Typography variant="body2">
-                      Teléfono:
-                    </Typography>
-                    <Typography variant="body1" className={classes.data}>
-                      {phone}
-                    </Typography>
-                  </div>
-                  <ChangePhone />
-                </div>
-                <Divider />
-                <div className={classes.dataContainer}>
-                  <div>
-                    <Typography variant="body2">
-                      Contraseña:
-                    </Typography>
-                    <Typography variant="body1" className={classes.data}>
-                      ********
-                    </Typography>
-                  </div>
-                  <ChangePassword />
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
+            <ChangeName />
+          </div>
+          <Divider />
+          <div className={classes.dataContainer}>
+            <div>
+              <Typography variant="body2">
+                Teléfono:
+              </Typography>
+              <Typography variant="body1" className={classes.data}>
+                {phone}
+              </Typography>
+            </div>
+            <ChangePhone />
+          </div>
+          <Divider />
+          <div className={classes.dataContainer}>
+            <div>
+              <Typography variant="body2">
+                Contraseña:
+              </Typography>
+              <Typography variant="body1" className={classes.data}>
+                ********
+              </Typography>
+            </div>
+            <ChangePassword />
+          </div>
+        </Paper>
+      </React.Fragment>
     )
   } 
 }

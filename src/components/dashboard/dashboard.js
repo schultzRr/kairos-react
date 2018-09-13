@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
@@ -34,9 +35,9 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 4,
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing.unit * 2,
+      paddingLeft: theme.spacing.unit * 0,
       marginTop: theme.spacing.unit,
-      marginBottom: theme.spacing.unit,
+      marginBottom: theme.spacing.unit * 3,
     }
   },
   paper: {
@@ -76,20 +77,19 @@ class DashboardView extends Component {
     return (
       <Grid container 
         justify="center"
-        className={classes.root}
+        className={classNames(classes.root, classes.container)}
       >
         <Grid item xs={12} xl={9}>
+          <div className={classes.title}>
+            <Typography variant="title">
+              Resumen
+            </Typography>
+          </div>
           <Grid 
             container 
             alignContent="stretch"
             spacing={32}
-            className={classes.container}
           >
-            <div className={classes.title}>
-              <Typography variant="title">
-                Resumen
-              </Typography>
-            </div>
             <Grid item xs={12} lg={6}>
               <Paper elevation={0} className={classes.paper}>
                 <div>
