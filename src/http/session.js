@@ -84,18 +84,6 @@ function confirmRegistration(token) {
   });
 };
 
-function registerAddress(values){
-  return axios.post('/shipping_addresses', { 
-    shipping_address: {
-      address: values.get('address'),
-      zip: values.get('zip'),
-      country: values.get('country'),
-      state: values.get('state'),
-      location: location
-    } 
-  });
-};
-
 function recoverPassword(values) {
   return axios.post('/users/password', {
     utf8: 'V',
@@ -148,7 +136,6 @@ const session = {
   resendConfirmationEmail,
   register,
   confirmRegistration,
-  registerAddress,
   recoverPassword,
   resetPassword,
   signout,

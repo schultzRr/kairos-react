@@ -29,8 +29,8 @@ const styles = theme => ({
     flex: 1,
   },
   dialogContent: {
-    padding: theme.spacing.unit * 4,
-    paddingBottom: theme.spacing.unit * 5,
+    padding: theme.spacing.unit * 6,
+    paddingBottom: theme.spacing.unit * 7,
     maxWidth: '100%',
     width: 500,
   },
@@ -107,7 +107,6 @@ class ChangePhone extends React.Component {
     return (
       <div>
         <Button
-          variant="outlined"
           size="small"
           color="primary"
           onClick={this.handleOpen}

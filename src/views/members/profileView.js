@@ -3,9 +3,10 @@ import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import Account from '../../components/account/account';
-import Adresses from '../../components/adress/adresses';
+import Addresses from '../../components/address/addresses';
 
 const styles = theme => ({
   root: {
@@ -16,6 +17,17 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       padding: theme.spacing.unit * 6,
     },
+  },
+  title: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 4,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      paddingLeft: theme.spacing.unit * 0,
+      marginTop: theme.spacing.unit,
+      marginBottom: theme.spacing.unit * 3,
+    }
   },
 });
 
@@ -30,6 +42,11 @@ class ProfileView extends Component {
         className={classNames(classes.root, classes.container)}
       >
         <Grid item xs={12} xl={9}>
+          <div className={classes.title}>
+            <Typography variant="title">
+              Mis datos
+            </Typography>
+          </div>
           <Grid 
             container 
             alignContent="stretch"
@@ -39,7 +56,7 @@ class ProfileView extends Component {
               <Account />
             </Grid>
             <Grid item xs={12} lg={6}>
-              <Adresses />
+              <Addresses />
             </Grid>
           </Grid>
         </Grid>

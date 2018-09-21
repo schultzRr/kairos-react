@@ -5,7 +5,6 @@ export const ACCOUNT_UPDATE_SUCCESS = 'ACCOUNT_UPDATE_SUCCESS';
 export const ACCOUNT_UPDATE_ERROR = 'ACCOUNT_UPDATE_ERROR';
 export const OPEN_DIALOG = 'OPEN_DIALOG';
 export const CLOSE_DIALOG = 'CLOSE_DIALOG';
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
 export function updateAccount(user) {
   return (dispatch) => {
@@ -48,19 +47,10 @@ export function closeDialog() {
   }
 }
 
-export function closeSnackbar() {
-  return (dispatch) => {
-    dispatch({ 
-      type: CLOSE_SNACKBAR,
-    });
-  }
-}
-
 const accountActions = {
   updateAccount,
   openDialog,
   closeDialog,
-  closeSnackbar,
 };
 
 export default accountActions;

@@ -16,12 +16,17 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import SnackbarNotification from '../notification/snackbar';
-import { updateAccount, openDialog, closeDialog } from './accountActions';
-import { dialogs } from './accountConstants';
+import { addAddress, openDialog, closeDialog } from './addressActions';
+import { dialogs } from './addressConstants';
 
 const styles = theme => ({
+  container: {
+    marginTop: theme.spacing.unit * 4,
+    textAlign: 'right',
+  },
   appBar: {
     position: 'relative',
   },
@@ -33,6 +38,12 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 7,
     maxWidth: '100%',
     width: 500,
+  },
+  selectfield: {
+    textAlign: 'start',
+    '&:focus': {
+      background: 'transparent',
+    },
   },
   error: {
     color: theme.palette.error.main,
@@ -50,37 +61,58 @@ const styles = theme => ({
     width: '100%',
     zIndex: theme.zIndex.appBar + 1,
   },
+  snackbar: {
+    backgroundColor: theme.palette.primary.dark,
+  },
+  icon: {
+    opacity: 0.9,
+    marginRight: theme.spacing.unit,
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 const validate = values => {
   const errors = {}
-  if (!values.get('name')) {
-    errors.name = 'Requerido'
+  if (!values.get('address')) {
+    errors.address = 'Requerido';
   }
-  if (!values.get('lastname')) {
-    errors.lastname = 'Requerido'
+  if (!values.get('city')) {
+    errors.city = 'Requerido';
+  }
+  if (!values.get('state')) {
+    errors.state = 'Requerido';
+  }
+  if (!values.get('zip')) {
+    errors.zip = 'Requerido';
+  } else if (isNaN(Number(values.get('zip'))) || values.get('zip').length < 3 || values.get('zip').length > 8 ) {
+    errors.zip = 'Por favor introduce un código postal válido';
+  }
+  if (!values.get('country')) {
+    errors.country = 'Requerido';
   }
   return errors;
 }
 
 const form = {
-  form: 'changeAccountName',
-  enableReinitialize: true,
-  validate,
+  form: 'addAddress',
+  validate
 }
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class ChangeName extends React.Component {
+class AddAddress extends React.Component {
   state = {
     snackbar: false,
   }
 
   handleOpen = () => {
     this.props.reset();
-    this.props.openDialog(dialogs.NAME_DIALOG);
+    this.props.openDialog(dialogs.ADD_ADDRESS_DIALOG);
   };
 
   handleClose = () => {
@@ -92,12 +124,7 @@ class ChangeName extends React.Component {
   }
 
   handleSubmit = (values) => {
-    const user = {
-      id: this.props.id,
-      first_name: values.get('name'),
-      last_name: values.get('lastname'),
-    }
-    this.props.updateAccount(user)
+    this.props.addAddress(values)
     .then(response => {
       this.setState({snackbar: true})
     });
@@ -107,17 +134,18 @@ class ChangeName extends React.Component {
     const { classes, handleSubmit, loading, formError, dialog, fullScreen } = this.props;
 
     return (
-      <div>
+      <div className={classes.container}>
         <Button
-          size="small"
+          variant="contained"
+          size="medium"
           color="primary"
           onClick={this.handleOpen}
         >
-          Editar
+          Agregar dirección
         </Button>
         <Dialog
           fullScreen={fullScreen}
-          open={dialog == dialogs.NAME_DIALOG}
+          open={dialog == dialogs.ADD_ADDRESS_DIALOG}
           onClose={this.handleClose}
           TransitionComponent={Transition}
           disableRestoreFocus={true}
@@ -134,7 +162,7 @@ class ChangeName extends React.Component {
                   <CloseIcon />
                 </IconButton>
                 <Typography variant="title" color="inherit" className={classes.flex}>
-                  Cambiar mi nombre
+                  Nueva dirección
                 </Typography>
                 <Button 
                   type="submit"
@@ -147,20 +175,52 @@ class ChangeName extends React.Component {
             <div className={classes.dialogContent}>
               <div>
                 <Field
-                  name="name"
+                  name="address"
                   component={TextField}
-                  label="Nombre"
+                  label="Calle, número y colonia *"
                   margin="dense"
                   autoFocus={true}
                 />
               </div>
               <div>
                 <Field
-                  name="lastname"
+                  name="city"
                   component={TextField}
-                  label="Apellido(s)"
+                  label="Ciudad *"
                   margin="dense"
                 />
+              </div>
+              <div>
+                <Field
+                  name="state"
+                  component={TextField}
+                  label="Estado *"
+                  margin="dense"
+                />
+              </div>
+              <div>
+                <Field
+                  name="zip"
+                  component={TextField}
+                  label="Código postal *"
+                  margin="dense"
+                />
+              </div>
+              <div>
+                <Field
+                  name="country"
+                  component={TextField}
+                  label="País *"
+                  inputProps={{
+                    className: classes.selectfield
+                  }}
+                  margin="dense"
+                  select
+                >
+                  <MenuItem value="México">México</MenuItem>
+                  <MenuItem value="Colombia">Colombia</MenuItem>
+                  <MenuItem value="España">España</MenuItem>
+                </Field>
               </div>
               <Typography variant="body1" className={classes.error}>
                 {formError}
@@ -169,7 +229,7 @@ class ChangeName extends React.Component {
           </form>
         </Dialog>
         <SnackbarNotification 
-          message="Nombre actualizado correctamente"
+          message="Dirección agregada correctamente"
           open={this.state.snackbar}
           handleClose={this.handleSnackbarClose}
           variant="success"
@@ -179,26 +239,22 @@ class ChangeName extends React.Component {
   }
 }
 
-ChangeName.propTypes = {
+AddAddress.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     id: state.get('session').get('id'),
-    loading: state.get('account').get('loading'),
-    formError: state.get('account').get('error'),
-    dialog: state.get('account').get('dialog'),
-    initialValues: {
-      name: state.get('session').get('name'),
-      lastname: state.get('session').get('lastname'),
-    }
+    loading: state.get('address').get('loading'),
+    formError: state.get('address').get('error'),
+    dialog: state.get('address').get('dialog'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators({ updateAccount }, dispatch),
+    bindActionCreators({ addAddress }, dispatch),
     bindActionCreators({ openDialog }, dispatch),
     bindActionCreators({ closeDialog }, dispatch),
   );
@@ -207,4 +263,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)(withMobileDialog()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm(form)(ChangeName))));
+)(reduxForm(form)(AddAddress))));

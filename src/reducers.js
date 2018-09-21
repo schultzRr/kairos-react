@@ -7,6 +7,7 @@ import forgotView from './views/forgot/forgotViewReducer';
 import forgot from './components/forgot/forgotReducer';
 import session from './http/sessionReducer';
 import account from './components/account/accountReducer';
+import address from './components/address/addressReducer';
 import { reducer as reduxFormReducer } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 
@@ -20,6 +21,7 @@ const reducers = combineReducers({
   forgot,
   session,
   account,
+  address,
   form: reduxFormReducer,
 });
 
