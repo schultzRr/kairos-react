@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AddAddress from './addAddress';
 import EditAddress from './editAddress';
@@ -28,6 +29,9 @@ const styles = theme => ({
   },
   paperTitle: {
     marginBottom: theme.spacing.unit * 3,
+  },
+  loaderContainer: {
+    textAlign: 'center',
   },
   dataContainer: {
     display: 'flex',
@@ -55,8 +59,8 @@ class Addresses extends Component {
 
   render() {
     const { classes } = this.props;
-    const addresses = this.props.addresses.toJS();
-    const addressesIdArray = Object.keys(addresses);
+    const addresses = this.props.addresses ? this.props.addresses.toJS() : null;
+    const addressesIdArray = this.props.addresses ? Object.keys(addresses) : [];
 
     return (
       <Paper elevation={0} className={classes.paper}>
@@ -66,38 +70,54 @@ class Addresses extends Component {
           </Typography>
         </div> 
           {
-            addressesIdArray.map((id, index) => {
-              const item = addresses[id];
-              return(
-                <React.Fragment key={item.id}>
-                  <div className={classes.dataContainer}>
-                    <div>
-                      <Typography variant="body2">
-                        {item.address}
-                      </Typography>
-                      <Typography variant="body1" className={classes.data}>
-                        {item.city}, {item.state}
-                      </Typography>
-                      <Typography variant="body1" className={classes.data}>
-                        {item.zip}
-                      </Typography>
-                      <Typography variant="body1" className={classes.data}>
-                        {item.country}
-                      </Typography>
-                    </div>
-                    <div>
-                      <EditAddress address={item}/>
-                      <DeleteAddress address={item}/>
-                    </div>
-                  </div>
-                  { index != (addressesIdArray.length - 1) && (
-                    <Divider />
-                  )}
-                </React.Fragment>
-              )
-            })
+            addresses ? (
+              <React.Fragment>
+                {
+                  addressesIdArray.length ? (
+                    addressesIdArray.map((id, index) => {
+                      const item = addresses[id];
+                      return(
+                        <React.Fragment key={item.id}>
+                          <div className={classes.dataContainer}>
+                            <div>
+                              <Typography variant="body2">
+                                {item.address}
+                              </Typography>
+                              <Typography variant="body1" className={classes.data}>
+                                {item.city}, {item.state}
+                              </Typography>
+                              <Typography variant="body1" className={classes.data}>
+                                {item.zip}
+                              </Typography>
+                              <Typography variant="body1" className={classes.data}>
+                                {item.country}
+                              </Typography>
+                            </div>
+                            <div>
+                              <EditAddress address={item}/>
+                              <DeleteAddress address={item}/>
+                            </div>
+                          </div>
+                          { index != (addressesIdArray.length - 1) && (
+                            <Divider />
+                          )}
+                        </React.Fragment>
+                      )
+                    })
+                  ) : (
+                    <Typography variant="body1" className={classes.data}>
+                      Aun no cuentas con direcciones registradas
+                    </Typography>
+                  ) 
+                }
+                <AddAddress />
+              </React.Fragment>
+            ) : (
+              <div className={classes.loaderContainer}>
+                <CircularProgress className={classes.progress} />
+              </div>
+            )
           }
-        <AddAddress />
       </Paper>
     )
   }

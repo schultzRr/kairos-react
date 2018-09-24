@@ -21,7 +21,7 @@ const initialState = fromJS({
   error: '',
   dialog: '',
   selectedAddressId: 0,
-  addresses: {}
+  addresses: null
 });
 
 function addressReducer(state = initialState, action) {
@@ -48,9 +48,7 @@ function addressReducer(state = initialState, action) {
       })
     case ADD_ADDRESS_SUCCESS:
       return state.merge({
-        loading: false,
-        dialog: initialState.get('dialog'),
-        addresses: state.get('addresses').set(action.payload.id, action.payload),
+        addresses: state.get('addresses').set(action.payload.id.toString(), action.payload),
       })
     case ADD_ADDRESS_ERROR:
       return state.merge({
@@ -64,10 +62,7 @@ function addressReducer(state = initialState, action) {
       })
     case UPDATE_ADDRESS_SUCCESS:
       return state.merge({
-        loading: false,
-        dialog: initialState.get('dialog'),
-        selectedAddressId: initialState.get('selectedAddressId'),
-        addresses: state.get('addresses').set(action.payload.id, action.payload),
+        addresses: state.get('addresses').set(action.payload.id.toString(), action.payload),
       })
     case UPDATE_ADDRESS_ERROR:
       return state.merge({
@@ -81,7 +76,6 @@ function addressReducer(state = initialState, action) {
       })
     case DELETE_ADDRESS_SUCCESS:
       return state.merge({
-        loading: false,
         addresses: state.get('addresses').delete(action.payload.toString()),
       })
     case DELETE_ADDRESS_ERROR:

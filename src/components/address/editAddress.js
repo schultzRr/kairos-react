@@ -121,11 +121,10 @@ class EditAddress extends React.Component {
   }
 
   handleSubmit = (values) => {
-    console.log(values);
-    // this.props.updateAddress(values)
-    // .then(response => {
-    //   this.setState({snackbar: true})
-    // });
+    this.props.updateAddress(values)
+    .then(response => {
+      this.setState({snackbar: true})
+    });
   };
 
   render() {
@@ -247,6 +246,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
     formError: state.get('address').get('error'),
     dialog: state.get('address').get('dialog'),
     selectedAddressId: state.get('address').get('selectedAddressId'),
+    initialValues: props.address,
   };
 };
 

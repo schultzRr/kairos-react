@@ -121,34 +121,6 @@ export function confirmRegistration(token) {
   }
 }
 
-export function registerAddress(values) {
-
-  return (dispatch) => {
-    dispatch({ 
-      type: 'ALGO_FETCH',
-    });
-
-    return session.getIpInfo()
-    .then(location => {
-
-      session.registerAddress(values)
-      .then(response => {
-        dispatch({ 
-          type: 'ALGO_SUCCES',
-          payload: user
-        });
-      })
-      .catch(e => {
-        dispatch({ 
-          type: 'ALGO_ERROR', 
-          payload: e.response.data.errors[0].title
-        });
-      });
-      
-    });
-  }
-}
-
 export function recoverPassword(values) {
 
   return (dispatch) => {

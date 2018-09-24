@@ -79,7 +79,10 @@ export function addAddress(values) {
       .then(response => {
         dispatch({ 
           type: ADD_ADDRESS_SUCCESS,
-          payload: response.data.shipping_address,
+          payload: toJSObject(response.data.shipping_address),
+        });
+        dispatch({ 
+          type: CLOSE_DIALOG,
         });
       })
       .catch(e => {
@@ -112,6 +115,9 @@ export function updateAddress(values) {
         type: UPDATE_ADDRESS_SUCCESS,
         payload: toJSObject(response.data.shipping_address),
       });
+      dispatch({ 
+        type: CLOSE_DIALOG,
+      });
     })
     .catch(e => {
       dispatch({ 
@@ -133,6 +139,9 @@ export function deleteAddress(id) {
       dispatch({
         type: DELETE_ADDRESS_SUCCESS,
         payload: id,
+      });
+      dispatch({ 
+        type: CLOSE_DIALOG,
       });
     })
     .catch(e => {

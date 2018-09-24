@@ -7,9 +7,11 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import Slide from '@material-ui/core/Slide';
+import Typography from '@material-ui/core/Typography';
 
+import SnackbarNotification from '../notification/snackbar';
 import { deleteAddress, openDialog, closeDialog } from './addressActions';
-import { Typography } from '@material-ui/core';
+import { dialogs } from './addressConstants';
 
 const styles = theme => ({
   button: {
@@ -36,23 +38,27 @@ function Transition(props) {
 
 class DeleteAddress extends React.Component {
   state = {
-    open: false,
-  };
+    snackbar: false,
+  }
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.props.openDialog(dialogs.DELETE_ADDRESS_DIALOG, this.props.address.id);
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.props.closeDialog();
   };
+
+  handleSnackbarClose = () => {
+    this.setState({snackbar: false});
+  }
 
   handleDelete = () => {
     this.props.deleteAddress(this.props.address.id);
   }
 
   render() {
-    const { classes, loading, dialog } = this.props;
+    const { classes, loading, dialog, selectedAddressId, address } = this.props;
 
     return (
       <React.Fragment>
@@ -64,10 +70,9 @@ class DeleteAddress extends React.Component {
           Eliminar
         </Button>
         <Dialog
-          open={this.state.open}
-          TransitionComponent={Transition}
-          keepMounted
+          open={(dialog == dialogs.DELETE_ADDRESS_DIALOG) && (selectedAddressId == address.id)}
           onClose={this.handleClose}
+          TransitionComponent={Transition}
         >
           <div className={classes.dialogContent}>
             <Typography variant="subheading">
@@ -101,6 +106,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
     loading: state.get('address').get('loading'),
     formError: state.get('address').get('error'),
     dialog: state.get('address').get('dialog'),
+    selectedAddressId: state.get('address').get('selectedAddressId'),
   };
 };
 
