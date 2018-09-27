@@ -12,8 +12,8 @@ import {
   DELETE_ADDRESS_FETCH,
   DELETE_ADDRESS_SUCCESS,
   DELETE_ADDRESS_ERROR,
-  OPEN_DIALOG,
-  CLOSE_DIALOG,
+  OPEN_ADDRESS_DIALOG,
+  CLOSE_ADDRESS_DIALOG,
 } from './addressActions';
 
 const initialState = fromJS({
@@ -83,14 +83,14 @@ function addressReducer(state = initialState, action) {
         loading: false,
         error: action.payload,
       })
-    case OPEN_DIALOG:
+    case OPEN_ADDRESS_DIALOG:
       return state.merge({
         loading: initialState.get('loading'),
         error: initialState.get('error'),
         dialog: action.payload.dialog,
         selectedAddressId: action.payload.selectedAddressId,
       })
-    case CLOSE_DIALOG:
+    case CLOSE_ADDRESS_DIALOG:
       return state.merge({
         loading: initialState.get('loading'),
         error: initialState.get('error'),

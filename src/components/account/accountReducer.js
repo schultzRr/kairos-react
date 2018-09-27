@@ -3,8 +3,8 @@ import {
   ACCOUNT_UPDATE_FETCH,
   ACCOUNT_UPDATE_SUCCESS,
   ACCOUNT_UPDATE_ERROR,
-  OPEN_DIALOG,
-  CLOSE_DIALOG,
+  OPEN_ACCOUNT_DIALOG,
+  CLOSE_ACCOUNT_DIALOG,
 } from './accountActions';
 
 const initialState = fromJS({
@@ -30,13 +30,13 @@ function accountReducer(state = initialState, action) {
         loading: false,
         error: action.payload,
       })
-    case OPEN_DIALOG:
+    case OPEN_ACCOUNT_DIALOG:
       return state.merge({
         loading: initialState.get('loading'),
         error: initialState.get('error'),
         dialog: action.payload,
       })
-    case CLOSE_DIALOG:
+    case CLOSE_ACCOUNT_DIALOG:
       return state.merge({
         loading: initialState.get('loading'),
         error: initialState.get('error'),

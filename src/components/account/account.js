@@ -5,11 +5,16 @@ import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import ChangeName from './changeName';
+import AccountDialog from './accountDialog';
+import ChangeNameForm from './changeNameForm';
 import ChangePhone from './changePhone';
 import ChangePassword from './changePassword';
+import { openDialog, closeDialog } from './accountActions';
+import { dialogs } from './accountConstants';
+
 
 const styles = theme => ({
   paper: {
@@ -43,52 +48,75 @@ const styles = theme => ({
 
 class Account extends Component {
 
+  handleDialogClose = () => {
+    this.props.closeDialog();
+  }
+
+  handleDialogOpen = () => {
+    this.props.openDialog(dialogs.NAME_DIALOG);
+  }
+
   render() {
-    const { classes, name, lastname, phone } = this.props;
+    const { classes, name, lastname, phone, dialog } = this.props;
 
     return (
-      <Paper elevation={0} className={classes.paper}>
-        <div className={classes.paperTitleContainer}>
-          <Typography variant="title" className={classes.paperTitle}>
-            Datos personales
-          </Typography>
-        </div>
-        <div className={classes.dataContainer}>
-          <div>
-            <Typography variant="body2">
-              Nombre:
-            </Typography>
-            <Typography variant="body1" className={classes.data}>
-              {name} {lastname}
+      <React.Fragment>
+        <Paper elevation={0} className={classes.paper}>
+          <div className={classes.paperTitleContainer}>
+            <Typography variant="title" className={classes.paperTitle}>
+              Datos personales
             </Typography>
           </div>
-          <ChangeName />
-        </div>
-        <Divider />
-        <div className={classes.dataContainer}>
-          <div>
-            <Typography variant="body2">
-              Teléfono:
-            </Typography>
-            <Typography variant="body1" className={classes.data}>
-              {phone}
-            </Typography>
+          <div className={classes.dataContainer}>
+            <div>
+              <Typography variant="body2">
+                Nombre:
+              </Typography>
+              <Typography variant="body1" className={classes.data}>
+                {name} {lastname}
+              </Typography>
+            </div>
+            <Button
+              size="small"
+              color="primary"
+              onClick={this.handleDialogOpen}
+            >
+              Editar
+            </Button>
           </div>
-          <ChangePhone />
-        </div>
-        <Divider />
-        <div className={classes.dataContainer}>
-          <div>
-            <Typography variant="body2">
-              Contraseña:
-            </Typography>
-            <Typography variant="body1" className={classes.data}>
-              ********
-            </Typography>
+          <Divider />
+          <div className={classes.dataContainer}>
+            <div>
+              <Typography variant="body2">
+                Teléfono:
+              </Typography>
+              <Typography variant="body1" className={classes.data}>
+                {phone}
+              </Typography>
+            </div>
+            <ChangePhone />
           </div>
-          <ChangePassword />
-        </div>
-      </Paper>
+          <Divider />
+          <div className={classes.dataContainer}>
+            <div>
+              <Typography variant="body2">
+                Contraseña:
+              </Typography>
+              <Typography variant="body1" className={classes.data}>
+                ********
+              </Typography>
+            </div>
+            <ChangePassword />
+          </div>
+        </Paper>
+        <AccountDialog>
+          {{
+            [dialogs.NAME_DIALOG]: (
+              <ChangeNameForm handleClose={this.handleDialogClose}/>
+            ),
+          }[dialog]}
+        </AccountDialog>
+      </React.Fragment>
     )
   } 
 }
@@ -98,11 +126,15 @@ const mapStateToProps = function mapStateToProps(state, props) {
     name: state.get('session').get('name'),
     lastname: state.get('session').get('lastname'),
     phone: state.get('session').get('phone'),
+    dialog: state.get('account').get('dialog'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return Object.assign({},
+    bindActionCreators({ openDialog }, dispatch),
+    bindActionCreators({ closeDialog }, dispatch),
+  );
 }
 
 export default withStyles(styles)((connect(

@@ -3,8 +3,8 @@ import axios from 'axios';
 export const ACCOUNT_UPDATE_FETCH = 'ACCOUNT_UPDATE_FETCH';
 export const ACCOUNT_UPDATE_SUCCESS = 'ACCOUNT_UPDATE_SUCCESS';
 export const ACCOUNT_UPDATE_ERROR = 'ACCOUNT_UPDATE_ERROR';
-export const OPEN_DIALOG = 'OPEN_DIALOG';
-export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+export const OPEN_ACCOUNT_DIALOG = 'OPEN_ACCOUNT_DIALOG';
+export const CLOSE_ACCOUNT_DIALOG = 'CLOSE_ACCOUNT_DIALOG';
 
 export function updateAccount(user) {
   return (dispatch) => {
@@ -33,7 +33,7 @@ export function updateAccount(user) {
 export function openDialog(dialog) {
   return (dispatch) => {
     dispatch({ 
-      type: OPEN_DIALOG, 
+      type: OPEN_ACCOUNT_DIALOG, 
       payload: dialog
     });
   }
@@ -42,7 +42,7 @@ export function openDialog(dialog) {
 export function closeDialog() {
   return (dispatch) => {
     dispatch({ 
-      type: CLOSE_DIALOG,
+      type: CLOSE_ACCOUNT_DIALOG,
     });
   }
 }

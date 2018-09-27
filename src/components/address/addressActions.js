@@ -14,8 +14,8 @@ export const UPDATE_ADDRESS_ERROR = 'UPDATE_ADDRESS_ERROR';
 export const DELETE_ADDRESS_FETCH = 'DELETE_ADDRESS_FETCH';
 export const DELETE_ADDRESS_SUCCESS = 'DELETE_ADDRESS_SUCCESS';
 export const DELETE_ADDRESS_ERROR = 'DELETE_ADDRESS_ERROR';
-export const OPEN_DIALOG = 'OPEN_DIALOG';
-export const CLOSE_DIALOG = 'CLOSE_DIALOG';
+export const OPEN_ADDRESS_DIALOG = 'OPEN_ADDRESS_DIALOG';
+export const CLOSE_ADDRESS_DIALOG = 'CLOSE_ADDRESS_DIALOG';
 
 function toJSObject(address) {
   return {
@@ -82,7 +82,7 @@ export function addAddress(values) {
           payload: toJSObject(response.data.shipping_address),
         });
         dispatch({ 
-          type: CLOSE_DIALOG,
+          type: CLOSE_ADDRESS_DIALOG,
         });
       })
       .catch(e => {
@@ -116,7 +116,7 @@ export function updateAddress(values) {
         payload: toJSObject(response.data.shipping_address),
       });
       dispatch({ 
-        type: CLOSE_DIALOG,
+        type: CLOSE_ADDRESS_DIALOG,
       });
     })
     .catch(e => {
@@ -141,7 +141,7 @@ export function deleteAddress(id) {
         payload: id,
       });
       dispatch({ 
-        type: CLOSE_DIALOG,
+        type: CLOSE_ADDRESS_DIALOG,
       });
     })
     .catch(e => {
@@ -157,7 +157,7 @@ export function deleteAddress(id) {
 export function openDialog(dialog, selectedAddressId) {
   return (dispatch) => {
     dispatch({ 
-      type: OPEN_DIALOG, 
+      type: OPEN_ADDRESS_DIALOG, 
       payload: {
         dialog,
         selectedAddressId
@@ -169,7 +169,7 @@ export function openDialog(dialog, selectedAddressId) {
 export function closeDialog() {
   return (dispatch) => {
     dispatch({ 
-      type: CLOSE_DIALOG,
+      type: CLOSE_ADDRESS_DIALOG,
     });
   }
 }
