@@ -23,7 +23,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.custom.lightGrey,
+    backgroundColor: theme.palette.custom.white,
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
@@ -45,6 +45,21 @@ const styles = theme => ({
   },
   profileText: {
     color: 'black',
+  },
+  menuItem: {
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
+  selectedMenuItem: {
+    backgroundColor: `${theme.palette.secondary.main} !important`,
+    '& span': {
+      color: theme.palette.custom.white,
+    },
+    '& svg': {
+      color: theme.palette.custom.white
+    }
+    
   },
   editIcon: {
     color: 'black',
@@ -131,6 +146,10 @@ class Menu extends Component {
                   selected={this.state.selectedMenu == item.route}
                   onClick={() => this.handleMenuItemClick(item.route)}
                   key={item.id}
+                  classes={{
+                    selected: classes.selectedMenuItem,
+                  }}
+                  className={classes.menuItem}
                 >
                   <ListItemIcon>
                     {item.icon}
@@ -142,7 +161,14 @@ class Menu extends Component {
           </List>
           <Divider />
           <List>
-            <MenuItem button onClick={this.handleSignoutClick}>
+            <MenuItem 
+              button 
+              onClick={this.handleSignoutClick} 
+              classes={{
+                selected: classes.selectedMenuItem,
+              }}
+              className={classes.menuItem}
+            >
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>

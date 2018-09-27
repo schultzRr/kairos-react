@@ -16,7 +16,7 @@ import LinkButton from '../common/linkButton';
 
 const styles = theme => ({
   root: {
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.primary.main,
     zIndex: theme.zIndex.drawer + 1,
   },
   main: {
@@ -40,6 +40,12 @@ const styles = theme => ({
   menuButton: {
     margin: 0,
   },
+  loginButton: {
+    backgroundColor: theme.palette.primary.dark,
+    '&:hover': {
+      backgroundColor: '#27648C',
+    },
+  },
 });
 
 class Navigation extends Component {
@@ -54,7 +60,7 @@ class Navigation extends Component {
     return (
       <AppBar 
         position="absolute" 
-        elevation={1}
+        elevation={0}
         className={classes.root}
       >
         <Grid container justify="center">
@@ -84,6 +90,7 @@ class Navigation extends Component {
                   <Button 
                     variant="contained" 
                     color="primary"
+                    className={classes.loginButton}
                   >
                     Iniciar sesión
                   </Button>

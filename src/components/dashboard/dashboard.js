@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -13,7 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.primary.dark,
     color: theme.palette.common.white,
     height: 48,
   },
@@ -38,23 +39,24 @@ const styles = theme => ({
       paddingLeft: theme.spacing.unit * 0,
       marginTop: theme.spacing.unit,
       marginBottom: theme.spacing.unit * 3,
+    },
+    '& h1': {
+      fontWeight: 500,
     }
   },
   paper: {
+    border: `1px solid ${theme.palette.custom.lightGrey}`,
     height: '100%',
     padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 4}px`,
     [theme.breakpoints.up('sm')]: {
       padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 6}px`,
     },
-    border: `1px solid ${theme.palette.custom.lightGrey}`,
   },
   paperTitleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  paperTitle: {
-    marginBottom: theme.spacing.unit * 3,
+    alignItems: 'center',
+    marginBottom: theme.spacing.unit * 4,
   },
   table: {
     margin: `0 -${theme.spacing.unit * 4}px`,
@@ -81,7 +83,7 @@ class DashboardView extends Component {
       >
         <Grid item xs={12} xl={9}>
           <div className={classes.title}>
-            <Typography variant="title">
+            <Typography variant="headline">
               Resumen
             </Typography>
           </div>
@@ -94,7 +96,7 @@ class DashboardView extends Component {
               <Paper elevation={0} className={classes.paper}>
                 <div>
                   <div className={classes.paperTitleContainer}>
-                    <Typography variant="subheading" className={classes.paperTitle}>
+                    <Typography variant="title" className={classes.paperTitle}>
                       Omein
                     </Typography>
                     <Typography variant="subheading" className={classes.paperTitle}>
@@ -134,7 +136,7 @@ class DashboardView extends Component {
               <Paper elevation={0} className={classes.paper}>
                 <div>
                   <div className={classes.paperTitleContainer}>
-                    <Typography variant="subheading" className={classes.paperTitle}>
+                    <Typography variant="title" className={classes.paperTitle}>
                       Prana
                     </Typography>
                   </div>

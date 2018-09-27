@@ -20,11 +20,11 @@ const styles = theme => ({
     flexGrow: 1,
     flex: 1,
     minWidth: 0, // So the Typography noWrap works,
-    overflow: 'hidden',
-    overflowY: 'auto',
   },
   content: {
     width: '100%',
+    overflow: 'hidden',
+    overflowY: 'auto',
   }
 });
 

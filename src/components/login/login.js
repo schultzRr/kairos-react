@@ -50,11 +50,11 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2
   },
   link: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.custom.darkGrey,
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: theme.palette.secondary.light,
+      color: theme.palette.custom.darkBlue,
     },
   },
   footerContainer: {
@@ -62,11 +62,11 @@ const styles = theme => ({
     height: theme.spacing.unit * 9,
   },
   footerLink: {
-    color: theme.palette.secondary.main,
+    color: theme.palette.custom.darkGrey,
     display: 'inline-block',
     textDecoration: 'none',
     '&:hover': {
-      color: theme.palette.secondary.light,
+      color: theme.palette.custom.darkBlue,
     },
   },
   bold: {

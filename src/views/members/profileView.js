@@ -27,6 +27,9 @@ const styles = theme => ({
       paddingLeft: theme.spacing.unit * 0,
       marginTop: theme.spacing.unit,
       marginBottom: theme.spacing.unit * 3,
+    },
+    '& h1': {
+      fontWeight: 500,
     }
   },
 });
@@ -43,7 +46,7 @@ class ProfileView extends Component {
       >
         <Grid item xs={12} xl={9}>
           <div className={classes.title}>
-            <Typography variant="title">
+            <Typography variant="headline">
               Mis datos
             </Typography>
           </div>

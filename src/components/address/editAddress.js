@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
 import Slide from '@material-ui/core/Slide';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import AppBar from '@material-ui/core/AppBar';
@@ -34,6 +35,10 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 7,
     maxWidth: '100%',
     width: 500,
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   selectfield: {
     textAlign: 'start',
@@ -151,7 +156,7 @@ class EditAddress extends React.Component {
               <LinearProgress />
             </div>
           )}
-          <form onSubmit={handleSubmit(this.handleSubmit)}>
+          <form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
             <AppBar className={classes.appBar}>
               <Toolbar>
                 <IconButton color="inherit" onClick={this.handleClose} aria-label="Close">
@@ -168,7 +173,7 @@ class EditAddress extends React.Component {
                 </Button>
               </Toolbar>
             </AppBar>
-            <div className={classes.dialogContent}>
+            <DialogContent className={classes.dialogContent}>
               <div>
                 <Field
                   name="address"
@@ -221,7 +226,7 @@ class EditAddress extends React.Component {
               <Typography variant="body1" className={classes.error}>
                 {formError}
               </Typography>
-            </div>
+            </DialogContent>
           </form>
         </Dialog>
         <SnackbarNotification 

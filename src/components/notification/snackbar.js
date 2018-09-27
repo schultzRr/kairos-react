@@ -13,9 +13,6 @@ import Slide from '@material-ui/core/Slide';
 import amber from '@material-ui/core/colors/amber';
 
 const styles = theme => ({
-  success: {
-    backgroundColor: theme.palette.primary.dark,
-  },
   warning: {
     backgroundColor: amber[500],
   },

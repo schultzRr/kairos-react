@@ -16,11 +16,11 @@ import { getAddresses, deleteAddress } from './addressActions';
 
 const styles = theme => ({
   paper: {
+    border: `1px solid ${theme.palette.custom.lightGrey}`,
     padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 4}px`,
     [theme.breakpoints.up('sm')]: {
       padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 6}px`,
     },
-    border: `1px solid ${theme.palette.custom.lightGrey}`,
   },
   paperTitleContainer: {
     display: 'flex',
@@ -65,7 +65,7 @@ class Addresses extends Component {
     return (
       <Paper elevation={0} className={classes.paper}>
         <div className={classes.paperTitleContainer}>
-          <Typography variant="subheading" className={classes.paperTitle}>
+          <Typography variant="title" className={classes.paperTitle}>
             Direcciones
           </Typography>
         </div> 
