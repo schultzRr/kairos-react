@@ -5,7 +5,9 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
+import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Button from '@material-ui/core/Button';
+import Slide from '@material-ui/core/Slide';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -41,27 +43,26 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
-  if (!values.get('name')) {
-    errors.name = 'Requerido'
-  }
-  if (!values.get('lastname')) {
-    errors.lastname = 'Requerido'
+  if (!values.get('phone')) {
+    errors.phone = 'Requerido';
+  } else if (!/^[0-9 ]{7,20}$/i.test(values.get('phone'))) {
+    errors.phone = 'Introduce sólo números y espacios';
   }
   return errors;
 }
 
 const form = {
-  form: 'changeAccountName',
+  form: 'changeAccountPhone',
   enableReinitialize: true,
   validate,
 }
-class ChangeNameForm extends React.Component {
+
+class ChangePhoneForm extends React.Component {
 
   handleSubmit = (values) => {
     const user = {
       id: this.props.id,
-      first_name: values.get('name'),
-      last_name: values.get('lastname'),
+      phone: values.get('phone'),
     }
     this.props.updateAccount(user);
   };
@@ -73,11 +74,11 @@ class ChangeNameForm extends React.Component {
       <form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-          <IconButton color="inherit" onClick={handleClose} aria-label="Close">
+            <IconButton color="inherit" onClick={handleClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              Cambiar mi nombre
+              Cambiar mi teléfono
             </Typography>
             <Button 
               type="submit"
@@ -90,19 +91,15 @@ class ChangeNameForm extends React.Component {
         <DialogContent className={classes.dialogContent}>
           <div>
             <Field
-              name="name"
+              name="phone"
               component={TextField}
-              label="Nombre"
+              label="Teléfono *"
+              helperText="Sólo números y espacios"
+              inputProps={{
+                maxLength: 15,
+              }}
               margin="dense"
               autoFocus={true}
-            />
-          </div>
-          <div>
-            <Field
-              name="lastname"
-              component={TextField}
-              label="Apellido(s)"
-              margin="dense"
             />
           </div>
           <Typography variant="body1" className={classes.error}>
@@ -119,8 +116,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
     id: state.get('session').get('id'),
     formError: state.get('account').get('error'),
     initialValues: {
-      name: state.get('session').get('name'),
-      lastname: state.get('session').get('lastname'),
+      phone: state.get('session').get('phone'),
     }
   };
 };
@@ -134,4 +130,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm(form)(ChangeNameForm)));
+)(reduxForm(form)(ChangePhoneForm)));

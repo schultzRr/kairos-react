@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reduxForm, Field } from 'redux-form/immutable';
-import { TextField } from 'redux-form-material-ui';
+import { reduxForm } from 'redux-form/immutable';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -13,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import PasswordField from '../common/passwordField';
 import { updateAccount } from './accountActions';
 
 const styles = theme => ({
@@ -41,27 +41,27 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
-  if (!values.get('name')) {
-    errors.name = 'Requerido'
-  }
-  if (!values.get('lastname')) {
-    errors.lastname = 'Requerido'
+  if (!values.get('password')) {
+    errors.password = 'Requerido';
+  } else if (values.get('password').length < 8) {
+    errors.password = 'Usa al menos 8 caracteres';
   }
   return errors;
 }
 
 const form = {
-  form: 'changeAccountName',
+  form: 'changeAccountPassword',
   enableReinitialize: true,
   validate,
 }
-class ChangeNameForm extends React.Component {
+
+class ChangePasswordForm extends React.Component {
 
   handleSubmit = (values) => {
     const user = {
       id: this.props.id,
-      first_name: values.get('name'),
-      last_name: values.get('lastname'),
+      password: values.get('password'),
+      password_confirmation: values.get('password'),
     }
     this.props.updateAccount(user);
   };
@@ -73,11 +73,11 @@ class ChangeNameForm extends React.Component {
       <form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
         <AppBar className={classes.appBar}>
           <Toolbar>
-          <IconButton color="inherit" onClick={handleClose} aria-label="Close">
+            <IconButton color="inherit" onClick={handleClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
             <Typography variant="title" color="inherit" className={classes.flex}>
-              Cambiar mi nombre
+              Cambiar mi contraseña
             </Typography>
             <Button 
               type="submit"
@@ -89,20 +89,11 @@ class ChangeNameForm extends React.Component {
         </AppBar>
         <DialogContent className={classes.dialogContent}>
           <div>
-            <Field
-              name="name"
-              component={TextField}
-              label="Nombre"
+            <PasswordField 
+              name="password"
+              label="Nueva contraseña"
               margin="dense"
               autoFocus={true}
-            />
-          </div>
-          <div>
-            <Field
-              name="lastname"
-              component={TextField}
-              label="Apellido(s)"
-              margin="dense"
             />
           </div>
           <Typography variant="body1" className={classes.error}>
@@ -118,10 +109,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     id: state.get('session').get('id'),
     formError: state.get('account').get('error'),
-    initialValues: {
-      name: state.get('session').get('name'),
-      lastname: state.get('session').get('lastname'),
-    }
   };
 };
 
@@ -134,4 +121,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm(form)(ChangeNameForm)));
+)(reduxForm(form)(ChangePasswordForm)));

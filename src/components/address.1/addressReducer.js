@@ -20,7 +20,6 @@ const initialState = fromJS({
   loading: false,
   error: '',
   dialog: '',
-  openDialog: false,
   selectedAddressId: 0,
   addresses: null
 });
@@ -89,14 +88,13 @@ function addressReducer(state = initialState, action) {
         loading: initialState.get('loading'),
         error: initialState.get('error'),
         dialog: action.payload.dialog,
-        openDialog: true,
         selectedAddressId: action.payload.selectedAddressId,
       })
     case CLOSE_ADDRESS_DIALOG:
       return state.merge({
         loading: initialState.get('loading'),
         error: initialState.get('error'),
-        openDialog: initialState.get('openDialog'),
+        dialog: initialState.get('dialog'),
         selectedAddressId: initialState.get('selectedAddressId'),
       })
     default:

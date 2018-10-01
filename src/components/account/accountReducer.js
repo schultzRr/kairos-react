@@ -11,6 +11,7 @@ const initialState = fromJS({
   loading: false,
   error: '',
   dialog: '',
+  openDialog: false,
 });
 
 function accountReducer(state = initialState, action) {
@@ -35,12 +36,13 @@ function accountReducer(state = initialState, action) {
         loading: initialState.get('loading'),
         error: initialState.get('error'),
         dialog: action.payload,
+        openDialog: true,
       })
     case CLOSE_ACCOUNT_DIALOG:
       return state.merge({
         loading: initialState.get('loading'),
         error: initialState.get('error'),
-        dialog: initialState.get('dialog'),
+        openDialog: initialState.get('openDialog'),
       })
     default:
       return state;

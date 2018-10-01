@@ -19,6 +19,9 @@ export function updateAccount(user) {
         type: ACCOUNT_UPDATE_SUCCESS,
         payload: response.data
       });
+      dispatch({ 
+        type: CLOSE_ACCOUNT_DIALOG,
+      });
     })
     .catch(e => {
       dispatch({ 

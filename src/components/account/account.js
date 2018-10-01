@@ -10,8 +10,8 @@ import Divider from '@material-ui/core/Divider';
 
 import AccountDialog from './accountDialog';
 import ChangeNameForm from './changeNameForm';
-import ChangePhone from './changePhone';
-import ChangePassword from './changePassword';
+import ChangePhoneForm from './changePhoneForm';
+import ChangePasswordForm from './changePasswordForm';
 import { openDialog, closeDialog } from './accountActions';
 import { dialogs } from './accountConstants';
 
@@ -52,8 +52,8 @@ class Account extends Component {
     this.props.closeDialog();
   }
 
-  handleDialogOpen = () => {
-    this.props.openDialog(dialogs.NAME_DIALOG);
+  handleDialogOpen = dialog => {
+    this.props.openDialog(dialog);
   }
 
   render() {
@@ -79,7 +79,7 @@ class Account extends Component {
             <Button
               size="small"
               color="primary"
-              onClick={this.handleDialogOpen}
+              onClick={() => this.handleDialogOpen(dialogs.NAME_DIALOG)}
             >
               Editar
             </Button>
@@ -94,7 +94,13 @@ class Account extends Component {
                 {phone}
               </Typography>
             </div>
-            <ChangePhone />
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => this.handleDialogOpen(dialogs.PHONE_DIALOG)}
+            >
+              Editar
+            </Button>
           </div>
           <Divider />
           <div className={classes.dataContainer}>
@@ -106,13 +112,25 @@ class Account extends Component {
                 ********
               </Typography>
             </div>
-            <ChangePassword />
+            <Button
+              size="small"
+              color="primary"
+              onClick={() => this.handleDialogOpen(dialogs.PASSWORD_DIALOG)}
+            >
+              Editar
+            </Button>
           </div>
         </Paper>
         <AccountDialog>
           {{
             [dialogs.NAME_DIALOG]: (
               <ChangeNameForm handleClose={this.handleDialogClose}/>
+            ),
+            [dialogs.PHONE_DIALOG]: (
+              <ChangePhoneForm handleClose={this.handleDialogClose}/>
+            ),
+            [dialogs.PASSWORD_DIALOG]: (
+              <ChangePasswordForm handleClose={this.handleDialogClose}/>
             ),
           }[dialog]}
         </AccountDialog>

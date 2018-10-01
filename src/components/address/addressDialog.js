@@ -9,7 +9,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { closeDialog } from './accountActions';
+import { closeDialog } from './addressActions';
 
 const styles = theme => ({
   overlay: {
@@ -29,7 +29,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class AccountDialog extends React.Component {
+class AddressDialog extends React.Component {
 
   handleClose = () => {
     this.props.closeDialog();
@@ -57,16 +57,16 @@ class AccountDialog extends React.Component {
   }
 }
 
-AccountDialog.propTypes = {
+AddressDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     id: state.get('session').get('id'),
-    loading: state.get('account').get('loading'),
-    formError: state.get('account').get('error'),
-    openDialog: state.get('account').get('openDialog'),
+    loading: state.get('address').get('loading'),
+    formError: state.get('address').get('error'),
+    openDialog: state.get('address').get('openDialog'),
   };
 };
 
@@ -79,4 +79,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)(withMobileDialog()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountDialog)));
+)(AddressDialog)));

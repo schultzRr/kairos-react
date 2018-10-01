@@ -8,12 +8,11 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import AddressDialog from './addressDialog';
 import AddAddress from './addAddress';
 import EditAddress from './editAddress';
 import DeleteAddress from './deleteAddress';
-import { getAddresses, openDialog, closeDialog } from './addressActions';
-import { dialogs } from './addressConstants';
+
+import { getAddresses, deleteAddress } from './addressActions';
 
 const styles = theme => ({
   paper: {
@@ -49,6 +48,10 @@ const styles = theme => ({
 });
 
 class Addresses extends Component {
+
+  handleDelete = id => {
+    this.props.deleteAddress(id);
+  }
 
   componentDidMount() {
     this.props.getAddresses();
@@ -129,8 +132,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getAddresses }, dispatch),
-    bindActionCreators({ openDialog }, dispatch),
-    bindActionCreators({ closeDialog }, dispatch),
+    bindActionCreators({ deleteAddress }, dispatch),
   );
 }
 
