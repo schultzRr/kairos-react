@@ -5,12 +5,13 @@ import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import AddressDialog from './addressDialog';
-import AddAddress from './addAddress';
-import EditAddress from './editAddress';
+import EditAddressForm from './editAddressForm';
+import AddAddressForm from './addAddressForm';
 import DeleteAddress from './deleteAddress';
 import { getAddresses, openDialog, closeDialog } from './addressActions';
 import { dialogs } from './addressConstants';
@@ -46,16 +47,34 @@ const styles = theme => ({
   data: {
     color: 'rgba(0, 0, 0, 0.54)',
   },
+  delete: {
+    color: theme.palette.custom.red,
+    '&:hover': {
+      backgroundColor: 'rgba(255, 90, 95, 0.08)',
+    },
+  },
+  addAddressContainer: {
+    marginTop: theme.spacing.unit * 4,
+    textAlign: 'right',
+  },
 });
 
 class Addresses extends Component {
+
+  handleDialogClose = () => {
+    this.props.closeDialog();
+  }
+
+  handleDialogOpen = (dialog, id) => {
+    this.props.openDialog(dialog, id);
+  }
 
   componentDidMount() {
     this.props.getAddresses();
   }
 
-  render() {
-    const { classes } = this.props;
+  render() {    
+    const { classes, dialog, selectedAddressId } = this.props;
     const addresses = this.props.addresses ? this.props.addresses.toJS() : null;
     const addressesIdArray = this.props.addresses ? Object.keys(addresses) : [];
 
@@ -91,8 +110,14 @@ class Addresses extends Component {
                               </Typography>
                             </div>
                             <div>
-                              <EditAddress address={item}/>
-                              <DeleteAddress address={item}/>
+                              <Button
+                                size="small"
+                                color="primary"
+                                onClick={() => this.handleDialogOpen(dialogs.EDIT_ADDRESS_DIALOG, id)}
+                              >
+                                Editar
+                              </Button>
+                              <DeleteAddress address={item}></DeleteAddress>
                             </div>
                           </div>
                           { index != (addressesIdArray.length - 1) && (
@@ -107,7 +132,19 @@ class Addresses extends Component {
                     </Typography>
                   ) 
                 }
-                <AddAddress />
+                <AddressDialog>
+                  {{
+                    [dialogs.ADD_ADDRESS_DIALOG]: (
+                      <AddAddressForm handleClose={this.handleDialogClose} />
+                    ),
+                    [dialogs.EDIT_ADDRESS_DIALOG]: (
+                      <EditAddressForm handleClose={this.handleDialogClose} address={addresses[selectedAddressId]} />
+                    ),
+                    [dialogs.DELETE_ADDRESS_DIALOG]: (
+                      <React.Fragment></React.Fragment>
+                    ),
+                  }[dialog]}
+                </AddressDialog>
               </React.Fragment>
             ) : (
               <div className={classes.loaderContainer}>
@@ -115,6 +152,15 @@ class Addresses extends Component {
               </div>
             )
           }
+        <div className={classes.addAddressContainer}>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => this.handleDialogOpen(dialogs.ADD_ADDRESS_DIALOG)}
+          >
+            Agregar dirección
+          </Button>
+        </div>
       </Paper>
     )
   }
@@ -122,6 +168,8 @@ class Addresses extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
+    dialog: state.get('address').get('dialog'),
+    selectedAddressId: state.get('address').get('selectedAddressId'),
     addresses: state.get('address').get('addresses'),
   };
 };

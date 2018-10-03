@@ -5,9 +5,7 @@ import { reduxForm, Field } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
-import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Button from '@material-ui/core/Button';
-import Slide from '@material-ui/core/Slide';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
