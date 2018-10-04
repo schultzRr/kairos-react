@@ -117,7 +117,13 @@ class Addresses extends Component {
                               >
                                 Editar
                               </Button>
-                              <DeleteAddress address={item}></DeleteAddress>
+                              <Button
+                                color="primary"
+                                onClick={() => this.handleDialogOpen(dialogs.DELETE_ADDRESS_DIALOG, id)}
+                                className={classes.delete}
+                              >
+                                Eliminar
+                              </Button>
                             </div>
                           </div>
                           { index != (addressesIdArray.length - 1) && (
@@ -141,7 +147,7 @@ class Addresses extends Component {
                       <EditAddressForm handleClose={this.handleDialogClose} address={addresses[selectedAddressId]} />
                     ),
                     [dialogs.DELETE_ADDRESS_DIALOG]: (
-                      <React.Fragment></React.Fragment>
+                      <DeleteAddress handleClose={this.handleDialogClose} />
                     ),
                   }[dialog]}
                 </AddressDialog>

@@ -72,7 +72,7 @@ function addressReducer(state = initialState, action) {
       })
     case DELETE_ADDRESS_FETCH:
       return state.merge({
-        loading: false,
+        loading: true,
         error: '',
       })
     case DELETE_ADDRESS_SUCCESS:
