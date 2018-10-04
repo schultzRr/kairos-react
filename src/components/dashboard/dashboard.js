@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core';
@@ -11,6 +13,8 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+
+import { getSummary } from './dashboardActions';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -73,8 +77,13 @@ const styles = theme => ({
 
 class DashboardView extends Component {
 
+  componentDidMount() {
+    this.props.getSummary();
+  }
+
   render() {
     const { classes } = this.props;
+    const summary = this.props.summary ? this.props.summary.toJS() : null;
 
     return (
       <Grid container 
@@ -87,84 +96,88 @@ class DashboardView extends Component {
               Resumen
             </Typography>
           </div>
-          <Grid 
-            container 
-            alignContent="stretch"
-            spacing={32}
-          >
-            <Grid item xs={12} lg={6}>
-              <Paper elevation={0} className={classes.paper}>
-                <div>
-                  <div className={classes.paperTitleContainer}>
-                    <Typography variant="title" className={classes.paperTitle}>
-                      Omein
-                    </Typography>
-                    <Typography variant="subheading" className={classes.paperTitle}>
-                      Rango máximo: 20K
-                    </Typography>
-                  </div>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow className={classes.tableHead}>
-                        <CustomTableCell></CustomTableCell>
-                        <CustomTableCell numeric>Julio</CustomTableCell>
-                        <CustomTableCell numeric>Junio</CustomTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      <TableRow>
-                        <CustomTableCell>Vol. personal</CustomTableCell>
-                        <CustomTableCell numeric>1000</CustomTableCell>
-                        <CustomTableCell numeric>5000</CustomTableCell>
-                      </TableRow>
-                      <TableRow>
-                        <CustomTableCell>Vol. grupal</CustomTableCell>
-                        <CustomTableCell numeric>5000</CustomTableCell>
-                        <CustomTableCell numeric>8000</CustomTableCell>
-                      </TableRow>
-                      <TableRow>
-                        <CustomTableCell>Rango calificado</CustomTableCell>
-                        <CustomTableCell numeric>-</CustomTableCell>
-                        <CustomTableCell numeric>5K</CustomTableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-              </Paper>
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Paper elevation={0} className={classes.paper}>
-                <div>
-                  <div className={classes.paperTitleContainer}>
-                    <Typography variant="title" className={classes.paperTitle}>
-                      Prana
-                    </Typography>
-                  </div>
-                  <Table className={classes.table}>
-                    <TableHead>
-                      <TableRow className={classes.tableHead}>
-                        <CustomTableCell></CustomTableCell>
-                        <CustomTableCell numeric>Julio</CustomTableCell>
-                        <CustomTableCell numeric>Junio</CustomTableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    <TableRow>
-                        <CustomTableCell>Vol. personal</CustomTableCell>
-                        <CustomTableCell numeric>1000</CustomTableCell>
-                        <CustomTableCell numeric>5000</CustomTableCell>
-                      </TableRow>
-                      <TableRow>
-                        <CustomTableCell>Vol. grupal</CustomTableCell>
-                        <CustomTableCell numeric>5000</CustomTableCell>
-                        <CustomTableCell numeric>8000</CustomTableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
+          {
+            summary && (
+              <Grid 
+                container 
+                alignContent="stretch"
+                spacing={32}
+              >
+                <Grid item xs={12} lg={6}>
+                  <Paper elevation={0} className={classes.paper}>
+                    <div>
+                      <div className={classes.paperTitleContainer}>
+                        <Typography variant="title" className={classes.paperTitle}>
+                          Omein
+                        </Typography>
+                        <Typography variant="subheading" className={classes.paperTitle}>
+                          Rango máximo: {summary.ranks.max}
+                        </Typography>
+                      </div>
+                      <Table className={classes.table}>
+                        <TableHead>
+                          <TableRow className={classes.tableHead}>
+                            <CustomTableCell></CustomTableCell>
+                            <CustomTableCell numeric>{summary.current_month.name}</CustomTableCell>
+                            <CustomTableCell numeric>{summary.previous_month.name}</CustomTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow>
+                            <CustomTableCell>Vol. personal</CustomTableCell>
+                            <CustomTableCell numeric>{summary.current_month.omein_vp}</CustomTableCell>
+                            <CustomTableCell numeric>{summary.previous_month.omein_vp}</CustomTableCell>
+                          </TableRow>
+                          <TableRow>
+                            <CustomTableCell>Vol. grupal</CustomTableCell>
+                            <CustomTableCell numeric>{summary.current_month.omein_vg}</CustomTableCell>
+                            <CustomTableCell numeric>{summary.previous_month.omein_vg}</CustomTableCell>
+                          </TableRow>
+                          <TableRow>
+                            <CustomTableCell>Rango calificado</CustomTableCell>
+                            <CustomTableCell numeric>-</CustomTableCell>
+                            <CustomTableCell numeric>{summary.ranks.previous}</CustomTableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} lg={6}>
+                  <Paper elevation={0} className={classes.paper}>
+                    <div>
+                      <div className={classes.paperTitleContainer}>
+                        <Typography variant="title" className={classes.paperTitle}>
+                          Prana
+                        </Typography>
+                      </div>
+                      <Table className={classes.table}>
+                        <TableHead>
+                          <TableRow className={classes.tableHead}>
+                            <CustomTableCell></CustomTableCell>
+                            <CustomTableCell numeric>{summary.current_month.name}</CustomTableCell>
+                            <CustomTableCell numeric>{summary.previous_month.name}</CustomTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow>
+                            <CustomTableCell>Vol. personal</CustomTableCell>
+                            <CustomTableCell numeric>{summary.current_month.prana_vp}</CustomTableCell>
+                            <CustomTableCell numeric>{summary.previous_month.prana_vp}</CustomTableCell>
+                          </TableRow>
+                          <TableRow>
+                            <CustomTableCell>Vol. grupal</CustomTableCell>
+                            <CustomTableCell numeric>{summary.current_month.prana_vg}</CustomTableCell>
+                            <CustomTableCell numeric>{summary.previous_month.prana_vg}</CustomTableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </div>
+                  </Paper>
+                </Grid>
+              </Grid>
+            )
+          }
         </Grid>
       </Grid>
     )
@@ -172,4 +185,20 @@ class DashboardView extends Component {
   
 };
 
-export default withStyles(styles)(DashboardView);
+const mapStateToProps = function mapStateToProps(state, props) {
+  return {
+    loading: state.get('dashboard').get('loading'),
+    summary: state.get('dashboard').get('summary'),
+  };
+};
+
+function mapDispatchToProps(dispatch) {
+  return Object.assign({},
+    bindActionCreators({ getSummary }, dispatch),
+  );
+}
+
+export default withStyles(styles)((connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardView)));
