@@ -12,6 +12,7 @@ const initialState = fromJS({
   name: '',
   lastname: '',
   phone: '',
+  externalId: '',
 });
 
 function sessionReducer(state = initialState, action) {
@@ -24,6 +25,7 @@ function sessionReducer(state = initialState, action) {
         name: action.payload.user.first_name,
         lastname: action.payload.user.last_name,
         phone: action.payload.user.phone,
+        externalId: action.payload.user.external_id,
       });
     case SIGNOUT_SUCCESS:
       return initialState;

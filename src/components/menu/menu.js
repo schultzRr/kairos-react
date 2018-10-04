@@ -86,18 +86,18 @@ const menu = [
     icon: <PersonIcon />,
     route: '/members/profile',
   },
-  {
-    id: 2,
-    label: 'Mis compras',
-    icon: <CreditCardIcon />,
-    route: '/members/orders',
-  },
-  {
-    id: 3,
-    label: 'Preguntas frecuentes',
-    icon: <HelpIcon />,
-    route: '/members/faq',
-  }, 
+  // {
+  //   id: 2,
+  //   label: 'Mis compras',
+  //   icon: <CreditCardIcon />,
+  //   route: '/members/orders',
+  // },
+  // {
+  //   id: 3,
+  //   label: 'Preguntas frecuentes',
+  //   icon: <HelpIcon />,
+  //   route: '/members/faq',
+  // }, 
 ]
 
 class Menu extends Component {
@@ -124,17 +124,17 @@ class Menu extends Component {
   }
   
   render() {
-    const { classes, mobileOpen } = this.props;
+    const { classes, mobileOpen, name, lastname, externalId, email } = this.props;
 
     const drawer = (
       <div className={classes.root}>
         <div>
           <div className={classes.profile}>
             <Typography variant="body2" className={classes.profileText}>
-              Ricardo Rosas
+              {name} {lastname}
             </Typography>
-            <Typography variant="body1" noWrap className={classes.profileText}>
-              rosas_schultz@hotmail.com
+            <Typography variant="caption" noWrap className={classes.profileText}>
+              Id: {externalId}
             </Typography>
           </div>
           <Divider />
@@ -177,9 +177,9 @@ class Menu extends Component {
           </List>
         </div>
         <div className={classes.terms}>
-          <Typography variant="body1" align="right" className={classes.termsText}>
+          {/* <Typography variant="body1" align="right" className={classes.termsText}>
             Términos y condiciones
-          </Typography>
+          </Typography> */}
         </div>
       </div>
     );
@@ -223,6 +223,10 @@ class Menu extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     mobileOpen: state.get('navigation').get('mobileOpen'),
+    name: state.get('session').get('name'),
+    lastname: state.get('session').get('lastname'),
+    externalId: state.get('session').get('externalId'),
+    email: state.get('session').get('email'),
   };
 };
 
