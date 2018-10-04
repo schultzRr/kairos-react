@@ -38,17 +38,17 @@ class DeleteAddress extends React.Component {
         </Typography>
         <DialogActions className={classes.buttonContainer}>
         <Button 
-            color="primary"
-            onClick={handleClose}
-          >
-            Cancelar
-          </Button>
-          <Button 
             variant="contained"
             color="primary"
             onClick={this.handleDelete}
           >
             Eliminar
+          </Button>
+          <Button 
+            color="primary"
+            onClick={handleClose}
+          >
+            Cancelar
           </Button>
         </DialogActions>
       </DialogContent>

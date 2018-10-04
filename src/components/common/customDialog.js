@@ -9,8 +9,6 @@ import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-import { closeDialog } from './accountActions';
-
 const styles = theme => ({
   overlay: {
     background: '#fafafa',
@@ -29,20 +27,17 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class AccountDialog extends React.Component {
-
-  handleClose = () => {
-    this.props.closeDialog();
-  };
+class CustomDialog extends React.Component {
 
   render() {
-    const { classes, loading, openDialog, fullScreen } = this.props;
+    const { classes, loading, open, handleClose, fullScreen } = this.props;
+    const disableFullScreen = this.props.disableFullScreen || false;
 
     return (
       <Dialog
-        fullScreen={fullScreen}
-        open={openDialog}
-        onClose={this.handleClose}
+        fullScreen={disableFullScreen ? false : fullScreen}
+        open={open}
+        onClose={handleClose}
         TransitionComponent={Transition}
         disableRestoreFocus={true}
       >
@@ -57,26 +52,19 @@ class AccountDialog extends React.Component {
   }
 }
 
-AccountDialog.propTypes = {
+CustomDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = function mapStateToProps(state, props) {
-  return {
-    id: state.get('session').get('id'),
-    loading: state.get('account').get('loading'),
-    formError: state.get('account').get('error'),
-    openDialog: state.get('account').get('openDialog'),
-  };
+  return {};
 };
 
 function mapDispatchToProps(dispatch) {
-  return Object.assign({},
-    bindActionCreators({ closeDialog }, dispatch),
-  );
+  return {};
 }
  
 export default withStyles(styles)(withMobileDialog()(connect(
   mapStateToProps,
   mapDispatchToProps
-)(AccountDialog)));
+)(CustomDialog)));

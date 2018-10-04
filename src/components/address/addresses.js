@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import AddressDialog from './addressDialog';
+import CustomDialog from '../common/customDialog';
 import EditAddressForm from './editAddressForm';
 import AddAddressForm from './addAddressForm';
 import DeleteAddress from './deleteAddress';
@@ -74,7 +74,8 @@ class Addresses extends Component {
   }
 
   render() {    
-    const { classes, dialog, selectedAddressId } = this.props;
+    const { classes, loading, dialog, open, selectedAddressId } = this.props;
+
     const addresses = this.props.addresses ? this.props.addresses.toJS() : null;
     const addressesIdArray = this.props.addresses ? Object.keys(addresses) : [];
 
@@ -138,7 +139,11 @@ class Addresses extends Component {
                     </Typography>
                   ) 
                 }
-                <AddressDialog>
+                <CustomDialog 
+                  loading={loading} 
+                  open={open} 
+                  handleClose={this.handleDialogClose} 
+                  disableFullScreen={dialog == dialogs.DELETE_ADDRESS_DIALOG}>
                   {{
                     [dialogs.ADD_ADDRESS_DIALOG]: (
                       <AddAddressForm handleClose={this.handleDialogClose} />
@@ -150,7 +155,7 @@ class Addresses extends Component {
                       <DeleteAddress handleClose={this.handleDialogClose} />
                     ),
                   }[dialog]}
-                </AddressDialog>
+                </CustomDialog>
               </React.Fragment>
             ) : (
               <div className={classes.loaderContainer}>
@@ -174,7 +179,9 @@ class Addresses extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
+    loading: state.get('address').get('loading'),
     dialog: state.get('address').get('dialog'),
+    open: state.get('address').get('openDialog'),
     selectedAddressId: state.get('address').get('selectedAddressId'),
     addresses: state.get('address').get('addresses'),
   };

@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import AccountDialog from './accountDialog';
+import CustomDialog from '../common/customDialog';
 import ChangeNameForm from './changeNameForm';
 import ChangePhoneForm from './changePhoneForm';
 import ChangePasswordForm from './changePasswordForm';
@@ -57,7 +57,7 @@ class Account extends Component {
   }
 
   render() {
-    const { classes, name, lastname, phone, dialog } = this.props;
+    const { classes, name, lastname, phone, loading, dialog, open } = this.props;
 
     return (
       <React.Fragment>
@@ -121,7 +121,10 @@ class Account extends Component {
             </Button>
           </div>
         </Paper>
-        <AccountDialog>
+        <CustomDialog 
+          loading={loading} 
+          open={open} 
+          handleClose={this.handleDialogClose}>
           {{
             [dialogs.NAME_DIALOG]: (
               <ChangeNameForm handleClose={this.handleDialogClose}/>
@@ -133,7 +136,7 @@ class Account extends Component {
               <ChangePasswordForm handleClose={this.handleDialogClose}/>
             ),
           }[dialog]}
-        </AccountDialog>
+        </CustomDialog>
       </React.Fragment>
     )
   } 
@@ -144,7 +147,9 @@ const mapStateToProps = function mapStateToProps(state, props) {
     name: state.get('session').get('name'),
     lastname: state.get('session').get('lastname'),
     phone: state.get('session').get('phone'),
+    loading: state.get('account').get('loading'),
     dialog: state.get('account').get('dialog'),
+    open: state.get('account').get('openDialog'),
   };
 };
 
