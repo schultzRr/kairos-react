@@ -53,7 +53,7 @@ class App extends Component {
             <CssBaseline />
             <Switch>
               <Route exact path="/login" component={LoginView} />
-              <Route path="/register" component={RegisterView} />
+              {/* <Route path="/register" component={RegisterView} /> */}
               <Route path="/forgot" component={ForgotView} />
               <PrivateRoute path="/members" component={MembersView}/>
               <Redirect to="/login" />

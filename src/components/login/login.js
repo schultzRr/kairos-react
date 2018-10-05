@@ -153,11 +153,11 @@ class LoginContainer extends Component {
                       justify="space-between"
                     >
                       <Grid item>
-                        <LinkButton to="/register">
+                        {/* <LinkButton to="/register">
                           <Button color="primary">
                             Crear cuenta
                           </Button>
-                        </LinkButton>
+                        </LinkButton> */}
                       </Grid>
                       <Grid item>
                         <LoaderButton loading={loading}>
