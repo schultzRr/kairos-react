@@ -2,7 +2,6 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-
 module.exports = (env) => {
   const plugins = [
     new ExtractTextPlugin("css/[name].[hash].css")
@@ -15,7 +14,7 @@ module.exports = (env) => {
   }
 
   return {
-
+    mode: 'production',
     entry: {
       "index": path.resolve(__dirname, 'src/index.js'),
     },
@@ -31,14 +30,13 @@ module.exports = (env) => {
     module: {
       rules: [
         {
-          // test: que tipo de archivo quiero reconocer,
-          // use: que loader se va a encargar del archivo
           test: /\.(js|jsx)$/,
           exclude: /(node_modules)/,
           use: {
             loader: 'babel-loader',
             options: {
-              presets: ['es2015', 'react', 'stage-2'],
+              presets: ['@babel/preset-env', '@babel/preset-react'],
+              plugins: [ '@babel/plugin-proposal-class-properties'],
             }
           },
         },

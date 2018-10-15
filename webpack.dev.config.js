@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  mode: 'development',
   entry: {
     "index": path.resolve(__dirname, 'src/index.js'),
   },
@@ -17,14 +18,13 @@ module.exports = {
   module: {
     rules: [
       {
-        // test: que tipo de archivo quiero reconocer,
-        // use: que loader se va a encargar del archivo
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['es2015', 'react', 'stage-2'],
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+            plugins: [ '@babel/plugin-proposal-class-properties'],
           }
         },
       },

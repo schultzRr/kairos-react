@@ -9,7 +9,7 @@ export function getSummary() {
     dispatch({ 
       type: GET_SUMMARY_FETCH,
     });
-    return axios.get('/users/summary')
+    return axios.get('/summaries/for_user')
     .then(response => {
       console.log(response.data);
       dispatch({ 
