@@ -125,6 +125,7 @@ class LoginContainer extends Component {
                   <div>
                     <Field
                       name="email"
+                      type="email"
                       component={TextField}
                       label="Correo electrónico"
                       margin="dense"

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router-dom';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -65,13 +66,14 @@ class RegisterContainer extends Component {
         this.setState({ validatedToken: true });
         return response;
       });
-    } else {
-      this.setState({ validatedToken: true });
-      this.props.changeView({
-        view: views.REGISTER_STEP_1_VIEW,
-        title: 'Crear cuenta',
-      });
     }
+    // } else {
+    //   this.setState({ validatedToken: true });
+    //   this.props.changeView({
+    //     view: views.REGISTER_STEP_1_VIEW,
+    //     title: 'Crear cuenta',
+    //   });
+    // }
   }
 
   handleContinue = () => {
@@ -86,7 +88,12 @@ class RegisterContainer extends Component {
   }
 
   render() {
-    const { classes, loading, formError, view, title } = this.props;
+    const { classes, loading, formError, view, title, token } = this.props;
+
+    // Si no viene ningun token entonces redirige a login
+    if (!token) {
+      return <Redirect to="/login" />;
+    }
 
     return(
       <React.Fragment>

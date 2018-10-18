@@ -148,6 +148,7 @@ class AddAddressForm extends React.Component {
               <MenuItem value="México">México</MenuItem>
               <MenuItem value="Colombia">Colombia</MenuItem>
               <MenuItem value="España">España</MenuItem>
+              <MenuItem value="Otro">Otro</MenuItem>
             </Field>
           </div>
           <Typography variant="body1" className={classes.error}>

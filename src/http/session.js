@@ -40,7 +40,7 @@ function getCurrentSession() {
 function login(values) {
   return axios.post('/users/sign_in', {
     user: {
-      email: values.get('email'),
+      email: values.get('email').toLowerCase(),
       password: values.get('password'),
     }
   })
@@ -53,7 +53,7 @@ function login(values) {
 function resendConfirmationEmail(email) {
   return axios.post('/auth/confirmation', { 
     user: {
-      email: email,
+      email: email.toLowerCase(),
     }
   });
 };
@@ -63,7 +63,7 @@ function register(values) {
     user: {
       first_name: values.get('name'),
       last_name: values.get('lastname'),
-      email: values.get('email'),
+      email: values.get('email').toLowerCase(),
       external_id: values.get('externalId'),
       sponsor_external_id: values.get('sponsorExternalId'),
       placement_external_id: values.get('placementExternalId'),
@@ -88,7 +88,7 @@ function recoverPassword(values) {
   return axios.post('/users/password', {
     utf8: 'V',
     user: {
-      email: values.get('email'),
+      email: values.get('email').toLowerCase(),
     }
   });
 }
