@@ -56,6 +56,9 @@ const theme = createMuiTheme({
       default: '#F4F4F4'
     }
   },
+  typography: {
+    useNextVariants: true,
+  },
   overrides: {
     MuiButton: {
       root: {

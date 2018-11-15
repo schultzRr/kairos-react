@@ -7,14 +7,15 @@ import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+import Button from '@material-ui/core/Button';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { getSummary } from './dashboardActions';
+import { getSummary, getMonthDetail } from './dashboardActions';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -50,11 +51,13 @@ const styles = theme => ({
   },
   paper: {
     border: `1px solid ${theme.palette.custom.lightGrey}`,
-    height: '100%',
     padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 4}px`,
     [theme.breakpoints.up('sm')]: {
       padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 6}px`,
     },
+  },
+  fullHeight: {
+    height: '100%',
   },
   paperTitleContainer: {
     display: 'flex',
@@ -73,16 +76,37 @@ const styles = theme => ({
   tableHead: {
     height: 48,
   },
+  detailButtonsContainer: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  detailButton: {
+    marginRight: 16,
+    textTransform: 'capitalize',
+  },
+  emailSent: {
+    color: '#666',
+    marginTop: theme.spacing.unit * 2,
+  },
+  error: {
+    color: theme.palette.error.main,
+    marginTop: theme.spacing.unit * 3,
+    textAlign: 'left'
+  },
 });
 
 class DashboardView extends Component {
+
+  getMonthDetail(month) {
+    this.props.getMonthDetail(month);
+  }
 
   componentDidMount() {
     this.props.getSummary();
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, loading, loadingEmail, error, emailSent } = this.props;
     const summary = this.props.summary ? this.props.summary.toJS() : null;
 
     return (
@@ -104,7 +128,7 @@ class DashboardView extends Component {
                 spacing={32}
               >
                 <Grid item xs={12} lg={6}>
-                  <Paper elevation={0} className={classes.paper}>
+                  <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
                     <div>
                       <div className={classes.paperTitleContainer}>
                         <Typography variant="title" className={classes.paperTitle}>
@@ -144,7 +168,7 @@ class DashboardView extends Component {
                   </Paper>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Paper elevation={0} className={classes.paper}>
+                  <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
                     <div>
                       <div className={classes.paperTitleContainer}>
                         <Typography variant="title" className={classes.paperTitle}>
@@ -179,6 +203,56 @@ class DashboardView extends Component {
             )
           }
         </Grid>
+        <Grid item xs={12} xl={9}>
+          <div className={classes.title} style={{marginTop: 40}}>
+            <Typography variant="headline">
+              Detalle de volumen
+            </Typography>
+          </div>
+          <Paper elevation={0} className={classes.paper}>
+            { summary && (
+              <React.Fragment>
+                <div className={classes.paperTitleContainer}>
+                  <Typography variant="subheading" className={classes.paperTitle}>
+                    Selecciona un mes para recibir el detalle en tu correo electrónico registrado.
+                  </Typography>
+                </div>
+                <div className={classes.detailButtonsContainer}>
+                  <Button 
+                    variant="outlined" 
+                    color="primary"
+                    onClick={() => this.getMonthDetail(summary.previous_month)}
+                    className={classes.detailButton}
+                  >
+                    {summary.previous_month.name}
+                  </Button>
+                  <Button 
+                    variant="outlined" 
+                    color="primary"
+                    onClick={() => this.getMonthDetail(summary.current_month)}
+                    className={classes.detailButton}
+                  >
+                    {summary.current_month.name}
+                  </Button>
+                  { loadingEmail && (
+                    <CircularProgress size={24} className={classes.progress} />
+                  )}
+                </div>
+                { emailSent && (
+                  <Typography variant="body1" className={classes.emailSent}>
+                    En breve recibirás un correo electrónico con el detalle de volumen del mes seleccionado
+                  </Typography>
+                )}
+                { error && (
+                  <Typography variant="body1" className={classes.error}>
+                    {error}
+                  </Typography>
+                )}
+                
+              </React.Fragment>
+            )}
+          </Paper>
+        </Grid>
       </Grid>
     )
   }
@@ -188,6 +262,9 @@ class DashboardView extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     loading: state.get('dashboard').get('loading'),
+    loadingEmail: state.get('dashboard').get('loadingEmail'),
+    error: state.get('dashboard').get('error'),
+    emailSent: state.get('dashboard').get('emailSent'),
     summary: state.get('dashboard').get('summary'),
   };
 };
@@ -195,6 +272,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getSummary }, dispatch),
+    bindActionCreators({ getMonthDetail }, dispatch),
   );
 }
 
