@@ -6,6 +6,8 @@ export const GET_SUMMARY_ERROR = 'GET_SUMMARY_ERROR';
 export const SEND_SUMMARY_DETAIL_FETCH = 'SEND_SUMMARY_DETAIL_FETCH';
 export const SEND_SUMMARY_DETAIL_SUCCESS = 'SEND_SUMMARY_DETAIL_SUCCESS';
 export const SEND_SUMMARY_DETAIL_ERROR = 'SEND_SUMMARY_DETAIL_ERROR';
+export const CLOSE_SUMMARY_NOTIFICATION = 'CLOSE_SUMMARY_NOTIFICATION';
+export const EXIT_SUMMARY_NOTIFICATION = 'EXIT_SUMMARY_NOTIFICATION';
 
 export function getSummary() {
   return (dispatch) => {
@@ -29,7 +31,7 @@ export function getSummary() {
   }
 }
 
-export function getMonthDetail(month) {
+export function getMonthDetail(month, email) {
   return (dispatch) => {
     dispatch({ 
       type: SEND_SUMMARY_DETAIL_FETCH,
@@ -41,15 +43,31 @@ export function getMonthDetail(month) {
     .then(response => {
       dispatch({ 
         type: SEND_SUMMARY_DETAIL_SUCCESS,
-        payload: response.data
+        payload: `¡Listo! Pronto recibirás el detalle en ${email}`
       });
     })
     .catch(e => {
       dispatch({ 
         type: SEND_SUMMARY_DETAIL_ERROR, 
-        payload: "Ocurrió un error al obtener el detalle de volumen del mes. Por favor intenta más tarde."
+        payload: "Hubo un problema al enviar el correo electrónico. Escríbenos a soporte@futuranetwork.com"
       });
       throw e;
+    })
+  }
+}
+
+export function closeNotification() {
+  return (dispatch) => {
+    dispatch({
+      type: CLOSE_SUMMARY_NOTIFICATION,
+    })
+  }
+}
+
+export function exitNotification() {
+  return (dispatch) => {
+    dispatch({
+      type: EXIT_SUMMARY_NOTIFICATION,
     })
   }
 }
@@ -57,6 +75,8 @@ export function getMonthDetail(month) {
 const dashboardActions = {
   getSummary,
   getMonthDetail,
+  closeNotification,
+  exitNotification,
 };
 
 export default dashboardActions;

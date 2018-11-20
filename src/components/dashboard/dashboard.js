@@ -15,7 +15,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import { getSummary, getMonthDetail } from './dashboardActions';
+import Snackbar from '../notification/snackbar';
+import { getSummary, getMonthDetail, closeNotification, exitNotification } from './dashboardActions';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -84,21 +85,20 @@ const styles = theme => ({
     marginRight: 16,
     textTransform: 'capitalize',
   },
-  emailSent: {
-    color: '#666',
-    marginTop: theme.spacing.unit * 2,
-  },
-  error: {
-    color: theme.palette.error.main,
-    marginTop: theme.spacing.unit * 3,
-    textAlign: 'left'
-  },
 });
 
 class DashboardView extends Component {
 
-  getMonthDetail(month) {
-    this.props.getMonthDetail(month);
+  getMonthDetail = (month) => {
+    this.props.getMonthDetail(month, this.props.email);
+  }
+
+  handleNotificationClose = () => {
+    this.props.closeNotification();
+  }
+
+  handleNotificationExit = () => {
+    this.props.exitNotification();
   }
 
   componentDidMount() {
@@ -106,7 +106,7 @@ class DashboardView extends Component {
   }
 
   render() {
-    const { classes, loading, loadingEmail, error, emailSent } = this.props;
+    const { classes, loading, error, loadingEmail, snackbarMessage, snackbarErrorMessage, openSnackbar } = this.props;
     const summary = this.props.summary ? this.props.summary.toJS() : null;
 
     return (
@@ -238,16 +238,13 @@ class DashboardView extends Component {
                     <CircularProgress size={24} className={classes.progress} />
                   )}
                 </div>
-                { emailSent && (
-                  <Typography variant="body1" className={classes.emailSent}>
-                    En breve recibirás un correo electrónico con el detalle de volumen del mes seleccionado
-                  </Typography>
-                )}
-                { error && (
-                  <Typography variant="body1" className={classes.error}>
-                    {error}
-                  </Typography>
-                )}
+                <Snackbar 
+                  open={openSnackbar} 
+                  variant={snackbarErrorMessage ? 'error' : 'success'}
+                  message={snackbarErrorMessage ? snackbarErrorMessage : snackbarMessage}
+                  handleClose={this.handleNotificationClose}
+                  handleExit={this.handleNotificationExit}
+                />
                 
               </React.Fragment>
             )}
@@ -261,11 +258,14 @@ class DashboardView extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.get('dashboard').get('loading'),
-    loadingEmail: state.get('dashboard').get('loadingEmail'),
-    error: state.get('dashboard').get('error'),
-    emailSent: state.get('dashboard').get('emailSent'),
+    email: state.get('session').get('email'),
     summary: state.get('dashboard').get('summary'),
+    loading: state.get('dashboard').get('loading'),
+    error: state.get('dashboard').get('error'),
+    loadingEmail: state.get('dashboard').get('loadingEmail'),
+    openSnackbar: state.get('dashboard').get('openSnackbar'),
+    snackbarMessage: state.get('dashboard').get('snackbarMessage'),
+    snackbarErrorMessage: state.get('dashboard').get('snackbarErrorMessage'),
   };
 };
 
@@ -273,6 +273,8 @@ function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getSummary }, dispatch),
     bindActionCreators({ getMonthDetail }, dispatch),
+    bindActionCreators({ closeNotification }, dispatch),
+    bindActionCreators({ exitNotification }, dispatch),
   );
 }
 

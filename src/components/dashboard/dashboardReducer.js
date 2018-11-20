@@ -6,14 +6,18 @@ import {
   SEND_SUMMARY_DETAIL_FETCH,
   SEND_SUMMARY_DETAIL_SUCCESS,
   SEND_SUMMARY_DETAIL_ERROR,
+  CLOSE_SUMMARY_NOTIFICATION,
+  EXIT_SUMMARY_NOTIFICATION,
 } from './dashboardActions';
 
 const initialState = fromJS({
   loading: false,
-  loadingEmail: false,
   error: '',
   summary: undefined,
-  emailSent: false,
+  loadingEmail: false,
+  snackbarMessage: '',
+  snackbarErrorMessage: '',
+  openSnackbar: false,
 });
 
 function dashboardReducer(state = initialState, action) {
@@ -36,18 +40,29 @@ function dashboardReducer(state = initialState, action) {
     case SEND_SUMMARY_DETAIL_FETCH:
       return state.merge({
         loadingEmail: true,
-        error: '',
-        emailSent: false,
+        snackbarErrorMessage: '',
+        snackbarMessage: '',
       })
     case SEND_SUMMARY_DETAIL_SUCCESS:
       return state.merge({
         loadingEmail: false,
-        emailSent: true,
+        snackbarMessage: action.payload,
+        openSnackbar: true,
       })
     case SEND_SUMMARY_DETAIL_ERROR:
       return state.merge({
         loadingEmail: false,
-        error: action.payload,
+        snackbarErrorMessage: action.payload,
+        openSnackbar: true,
+      })
+    case CLOSE_SUMMARY_NOTIFICATION:
+      return state.merge({
+        openSnackbar: initialState.get('openSnackbar'),
+      })
+    case EXIT_SUMMARY_NOTIFICATION:
+      return state.merge({
+        snackbarMessage: initialState.get('error'),
+        snackbarErrorMessage: initialState.get('snackbarErrorMessage'),
       })
     default:
       return state;

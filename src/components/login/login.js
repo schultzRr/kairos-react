@@ -223,7 +223,7 @@ class LoginContainer extends Component {
           <div className={classes.footerContainer}>
             { view == views.LOGIN_FORM_VIEW && (  
               <Typography variant="body2" align="right">
-                <a href="mailto:info@prana.mx" className={classes.footerLink}>Ayuda</a>
+                <a href="mailto:soporte@futuranetwork.com" className={classes.footerLink}>Ayuda</a>
               </Typography>
             )}
           </div>
