@@ -10,6 +10,7 @@ import LoginView from './views/login/loginView';
 import RegisterView from './views/register/registerView';
 import ForgotView from './views/forgot/forgotView';
 import MembersView from './views/members/membersView';
+import ShopView from './views/shop/shopView';
 
 import session from '../src/http/session';
 import { getCurrentSession } from '../src/http/sessionActions';
@@ -56,6 +57,7 @@ class App extends Component {
               <Route path="/register" component={RegisterView} />
               <Route path="/forgot" component={ForgotView} />
               <PrivateRoute path="/members" component={MembersView}/>
+              <PrivateRoute path="/shop" component={ShopView}/>
               <Redirect to="/login" />
             </Switch>
           </React.Fragment>

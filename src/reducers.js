@@ -9,6 +9,7 @@ import session from './http/sessionReducer';
 import dashboard from './components/dashboard/dashboardReducer';
 import account from './components/account/accountReducer';
 import address from './components/address/addressReducer';
+import products from './components/shop/products/productsReducer';
 import { reducer as reduxFormReducer } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   dashboard,
   account,
   address,
+  products,
   form: reduxFormReducer,
 });
 

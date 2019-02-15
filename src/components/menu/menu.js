@@ -86,6 +86,12 @@ const menu = [
     icon: <PersonIcon />,
     route: '/members/profile',
   },
+  {
+    id: 2,
+    label: 'Tienda',
+    icon: <PersonIcon />,
+    route: '/shop',
+  },
   // {
   //   id: 2,
   //   label: 'Mis compras',
