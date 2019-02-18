@@ -58,6 +58,7 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true,
+    fontSize: 12,
   },
   overrides: {
     MuiButton: {
