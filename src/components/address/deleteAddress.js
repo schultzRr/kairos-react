@@ -33,7 +33,7 @@ class DeleteAddress extends React.Component {
 
     return (        
       <DialogContent className={classes.dialogContent}>
-        <Typography variant="subheading">
+        <Typography variant="subtitle1">
           ¿Quieres eliminar esta dirección?
         </Typography>
         <DialogActions className={classes.buttonContainer}>

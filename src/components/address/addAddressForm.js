@@ -89,7 +89,7 @@ class AddAddressForm extends React.Component {
             <IconButton color="inherit" onClick={handleClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
-            <Typography variant="title" color="inherit" className={classes.flex}>
+            <Typography variant="h6" color="inherit" className={classes.flex}>
               Nueva dirección
             </Typography>
             <Button 

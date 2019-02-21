@@ -8,7 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-import { getProducts, getProductsMock } from './productsActions';
+import { getProducts, getProductsMock, openProductDialog } from './productsActions';
+import ProductDialog from './productDialog';
 
 const styles = theme => ({
   container: {
@@ -31,13 +32,15 @@ const styles = theme => ({
   },
   product: {
     backgroundColor: '#fff',
-    color: '#333',
     borderRadius: 4,
     boxShadow: '0 1px 1px 0 rgba(0,0,0,.1), 0 -1px 2px 0 rgba(0,0,0,.1)',
+    color: '#333',
+    cursor: 'pointer',
+    overflow: 'hidden',
   },
   pictureContainer: {
-    maxWidth: '100%',
-    padding: 8,
+    padding: 24,
+    textAlign: 'center',
   },
   picture: {
     objectFit: 'cover',
@@ -51,6 +54,10 @@ const styles = theme => ({
 
 class Products extends Component {
 
+  openProduct = (id) => {
+    this.props.openProductDialog(id);
+  }
+
   componentDidMount() {
     this.props.getProductsMock();
   }
@@ -58,6 +65,7 @@ class Products extends Component {
   render() {
     const { classes } = this.props;
     const products = this.props.products ? this.props.products.toJS() : null;
+    const productsIdArray = this.props.products ? Object.keys(products) : null;
 
     return (
       <div className={classes.container}>
@@ -68,32 +76,49 @@ class Products extends Component {
           justify="flex-start"
           spacing={16}
         >
-          { products.map(item => {
+          { productsIdArray && productsIdArray.map(id => {
+            const product = products[id];
+
+            let lowestPrice = product.price;
+            let highestPrice = product.price;
+
+            product.variants && product.variants.map(variant => {
+              if(variant.price < lowestPrice) {
+                lowestPrice = variant.price;
+              }
+              if(variant.price > highestPrice) {
+                highestPrice = variant.price;
+              }
+            })
+
             return(
-              <Grid item key={item.id} xs={12} md={4}>
-                <div className={classes.product}>
-                  <div className={classes.picture}>
-                    <img src={item.picture} className={classes.picture}></img>
+              <Grid item key={product.id} xs={12} md={4}>
+                <div className={classes.product} onClick={() => this.openProduct(product.id)}>
+                  <div className={classes.pictureContainer}>
+                    <img src={product.picture} className={classes.picture}></img>
                   </div>
                   <div className={classes.info}>
+                    { product.variants.length ? (
                       <Typography variant="h5" className={classes.price}>
-                        $ {item.price}
+                        $ {lowestPrice} - $ {highestPrice}
                       </Typography>
+                    ) : (
+                      <Typography variant="h5" className={classes.price}>
+                        $ {product.price}
+                      </Typography>
+                    )}
                     <Typography variant="body1" className={classes.title}>
-                      {item.title}
-                    </Typography>
-                    <Typography variant="body1" className={classes.description}>
-                      {item.description}
+                      {product.title}
                     </Typography>
                     <div className={classes.actions}></div>
                   </div>
                 </div>
-                {item.name}
+                {product.name}
               </Grid>
             )
           })}
-          
         </Grid>
+        <ProductDialog />
       </div>
     )
   }
@@ -110,6 +135,7 @@ function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getProducts }, dispatch),
     bindActionCreators({ getProductsMock }, dispatch),
+    bindActionCreators({ openProductDialog }, dispatch),
   );
 }
 

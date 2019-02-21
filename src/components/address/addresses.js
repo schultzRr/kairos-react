@@ -82,7 +82,7 @@ class Addresses extends Component {
     return (
       <Paper elevation={0} className={classes.paper}>
         <div className={classes.paperTitleContainer}>
-          <Typography variant="title" className={classes.paperTitle}>
+          <Typography variant="h6" className={classes.paperTitle}>
             Direcciones
           </Typography>
         </div> 

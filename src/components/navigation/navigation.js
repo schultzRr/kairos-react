@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Route } from 'react-router-dom';
 import { toggleMenu } from './navigationActions';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -11,8 +12,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import LinkButton from '../common/linkButton';
+import { Typography } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -45,6 +48,14 @@ const styles = theme => ({
     '&:hover': {
       backgroundColor: '#27648C',
     },
+  },
+  cartButton: {
+    margin: 0,
+    color: 'white',
+  },
+  cartText: {
+    color: 'white',
+    marginLeft: 8,
   },
 });
 
@@ -85,7 +96,18 @@ class Navigation extends Component {
                   </div>
                 )}
               </Hidden>
-              { !isAuthenticated && (
+              { isAuthenticated ? (
+                <Route path="/shop" component={() => ( 
+                  <Button
+                    aria-label="Cart"
+                    onClick={this.toggleMenu}
+                    className={classes.cartButton}
+                  >
+                    <ShoppingCartIcon />
+                    <Typography variant="subtitle2" className={classes.cartText}>1</Typography>
+                  </Button>
+                )} />
+              ) : (
                 <LinkButton to="/login">
                   <Button 
                     variant="contained" 

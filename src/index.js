@@ -84,16 +84,14 @@ const theme = createMuiTheme({
         color: '#999',
         '&$focused': {
           color: mainColor,
+          '&$error': {
+            color: '#ff5a5f',
+          },
         },
         '&$error': {
           color: '#999',
         },
       },
-      focused: {
-        '&$error': {
-          color: '#ff5a5f',
-        },
-      }
     },
     MuiFormControl: {
       root: {

@@ -37,6 +37,7 @@ const styles = theme => ({
     },
   },
   title: {
+    fontWeight: 500,
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 4,
@@ -46,9 +47,6 @@ const styles = theme => ({
       marginTop: theme.spacing.unit,
       marginBottom: theme.spacing.unit * 3,
     },
-    '& h1': {
-      fontWeight: 500,
-    }
   },
   paper: {
     border: `1px solid ${theme.palette.custom.lightGrey}`,
@@ -115,11 +113,9 @@ class DashboardView extends Component {
         className={classNames(classes.root, classes.container)}
       >
         <Grid item xs={12} xl={9}>
-          <div className={classes.title}>
-            <Typography variant="headline">
-              Resumen
-            </Typography>
-          </div>
+          <Typography variant="h5" className={classes.title}>
+            Resumen
+          </Typography>
           {
             summary && (
               <Grid 
@@ -131,10 +127,10 @@ class DashboardView extends Component {
                   <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
                     <div>
                       <div className={classes.paperTitleContainer}>
-                        <Typography variant="title" className={classes.paperTitle}>
+                        <Typography variant="h6" className={classes.paperTitle}>
                           Omein
                         </Typography>
-                        <Typography variant="subheading" className={classes.paperTitle}>
+                        <Typography variant="subtitle1" className={classes.paperTitle}>
                           Rango máximo: {summary.ranks.max}
                         </Typography>
                       </div>
@@ -142,25 +138,25 @@ class DashboardView extends Component {
                         <TableHead>
                           <TableRow className={classes.tableHead}>
                             <CustomTableCell></CustomTableCell>
-                            <CustomTableCell numeric>{summary.current_month.name}</CustomTableCell>
-                            <CustomTableCell numeric>{summary.previous_month.name}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.current_month.name}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.previous_month.name}</CustomTableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           <TableRow>
                             <CustomTableCell>Vol. personal</CustomTableCell>
-                            <CustomTableCell numeric>{summary.current_month.omein_vp}</CustomTableCell>
-                            <CustomTableCell numeric>{summary.previous_month.omein_vp}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.current_month.omein_vp}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.previous_month.omein_vp}</CustomTableCell>
                           </TableRow>
                           <TableRow>
                             <CustomTableCell>Vol. grupal</CustomTableCell>
-                            <CustomTableCell numeric>{summary.current_month.omein_vg}</CustomTableCell>
-                            <CustomTableCell numeric>{summary.previous_month.omein_vg}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.current_month.omein_vg}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.previous_month.omein_vg}</CustomTableCell>
                           </TableRow>
                           <TableRow>
                             <CustomTableCell>Rango calificado</CustomTableCell>
-                            <CustomTableCell numeric>-</CustomTableCell>
-                            <CustomTableCell numeric>{summary.ranks.previous}</CustomTableCell>
+                            <CustomTableCell align="right">-</CustomTableCell>
+                            <CustomTableCell align="right">{summary.ranks.previous}</CustomTableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
@@ -171,7 +167,7 @@ class DashboardView extends Component {
                   <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
                     <div>
                       <div className={classes.paperTitleContainer}>
-                        <Typography variant="title" className={classes.paperTitle}>
+                        <Typography variant="h6" className={classes.paperTitle}>
                           Prana
                         </Typography>
                       </div>
@@ -179,20 +175,20 @@ class DashboardView extends Component {
                         <TableHead>
                           <TableRow className={classes.tableHead}>
                             <CustomTableCell></CustomTableCell>
-                            <CustomTableCell numeric>{summary.current_month.name}</CustomTableCell>
-                            <CustomTableCell numeric>{summary.previous_month.name}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.current_month.name}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.previous_month.name}</CustomTableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
                           <TableRow>
                             <CustomTableCell>Vol. personal</CustomTableCell>
-                            <CustomTableCell numeric>{summary.current_month.prana_vp}</CustomTableCell>
-                            <CustomTableCell numeric>{summary.previous_month.prana_vp}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.current_month.prana_vp}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.previous_month.prana_vp}</CustomTableCell>
                           </TableRow>
                           <TableRow>
                             <CustomTableCell>Vol. grupal</CustomTableCell>
-                            <CustomTableCell numeric>{summary.current_month.prana_vg}</CustomTableCell>
-                            <CustomTableCell numeric>{summary.previous_month.prana_vg}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.current_month.prana_vg}</CustomTableCell>
+                            <CustomTableCell align="right">{summary.previous_month.prana_vg}</CustomTableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
@@ -204,16 +200,14 @@ class DashboardView extends Component {
           }
         </Grid>
         <Grid item xs={12} xl={9}>
-          <div className={classes.title} style={{marginTop: 40}}>
-            <Typography variant="headline">
-              Detalle de volumen
-            </Typography>
-          </div>
+          <Typography variant="h5" className={classes.title} style={{marginTop: 40}}>
+            Detalle de volumen
+          </Typography>
           <Paper elevation={0} className={classes.paper}>
             { summary && (
               <React.Fragment>
                 <div className={classes.paperTitleContainer}>
-                  <Typography variant="subheading" className={classes.paperTitle}>
+                  <Typography variant="subtitle1" className={classes.paperTitle}>
                     Selecciona un mes para recibir el detalle en tu correo electrónico registrado.
                   </Typography>
                 </div>

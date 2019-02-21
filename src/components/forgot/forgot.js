@@ -82,7 +82,7 @@ class ForgotContainer extends Component {
     return(
       <Grid container justify="center">
         <Grid item xs={10} sm={7} md={4} className={classes.mainContainer}>
-          <Typography variant="title" align="center" className={classes.title}>
+          <Typography variant="h6" align="center" className={classes.title}>
             {title}
           </Typography>
           <div className={classes.formContainer}>

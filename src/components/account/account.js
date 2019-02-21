@@ -63,7 +63,7 @@ class Account extends Component {
       <React.Fragment>
         <Paper elevation={0} className={classes.paper}>
           <div className={classes.paperTitleContainer}>
-            <Typography variant="title" className={classes.paperTitle}>
+            <Typography variant="h6" className={classes.paperTitle}>
               Datos personales
             </Typography>
           </div>

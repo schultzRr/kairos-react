@@ -19,6 +19,7 @@ const styles = theme => ({
     },
   },
   title: {
+    fontWeight: 500,
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 4,
@@ -28,9 +29,6 @@ const styles = theme => ({
       marginTop: theme.spacing.unit,
       marginBottom: theme.spacing.unit * 3,
     },
-    '& h1': {
-      fontWeight: 500,
-    }
   },
 });
 
@@ -45,11 +43,9 @@ class ProfileView extends Component {
         className={classNames(classes.root, classes.container)}
       >
         <Grid item xs={12} xl={9}>
-          <div className={classes.title}>
-            <Typography variant="headline">
-              Mis datos
-            </Typography>
-          </div>
+          <Typography variant="h5" className={classes.title}>
+            Mis datos
+          </Typography>
           <Grid 
             container 
             alignContent="stretch"
