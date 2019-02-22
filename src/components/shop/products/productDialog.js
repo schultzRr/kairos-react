@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Markup } from 'interweave';
 
 import { withStyles } from '@material-ui/core/styles';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
@@ -14,9 +15,10 @@ import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { closeProductDialog, updateProductVariant } from './productsActions';
+import { closeProductDialog } from './productsActions';
+import { addProductToCart } from '../cart/cartActions';
 import { Typography } from '@material-ui/core';
-
+import { isAbsolute } from 'path';
 
 const styles = theme => ({
   overlay: {
@@ -41,14 +43,27 @@ const styles = theme => ({
   },
   leftColumnContent: {
     textAlign: 'center',
+    padding: 48,
+  },
+  rigthColumnContent: {
+    padding: 48,
+    paddingBottom: 60,
   },
   picture: {
     objectFit: 'cover',
     maxWidth: '100%',
   },
-  menu: {
-    width: 200,
+  title: {
+    marginBottom: 24,
   },
+  buttonContainer: {
+    bottom: 16,
+    marginTop: 24,
+    position: 'absolute',
+    right: 0,
+    textAlign: 'right',
+    width: '100%',
+  }
 });
 
 function Transition(props) {
@@ -61,20 +76,24 @@ class ProductDialog extends React.Component {
     this.props.closeProductDialog();
   }
 
-  handleVariantChange = event => {
-    this.props.updateProductVariant(event.target.value);
-  };
-
   handleAddToCart = () => {
-    console.log('addToCart');
+    const product = this.props.product.toJS();
+
+    const cartProduct = {
+      id: product.id,
+      title: product.title,
+      price: product.price,
+      picture: product.picture,
+      quantity: 1,
+    } 
+
+    this.props.addProductToCart(cartProduct);
+    this.props.closeProductDialog();
   }
 
   render() {
     const { classes, loading, open, fullScreen } = this.props;
     const product = this.props.product ? this.props.product.toJS() : undefined;
-    const variants = product ? product.variants : undefined;
-    const selectedVariant = this.props.selectedVariant ? this.props.selectedVariant.toJS() : undefined;
-    const selectedVariantId = selectedVariant ? selectedVariant.id : 0;
 
     return (
       <React.Fragment>
@@ -100,43 +119,32 @@ class ProductDialog extends React.Component {
                 </div>
               </Grid>
               <Grid item xs={12} md={6}>
-                <Typography variant="h4" gutterBottom>
-                  {product.title}
-                </Typography>
-                <Typography variant="h6" gutterBottom>
-                  $ {variants.length ? selectedVariant.price : product.price}
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  {product.description}
-                </Typography>
-                { variants.length > 0 && (
-                  <TextField
-                    id="outlined-select-currency"
-                    select
-                    label="Tamaño"
-                    value={selectedVariantId}
-                    onChange={this.handleVariantChange}
-                    SelectProps={{
-                      MenuProps: {
-                        className: classes.menu,
-                      },
-                    }}
-                    margin="normal"
-                    variant="outlined"
-                  >
-                    {variants.map(option => (
-                      <MenuItem key={option.id} value={option.id}>
-                        {option.title}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                )}
-                <Button 
-                  variant="contained"
-                  color="primary"
-                >
-                  Agregar al carrito
-                </Button>
+                <div className={classes.rigthColumnContent}>
+                  <div className={classes.title}>
+                    <Typography variant="h5" gutterBottom style={{ fontWeight: 500 }}>
+                      {product.title}
+                    </Typography>
+                    <Typography variant="h5" gutterBottom>
+                      $ {product.price} MXN
+                    </Typography>
+                  </div>
+                  <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 500 }}>
+                    Descripción
+                  </Typography>
+                  <Typography variant="body1" component="div" gutterBottom>
+                    <Markup content={product.description} />
+                  </Typography>
+                  <div className={classes.buttonContainer}>
+                    <Button 
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={this.handleAddToCart}
+                    >
+                      Agregar al carrito
+                    </Button>
+                  </div>
+                </div>
               </Grid>
             </Grid>
           </Dialog>
@@ -155,14 +163,13 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     open: state.get('products').get('openDialog'),
     product: state.get('products').get('selectedProduct'),
-    selectedVariant: state.get('products').get('selectedVariant'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ closeProductDialog }, dispatch),
-    bindActionCreators({ updateProductVariant }, dispatch),
+    bindActionCreators({ addProductToCart }, dispatch),
   );
 }
  

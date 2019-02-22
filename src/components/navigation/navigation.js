@@ -67,6 +67,7 @@ class Navigation extends Component {
 
   render() {
     const { classes, isAuthenticated } = this.props;
+    const cartProductsTotal = this.props.cartProducts.reduce((sum, item) => sum + item.get('quantity'), 0);
 
     return (
       <AppBar 
@@ -104,7 +105,7 @@ class Navigation extends Component {
                     className={classes.cartButton}
                   >
                     <ShoppingCartIcon />
-                    <Typography variant="subtitle2" className={classes.cartText}>1</Typography>
+                    <Typography variant="h6" className={classes.cartText}>{cartProductsTotal}</Typography>
                   </Button>
                 )} />
               ) : (
@@ -129,6 +130,7 @@ class Navigation extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     isAuthenticated: state.get('session').get('isAuthenticated'),
+    cartProducts: state.get('cart').get('products'),
   };
 };
 

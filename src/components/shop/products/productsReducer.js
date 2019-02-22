@@ -1,4 +1,4 @@
-import { fromJS, List } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import {
   GET_PRODUCTS_FETCH,
   GET_PRODUCTS_SUCCESS,
@@ -6,15 +6,13 @@ import {
   OPEN_PRODUCT_DIALOG,
   CLOSE_PRODUCT_DIALOG,
   EXIT_PRODUCT_DIALOG,
-  UPDATE_SELECTED_PRODUCT_VARIANT,
 } from './productsActions';
 
 const initialState = fromJS({
   loading: false,
   error: '',
-  products: List(),
+  products: Map(),
   selectedProduct: null,
-  selectedVariant: null,
   openDialog: false,
 });
 
@@ -39,7 +37,6 @@ function productsReducer(state = initialState, action) {
       return state.merge({
         openDialog: true,
         selectedProduct: state.get('products').get(action.payload.toString()),
-        selectedVariant: state.get('products').get(action.payload.toString()).get('variants').first(),
       })
     case CLOSE_PRODUCT_DIALOG:
       return state.merge({
@@ -48,12 +45,6 @@ function productsReducer(state = initialState, action) {
     case EXIT_PRODUCT_DIALOG:
       return state.merge({
         selectedProduct: initialState.get('selectedProduct'),
-        selectedVariant: initialState.get('selectedVariant'),
-      })
-    case UPDATE_SELECTED_PRODUCT_VARIANT:
-      return state.merge({
-        selectedVariant: state.get('selectedProduct').get('variants') ? state.get('selectedProduct').get('variants').find(item => item.get('id') == action.payload.toString()) : undefined,
-
       })
     default:
       return state;

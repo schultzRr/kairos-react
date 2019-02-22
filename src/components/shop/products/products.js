@@ -79,18 +79,6 @@ class Products extends Component {
           { productsIdArray && productsIdArray.map(id => {
             const product = products[id];
 
-            let lowestPrice = product.price;
-            let highestPrice = product.price;
-
-            product.variants && product.variants.map(variant => {
-              if(variant.price < lowestPrice) {
-                lowestPrice = variant.price;
-              }
-              if(variant.price > highestPrice) {
-                highestPrice = variant.price;
-              }
-            })
-
             return(
               <Grid item key={product.id} xs={12} md={4}>
                 <div className={classes.product} onClick={() => this.openProduct(product.id)}>
@@ -98,15 +86,9 @@ class Products extends Component {
                     <img src={product.picture} className={classes.picture}></img>
                   </div>
                   <div className={classes.info}>
-                    { product.variants.length ? (
-                      <Typography variant="h5" className={classes.price}>
-                        $ {lowestPrice} - $ {highestPrice}
-                      </Typography>
-                    ) : (
-                      <Typography variant="h5" className={classes.price}>
-                        $ {product.price}
-                      </Typography>
-                    )}
+                    <Typography variant="h5" className={classes.price}>
+                      $ {product.price}
+                    </Typography>
                     <Typography variant="body1" className={classes.title}>
                       {product.title}
                     </Typography>

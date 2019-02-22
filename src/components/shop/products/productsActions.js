@@ -8,7 +8,6 @@ export const GET_PRODUCTS_ERROR = 'GET_PRODUCTS_ERROR';
 export const OPEN_PRODUCT_DIALOG = 'OPEN_PRODUCT_DIALOG';
 export const CLOSE_PRODUCT_DIALOG = 'CLOSE_PRODUCT_DIALOG';
 export const EXIT_PRODUCT_DIALOG = 'EXIT_PRODUCT_DIALOG';
-export const UPDATE_SELECTED_PRODUCT_VARIANT = 'UPDATE_SELECTED_PRODUCT_VARIANT';
 
 function toJSObject(item) {
 
@@ -18,16 +17,7 @@ function toJSObject(item) {
     description: item.description,
     price: item.price,
     picture: item.picture,
-    variants: [],
   }
-
-  item.variants && item.variants.map(variant => {
-    result.variants.push({
-      id: variant.id,
-      title: variant.title,
-      price: variant.price,
-    });
-  })
 
   return result;
 }
@@ -96,22 +86,12 @@ export function exitProductDialog() {
   }
 }
 
-export function updateProductVariant(id) {
-  return (dispatch) => {
-    dispatch({
-      type: UPDATE_SELECTED_PRODUCT_VARIANT,
-      payload: id,
-    })
-  }
-}
-
 const productsActions = {
   getProducts,
   getProductsMock,
   openProductDialog,
   closeProductDialog,
   exitProductDialog,
-  updateProductVariant,
 };
 
 export default productsActions;

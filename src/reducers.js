@@ -10,6 +10,7 @@ import dashboard from './components/dashboard/dashboardReducer';
 import account from './components/account/accountReducer';
 import address from './components/address/addressReducer';
 import products from './components/shop/products/productsReducer';
+import cart from './components/shop/cart/cartReducer';
 import { reducer as reduxFormReducer } from 'redux-form/immutable';
 import { combineReducers } from 'redux-immutable';
 
@@ -26,6 +27,7 @@ const reducers = combineReducers({
   account,
   address,
   products,
+  cart,
   form: reduxFormReducer,
 });
 
