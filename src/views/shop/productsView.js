@@ -10,7 +10,7 @@ const styles = theme => ({
 
 });
 
-class ShopView extends Component {
+class ProductsView extends Component {
 
   render() {
     const { classes } = this.props;
@@ -27,4 +27,4 @@ class ShopView extends Component {
  
 }
 
-export default withStyles(styles)(withRouter(ShopView));
+export default withStyles(styles)(withRouter(ProductsView));

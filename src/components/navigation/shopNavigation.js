@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { toggleMenu } from './navigationActions';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -98,17 +98,15 @@ class Navigation extends Component {
                 )}
               </Hidden>
               { isAuthenticated ? (
-                <Route path="/shop" component={() => ( 
-                  <Button 
-                    component={Link} 
-                    to="/cart"
-                    aria-label="Cart"
-                    className={classes.cartButton}
-                  >
-                    <ShoppingCartIcon />
-                    <Typography variant="h6" className={classes.cartText}>{cartProductsTotal}</Typography>
-                  </Button>
-                )} />
+                <Button 
+                  component={Link} 
+                  to="/cart"
+                  aria-label="Cart"
+                  className={classes.cartButton}
+                >
+                  <ShoppingCartIcon />
+                  <Typography variant="h6" className={classes.cartText}>{cartProductsTotal}</Typography>
+                </Button>
               ) : (
                 <LinkButton to="/login">
                   <Button 

@@ -16,8 +16,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/ListOutlined';
-import CreditCardIcon from '@material-ui/icons/CreditCardOutlined';
-import HelpIcon from '@material-ui/icons/HelpOutlineOutlined';
 import PersonIcon from '@material-ui/icons/PersonOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 

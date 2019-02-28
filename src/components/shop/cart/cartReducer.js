@@ -2,6 +2,7 @@ import { fromJS, Map } from 'immutable';
 import {
   ADD_PRODUCT_TO_CART,
   REMOVE_PRODUCT_FROM_CART,
+  UPDATE_PRODUCT_QUANTITY,
 } from './cartActions';
 
 const initialState = fromJS({
@@ -18,7 +19,11 @@ function productsReducer(state = initialState, action) {
       })
     case REMOVE_PRODUCT_FROM_CART:
       return state.merge({
-        plays: state.get('products').delete(action.payload.toString()),
+        products: state.get('products').delete(action.payload.toString()),
+      })
+    case UPDATE_PRODUCT_QUANTITY:
+      return state.merge({
+        products: state.get('products').setIn([action.payload.id.toString(), 'quantity'], action.payload.quantity),
       })
     default:
       return state;

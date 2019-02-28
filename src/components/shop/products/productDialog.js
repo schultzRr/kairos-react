@@ -12,13 +12,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Slide from '@material-ui/core/Slide';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
 
 import { closeProductDialog } from './productsActions';
 import { addProductToCart } from '../cart/cartActions';
 import { Typography } from '@material-ui/core';
-import { isAbsolute } from 'path';
 
 const styles = theme => ({
   overlay: {
@@ -48,6 +45,9 @@ const styles = theme => ({
   rigthColumnContent: {
     padding: 48,
     paddingBottom: 60,
+    display: 'flex',
+    flexDirection: 'column',
+    flex: 1,
   },
   picture: {
     objectFit: 'cover',
@@ -56,11 +56,11 @@ const styles = theme => ({
   title: {
     marginBottom: 24,
   },
+  descriptionContainer: {
+    overflowY: 'auto',
+  },
   buttonContainer: {
-    bottom: 16,
     marginTop: 24,
-    position: 'absolute',
-    right: 0,
     textAlign: 'right',
     width: '100%',
   }
@@ -128,12 +128,14 @@ class ProductDialog extends React.Component {
                       $ {product.price} MXN
                     </Typography>
                   </div>
-                  <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 500 }}>
-                    Descripción
-                  </Typography>
-                  <Typography variant="body1" component="div" gutterBottom>
-                    <Markup content={product.description} />
-                  </Typography>
+                  <div className={classes.descriptionContainer}>
+                    <Typography variant="subtitle1" gutterBottom style={{ fontWeight: 500 }}>
+                      Descripción
+                    </Typography>
+                    <Typography variant="body1" component="div" gutterBottom>
+                      <Markup content={product.description} />
+                    </Typography>
+                  </div>
                   <div className={classes.buttonContainer}>
                     <Button 
                       variant="contained"

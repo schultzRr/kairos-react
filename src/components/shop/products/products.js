@@ -6,12 +6,14 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 
 import { getProducts, getProductsMock, openProductDialog } from './productsActions';
 import ProductDialog from './productDialog';
 
 const styles = theme => ({
+  root: {
+    height: 'auto',
+  },
   container: {
     padding: `${theme.spacing.unit * 4}px 0`,
     [theme.breakpoints.up('sm')]: {
@@ -68,40 +70,45 @@ class Products extends Component {
     const productsIdArray = this.props.products ? Object.keys(products) : null;
 
     return (
-      <div className={classes.container}>
-        <Typography variant="h5" className={classes.title}>
-          Productos
-        </Typography>
-        <Grid container 
-          justify="flex-start"
-          spacing={16}
-        >
-          { productsIdArray && productsIdArray.map(id => {
-            const product = products[id];
+      <Grid container 
+        justify="center"
+        className={classNames(classes.root, classes.container)}
+      >
+        <Grid item xs={12} xl={9}>
+          <Typography variant="h5" className={classes.title}>
+            Productos
+          </Typography>
+          <Grid container 
+            justify="flex-start"
+            spacing={16}
+          >
+            { productsIdArray && productsIdArray.map(id => {
+              const product = products[id];
 
-            return(
-              <Grid item key={product.id} xs={12} md={4}>
-                <div className={classes.product} onClick={() => this.openProduct(product.id)}>
-                  <div className={classes.pictureContainer}>
-                    <img src={product.picture} className={classes.picture}></img>
+              return(
+                <Grid item key={product.id} xs={12} md={4} lg={3}>
+                  <div className={classes.product} onClick={() => this.openProduct(product.id)}>
+                    <div className={classes.pictureContainer}>
+                      <img src={product.picture} className={classes.picture}></img>
+                    </div>
+                    <div className={classes.info}>
+                      <Typography variant="h5" className={classes.price}>
+                        $ {product.price}
+                      </Typography>
+                      <Typography variant="body1" className={classes.title}>
+                        {product.title}
+                      </Typography>
+                      <div className={classes.actions}></div>
+                    </div>
                   </div>
-                  <div className={classes.info}>
-                    <Typography variant="h5" className={classes.price}>
-                      $ {product.price}
-                    </Typography>
-                    <Typography variant="body1" className={classes.title}>
-                      {product.title}
-                    </Typography>
-                    <div className={classes.actions}></div>
-                  </div>
-                </div>
-                {product.name}
-              </Grid>
-            )
-          })}
+                  {product.name}
+                </Grid>
+              )
+            })}
+          </Grid>
+          <ProductDialog />
         </Grid>
-        <ProductDialog />
-      </div>
+      </Grid>
     )
   }
   
