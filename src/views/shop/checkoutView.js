@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 
 import { withStyles } from '@material-ui/core';
+import Grid from '@material-ui/core/Grid';
 
 import Navigation from '../../components/navigation/shopNavigation';
 import Checkout from '../../components/shop/checkout/checkout';
@@ -40,9 +42,17 @@ class CheckoutView extends Component {
         <div className={classes.main}>
           <div className={classes.content}>
             <div className={classes.toolbar} />
-            <Checkout />
+            <Grid container 
+              justify="center"
+            >
+              <Grid item xs={12} md={9}>
+                <Checkout />
+              </Grid>
+              <Grid item xs={12} md={3}>
+                <Summary showPaymentButton={false}/>
+              </Grid>
+            </Grid>
           </div>
-          <Summary />
         </div>
       </div>
     )

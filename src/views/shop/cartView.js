@@ -49,7 +49,7 @@ class CartView extends Component {
                 <Cart />
               </Grid>
               <Grid item xs={12} md={3}>
-                <Summary />
+                <Summary showPaymentButton={true}/>
               </Grid>
             </Grid>
           </div>

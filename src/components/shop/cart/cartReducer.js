@@ -9,7 +9,7 @@ const initialState = fromJS({
   products: Map(),
 });
 
-function productsReducer(state = initialState, action) {
+function cartReducer(state = initialState, action) {
   switch(action.type){
     case ADD_PRODUCT_TO_CART:
       return state.merge({
@@ -30,4 +30,4 @@ function productsReducer(state = initialState, action) {
   }
 }
 
-export default productsReducer;
+export default cartReducer;

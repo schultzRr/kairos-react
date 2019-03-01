@@ -12,7 +12,7 @@ import ForgotView from './views/forgot/forgotView';
 import MembersView from './views/members/membersView';
 import ProductsView from './views/shop/productsView';
 import CartView from './views/shop/cartView';
-import CheckoutView from './views/shop/cartView';
+import CheckoutView from './views/shop/checkoutView';
 
 import session from '../src/http/session';
 import { getCurrentSession } from '../src/http/sessionActions';

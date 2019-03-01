@@ -53,7 +53,7 @@ const styles = theme => ({
 class Summary extends Component {
   
   render() {
-    const { classes } = this.props;
+    const { classes, showPaymentButton } = this.props;
     const cartProductsTotal = this.props.products.reduce((sum, item) => sum + item.get('quantity'), 0);
     const orderTotal = this.props.products.reduce((sum, item) => sum + item.get('quantity') * item.get('price'), 0);
 
@@ -71,16 +71,21 @@ class Summary extends Component {
           <Paper elevation={0} className={classes.paper}>
             <Typography variant="body1">Total ({cartProductsTotal} {cartProductsTotal == 1 ? 'producto' : 'productos'}):</Typography>
             <Typography variant="h6" align="right" className={classes.total}>$ {orderTotal} MXN</Typography>
-            <div className={classes.buttonContainer}>
-              <Button 
-                variant="contained" 
-                color="primary" 
-                size="large"
-                disabled={cartProductsTotal == 0}
-              >
-                Proceder al pago
-              </Button>
-            </div>
+            {showPaymentButton && (
+              <div className={classes.buttonContainer}>
+                <Button 
+                  component={Link}
+                  to="/checkout"
+                  aria-label="Proceed to checkout"
+                  variant="contained" 
+                  color="primary" 
+                  size="large"
+                  disabled={cartProductsTotal == 0}
+                >
+                  Proceder al pago
+                </Button>
+              </div>
+            )}
           </Paper>
         </Grid>
       </Grid>
