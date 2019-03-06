@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import ListWrapper from '../common/listWrapper';
 import CustomDialog from '../common/customDialog';
 import EditAddressForm from './editAddressForm';
 import AddAddressForm from './addAddressForm';
@@ -44,6 +45,9 @@ const styles = theme => ({
       marginTop: 0,
     }
   },
+  dataTitle: {
+    fontWeight: 500,
+  },
   data: {
     color: 'rgba(0, 0, 0, 0.54)',
   },
@@ -74,10 +78,10 @@ class Addresses extends Component {
   }
 
   render() {    
-    const { classes, loading, dialog, open, selectedAddressId } = this.props;
+    const { classes, loading, error, dialogLoading, dialog, open } = this.props;
 
     const addresses = this.props.addresses ? this.props.addresses.toJS() : null;
-    const addressesIdArray = this.props.addresses ? Object.keys(addresses) : [];
+    const addressesIdArray = this.props.addresses ? Object.keys(addresses) : null;
 
     return (
       <Paper elevation={0} className={classes.paper}>
@@ -86,83 +90,77 @@ class Addresses extends Component {
             Direcciones
           </Typography>
         </div> 
-          {
-            addresses ? (
-              <React.Fragment>
-                {
-                  addressesIdArray.length ? (
-                    addressesIdArray.map((id, index) => {
-                      const item = addresses[id];
-                      return(
-                        <React.Fragment key={item.id}>
-                          <div className={classes.dataContainer}>
-                            <div>
-                              <Typography variant="body2">
-                                {item.address}
-                              </Typography>
-                              <Typography variant="body1" className={classes.data}>
-                                {item.city}, {item.state}
-                              </Typography>
-                              <Typography variant="body1" className={classes.data}>
-                                {item.zip}
-                              </Typography>
-                              <Typography variant="body1" className={classes.data}>
-                                {item.country}
-                              </Typography>
-                            </div>
-                            <div>
-                              <Button
-                                size="small"
-                                color="primary"
-                                onClick={() => this.handleDialogOpen(dialogs.EDIT_ADDRESS_DIALOG, id)}
-                              >
-                                Editar
-                              </Button>
-                              <Button
-                                color="primary"
-                                onClick={() => this.handleDialogOpen(dialogs.DELETE_ADDRESS_DIALOG, id)}
-                                className={classes.delete}
-                              >
-                                Eliminar
-                              </Button>
-                            </div>
-                          </div>
-                          { index != (addressesIdArray.length - 1) && (
-                            <Divider />
-                          )}
-                        </React.Fragment>
-                      )
-                    })
-                  ) : (
-                    <Typography variant="body1" className={classes.data}>
-                      Aun no cuentas con direcciones registradas
-                    </Typography>
-                  ) 
-                }
-                <CustomDialog 
-                  loading={loading} 
-                  open={open} 
-                  handleClose={this.handleDialogClose} 
-                  disableFullScreen={dialog == dialogs.DELETE_ADDRESS_DIALOG}>
-                  {{
-                    [dialogs.ADD_ADDRESS_DIALOG]: (
-                      <AddAddressForm handleClose={this.handleDialogClose} />
-                    ),
-                    [dialogs.EDIT_ADDRESS_DIALOG]: (
-                      <EditAddressForm handleClose={this.handleDialogClose} address={addresses[selectedAddressId]} />
-                    ),
-                    [dialogs.DELETE_ADDRESS_DIALOG]: (
-                      <DeleteAddress handleClose={this.handleDialogClose} />
-                    ),
-                  }[dialog]}
-                </CustomDialog>
-              </React.Fragment>
-            ) : (
-              <div className={classes.loaderContainer}>
-                <CircularProgress className={classes.progress} />
-              </div>
-            )
+        <ListWrapper
+          list={addressesIdArray}
+          loading={loading} 
+          error={error} 
+          noResultsText="Aun no tienes direcciones registradas"
+        >
+          { 
+            addressesIdArray && addressesIdArray.map((id, index) => {
+              const item = addresses[id];
+              return(
+                <React.Fragment key={item.id}>
+                  <div className={classes.dataContainer}>
+                    <div>
+                      <Typography variant="body1" className={classes.dataTitle}>
+                        {item.name}
+                      </Typography>
+                      <Typography variant="body1" className={classes.data}>
+                        {item.address}
+                      </Typography>
+                      <Typography variant="body1" className={classes.data}>
+                        {item.city}, {item.state}
+                      </Typography>
+                      <Typography variant="body1" className={classes.data}>
+                        {item.zip}
+                      </Typography>
+                      <Typography variant="body1" className={classes.data}>
+                        {item.country}
+                      </Typography>
+                    </div>
+                    <div>
+                      <Button
+                        size="small"
+                        color="primary"
+                        onClick={() => this.handleDialogOpen(dialogs.EDIT_ADDRESS_DIALOG, id)}
+                      >
+                        Editar
+                      </Button>
+                      <Button
+                        color="primary"
+                        onClick={() => this.handleDialogOpen(dialogs.DELETE_ADDRESS_DIALOG, id)}
+                        className={classes.delete}
+                      >
+                        Eliminar
+                      </Button>
+                    </div>
+                  </div>
+                  { index != (addressesIdArray.length - 1) && (
+                    <Divider />
+                  )}
+                </React.Fragment>
+              )
+            })
           }
+        </ListWrapper>
+        <CustomDialog 
+          loading={dialogLoading} 
+          open={open} 
+          handleClose={this.handleDialogClose} 
+          disableFullScreen={dialog == dialogs.DELETE_ADDRESS_DIALOG}>
+          {{
+            [dialogs.ADD_ADDRESS_DIALOG]: (
+              <AddAddressForm handleClose={this.handleDialogClose} />
+            ),
+            [dialogs.EDIT_ADDRESS_DIALOG]: (
+              <EditAddressForm handleClose={this.handleDialogClose} />
+            ),
+            [dialogs.DELETE_ADDRESS_DIALOG]: (
+              <DeleteAddress handleClose={this.handleDialogClose} />
+            ),
+          }[dialog]}
+        </CustomDialog>
         <div className={classes.addAddressContainer}>
           <Button
             size="small"
@@ -179,10 +177,11 @@ class Addresses extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.get('address').get('loading'),
+    loading: state.get('address').get('getAddressesLoading'),
+    error: state.get('address').get('getAddressesError'),
+    dialogLoading: state.get('address').get('dialogLoading'),
     dialog: state.get('address').get('dialog'),
     open: state.get('address').get('openDialog'),
-    selectedAddressId: state.get('address').get('selectedAddressId'),
     addresses: state.get('address').get('addresses'),
   };
 };

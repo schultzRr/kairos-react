@@ -48,6 +48,9 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
+  if (!values.get('name')) {
+    errors.name = 'Requerido';
+  }
   if (!values.get('address')) {
     errors.address = 'Requerido';
   }
@@ -90,7 +93,7 @@ class AddAddressForm extends React.Component {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.flex}>
-              Nueva dirección
+              Agregar dirección
             </Typography>
             <Button 
               type="submit"
@@ -103,11 +106,19 @@ class AddAddressForm extends React.Component {
         <DialogContent className={classes.dialogContent}>
           <div>
             <Field
+              name="name"
+              component={TextField}
+              label="Nombre de quien recibe *"
+              margin="dense"
+              autoFocus={true}
+            />
+          </div>
+          <div>
+            <Field
               name="address"
               component={TextField}
               label="Calle, número y colonia *"
               margin="dense"
-              autoFocus={true}
             />
           </div>
           <div>

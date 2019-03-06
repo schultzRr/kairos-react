@@ -9,13 +9,21 @@ export const ADD_CHECKOUT_ADDRESS_FETCH = 'ADD_CHECKOUT_ADDRESS_FETCH';
 export const ADD_CHECKOUT_ADDRESS_SUCCESS = 'ADD_CHECKOUT_ADDRESS_SUCCESS';
 export const ADD_CHECKOUT_ADDRESS_ERROR = 'ADD_CHECKOUT_ADDRESS_ERROR';
 export const UPDATE_SELECTED_CHECKOUT_ADDRESS = 'UPDATE_SELECTED_CHECKOUT_ADDRESS';
+export const GET_CHECKOUT_CARDS_FETCH = 'GET_CHECKOUT_CARDS_FETCH';
+export const GET_CHECKOUT_CARDS_SUCCESS = 'GET_CHECKOUT_CARDS_SUCCESS';
+export const GET_CHECKOUT_CARDS_ERROR = 'GET_CHECKOUT_CARDS_ERROR';
+export const ADD_CHECKOUT_CARD_FETCH = 'ADD_CHECKOUT_CARD_FETCH';
+export const ADD_CHECKOUT_CARD_SUCCESS = 'ADD_CHECKOUT_CARD_SUCCESS';
+export const ADD_CHECKOUT_CARD_ERROR = 'ADD_CHECKOUT_CARD_ERROR';
+export const UPDATE_SELECTED_CHECKOUT_CARD = 'UPDATE_SELECTED_CHECKOUT_CARD';
 export const UPDATE_ACTIVE_SECTION = 'UPDATE_ACTIVE_SECTION';
-export const OPEN_ADDRESS_CHECKOUT_DIALOG = 'OPEN_ADDRESS_CHECKOUT_DIALOG';
-export const CLOSE_ADDRESS_CHECKOUT_DIALOG = 'CLOSE_ADDRESS_CHECKOUT_DIALOG';
+export const OPEN_CHECKOUT_DIALOG = 'OPEN_CHECKOUT_DIALOG';
+export const CLOSE_CHECKOUT_DIALOG = 'CLOSE_CHECKOUT_DIALOG';
 
-function toJSObject(address) {
+function toAddressObject(address) {
   return {
     id: address.id,
+    name: address.name,
     address: address.address,
     city: address.city,
     state: address.state,
@@ -25,10 +33,29 @@ function toJSObject(address) {
   }
 }
 
-function toJSArray(addresses) {
+function toAddressArray(addresses) {
   const result = [];
   addresses.map(address => {
-    result.push(toJSObject(address));
+    result.push(toAddressObject(address));
+  })
+  return result;
+}
+
+function toCardObject(item) {
+  return {
+    id: item.id,
+    name: item.holder_name,
+    cardNumber: item.card_number,
+    expiration: item.expiration,
+    brand: item.brand,
+    primary: item.primary,
+  }
+}
+
+function toCardArray(items) {
+  const result = [];
+  items.map(item => {
+    result.push(toCardObject(item));
   })
   return result;
 }
@@ -51,7 +78,7 @@ export function getAddresses() {
     .then(response => {
       dispatch({ 
         type: GET_CHECKOUT_ADDRESSES_SUCCESS,
-        payload: arrayToHash(toJSArray(response.data.shipping_addresses)),
+        payload: arrayToHash(toAddressArray(response.data.shipping_addresses))
       });
     })
     .catch(e => {
@@ -74,6 +101,7 @@ export function addAddress(values) {
 
       axios.post('/shipping_addresses', { 
         shipping_address: {
+          name: values.get('name'),
           address: values.get('address'),
           zip: values.get('zip'),
           city: values.get('city'),
@@ -85,7 +113,7 @@ export function addAddress(values) {
       .then(response => {
         dispatch({ 
           type: ADD_CHECKOUT_ADDRESS_SUCCESS,
-          payload: toJSObject(response.data.shipping_address),
+          payload: toAddressObject(response.data.shipping_address),
         });
         dispatch({ 
           type: CLOSE_ADDRESS_CHECKOUT_DIALOG,
@@ -94,7 +122,7 @@ export function addAddress(values) {
       .catch(e => {
         dispatch({ 
           type: ADD_CHECKOUT_ADDRESS_ERROR, 
-          payload: "Ocurrió un error al guardar tu dirección. Por favor intenta más tarde.",
+          payload: "Ocurrió un error al agregar la dirección. Por favor intenta más tarde.",
         });
         throw e;
       })
@@ -111,10 +139,109 @@ export function updateSelectedAddress(id) {
   }
 }
 
+export function getCards() {
+  return (dispatch) => {
+    dispatch({ 
+      type: GET_CHECKOUT_CARDS_FETCH,
+    });
+    // MOCK return axios.get('/cards/all')
+    return axios.get('/shipping_addresses/get_all_for_user')
+    .then(response => {
+      const cards = [
+        {
+          active: true,
+          brand: "visa",
+          card_number: "411111XXXXXX1111",
+          expiration: "11/20",
+          holder_name: "Ricardo Rosas Schultz",
+          id: 1,
+          openpay_id: "kjfwqz6hpldpx37xwdjq",
+          primary: true,
+          user_id: 2,
+        }
+      ]
+      dispatch({ 
+        type: GET_CHECKOUT_CARDS_SUCCESS,
+        payload: arrayToHash(toCardArray(cards))
+        // MOCK payload: arrayToHash(toCardArray(response.data.cards))
+      });
+    })
+    .catch(e => {
+      dispatch({ 
+        type: GET_CHECKOUT_CARDS_ERROR,
+        payload: e.response ? e.response.data.errors[0].title : "Ocurrió un error al obtener las tarjetas. Por favor intenta más tarde.",
+      });
+      throw e;
+    })
+  }
+}
+
+export function addCard(values) {
+  return (dispatch) => {
+    dispatch({
+      type: ADD_CHECKOUT_CARD_FETCH,
+    })
+
+    const card = {
+      "card_number": values.get('cardNumber'),
+      "holder_name": values.get('name'),
+      "expiration_month": values.get('validThrough').substr(0,2),
+      "expiration_year": values.get('validThrough').substr(2,2),
+      "cvv2": values.get('cvv'),
+    };
+
+    return new Promise( (resolve, reject) => {
+
+      openpayService.OpenPay.token.create(card, 
+        (response => {
+          axios.post('/cards/create', {
+            token: response.data.id,
+            device_session_id: openpayService.deviceSessionId,
+          })
+          .then(response => {
+            dispatch({
+              type: ADD_CHECKOUT_CARD_SUCCESS,
+              payload: toJSObject(response.data.card),
+            });
+            dispatch({ 
+              type: CLOSE_CARDS_DIALOG,
+            });
+            resolve(response);
+          })
+          .catch(e => {
+            dispatch({ 
+              type: ADD_CHECKOUT_CARD_ERROR,
+              payload: e.response ? e.response.data.errors[0].title : "Ocurrió un error al guardar la tarjeta. Por favor intenta más tarde.",
+            });
+            reject(e);
+          });
+        
+      }), (e) => {
+        dispatch({
+          type: ADD_CARD_ERROR,
+          payload: "Por favor revisa que los datos de la tarjeta sean correctos."
+        });
+        reject(e);
+      });
+    
+    })
+  }
+  
+}
+
+export function updateSelectedCard(id) {
+  return (dispatch) => {
+    dispatch({ 
+      type: UPDATE_SELECTED_CHECKOUT_CARD, 
+      payload: id,
+    });
+  }
+}
+
 export function openDialog(dialog) {
   return (dispatch) => {
     dispatch({ 
-      type: OPEN_ADDRESS_CHECKOUT_DIALOG, 
+      type: OPEN_CHECKOUT_DIALOG, 
       payload: dialog
     });
   }
@@ -123,7 +250,7 @@ export function openDialog(dialog) {
 export function closeDialog() {
   return (dispatch) => {
     dispatch({ 
-      type: CLOSE_ADDRESS_CHECKOUT_DIALOG,
+      type: CLOSE_CHECKOUT_DIALOG,
     });
   }
 }
@@ -133,6 +260,9 @@ const checkoutActions = {
   getAddresses,
   addAddress,
   updateSelectedAddress,
+  getCards,
+  addCard,
+  updateSelectedCard,
   openDialog,
   closeDialog,
 };

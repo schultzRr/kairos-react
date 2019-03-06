@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { addAddress } from './addressActions';
+import { addAddress } from './checkoutActions';
 
 const styles = theme => ({
   appBar: {
@@ -48,6 +48,9 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
+  if (!values.get('name')) {
+    errors.name = 'Requerido';
+  }
   if (!values.get('address')) {
     errors.address = 'Requerido';
   }
@@ -69,11 +72,11 @@ const validate = values => {
 }
 
 const form = {
-  form: 'addAddress',
+  form: 'addCheckoutAddress',
   validate
 }
 
-class AddAddressForm extends React.Component {
+class AddCheckoutAddressForm extends React.Component {
 
   handleSubmit = (values) => {
     this.props.addAddress(values);
@@ -90,7 +93,7 @@ class AddAddressForm extends React.Component {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.flex}>
-              Nueva dirección
+              Agregar dirección
             </Typography>
             <Button 
               type="submit"
@@ -103,12 +106,20 @@ class AddAddressForm extends React.Component {
         <DialogContent className={classes.dialogContent}>
           <div>
             <Field
+              name="name"
+              component={TextField}
+              label="Nombre de quien recibe *"
+              margin="dense"
+              autoFocus={true}
+            />
+          </div>
+          <div>
+            <Field
               name="address"
               component={TextField}
               label="Calle, número y colonia *"
               margin="dense"
-              autoFocus={true}
-            />
+              />
           </div>
           <div>
             <Field
@@ -162,7 +173,7 @@ class AddAddressForm extends React.Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    formError: state.get('address').get('error'),
+    formError: state.get('checkout').get('dialogError'),
   };
 };
 
@@ -175,4 +186,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(reduxForm(form)(AddAddressForm)));
+)(reduxForm(form)(AddCheckoutAddressForm)));

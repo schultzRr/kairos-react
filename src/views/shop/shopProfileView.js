@@ -5,8 +5,9 @@ import { withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
-import Account from '../../components/account/account';
+import PrivateTemplate from '../../templates/privateTemplate';
 import Addresses from '../../components/address/addresses';
+import Cards from '../../components/cards/cards';
 
 const styles = theme => ({
   root: {
@@ -32,33 +33,38 @@ const styles = theme => ({
   },
 });
 
-class ProfileView extends Component {
+class ShopProfileView extends Component {
 
   render() {
     const { classes } = this.props;
 
     return (
-      <Grid container 
-        justify="center"
-        className={classNames(classes.root, classes.container)}
-      >
-        <Grid item xs={12} xl={9}>
-          <Typography variant="h5" className={classes.title}>
-            Mis datos
-          </Typography>
-          <Grid 
-            container 
-            alignContent="stretch"
-            spacing={32}
-          >
-            <Grid item xs={12} lg={6}>
-              <Account />
+      <PrivateTemplate>
+        <Grid container 
+          justify="center"
+          className={classNames(classes.root, classes.container)}
+        >
+          <Grid item xs={12} xl={9}>
+            <Typography variant="h5" className={classes.title}>
+              Mis datos
+            </Typography>
+            <Grid 
+              container 
+              alignContent="stretch"
+              spacing={32}
+            >
+              <Grid item xs={12} lg={6}>
+                <Addresses />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <Cards />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </PrivateTemplate>
     )
   }
 }
 
-export default withStyles(styles)(ProfileView);
+export default withStyles(styles)(ShopProfileView);

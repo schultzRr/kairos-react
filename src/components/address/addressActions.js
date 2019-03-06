@@ -20,6 +20,7 @@ export const CLOSE_ADDRESS_DIALOG = 'CLOSE_ADDRESS_DIALOG';
 function toJSObject(address) {
   return {
     id: address.id,
+    name: address.name,
     address: address.address,
     city: address.city,
     state: address.state,
@@ -68,6 +69,7 @@ export function addAddress(values) {
 
       axios.post('/shipping_addresses', { 
         shipping_address: {
+          name: values.get('name'),
           address: values.get('address'),
           zip: values.get('zip'),
           city: values.get('city'),
@@ -103,6 +105,7 @@ export function updateAddress(values) {
     });
     return axios.put(`/shipping_addresses/${values.get('id')}`, { 
       shipping_address: {
+        name: values.get('name'),
         address: values.get('address'),
         zip: values.get('zip'),
         city: values.get('city'),

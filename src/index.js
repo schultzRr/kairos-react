@@ -4,6 +4,8 @@ import { BrowserRouter as Router} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import axios from 'axios';
+import { API_ROOT } from './common/constants';
+
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import pink from '@material-ui/core/colors/pink';
 import purple from '@material-ui/core/colors/purple';
@@ -20,7 +22,7 @@ import red from '@material-ui/core/colors/red';
 import colors from './styles/colors';
 import App from './app';
 
-axios.defaults.baseURL = 'http://servicios.coderia.mx:8083';
+axios.defaults.baseURL = API_ROOT;
 
 const mainColor = '#40C3FD';
 

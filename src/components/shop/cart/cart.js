@@ -115,12 +115,12 @@ class Cart extends Component {
   }
 
   componentDidMount() {
-    this.props.addProductToCart(
-      {id: 10, title: "Madhuri Monk Fruit", price: 398, picture: "/images/shop/ayni-madhuri.png", quantity: 2}
-    );
-    this.props.addProductToCart(
-      {id: 11, title: "Madhuri Monk Fruit", price: 398, picture: "/images/shop/ayni-madhuri.png", quantity: 1}
-    )
+    // MOCK this.props.addProductToCart(
+    //   {id: 10, title: "Madhuri Monk Fruit", price: 398, picture: "/images/shop/ayni-madhuri.png", quantity: 2}
+    // );
+    // this.props.addProductToCart(
+    //   {id: 11, title: "Madhuri Monk Fruit", price: 398, picture: "/images/shop/ayni-madhuri.png", quantity: 1}
+    // )
   }
 
   render() {

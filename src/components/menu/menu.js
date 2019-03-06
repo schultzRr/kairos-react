@@ -17,6 +17,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/ListOutlined';
 import PersonIcon from '@material-ui/icons/PersonOutlined';
+import StoreIcon from '@material-ui/icons/StoreOutlined';
+import CreditCardIcon from '@material-ui/icons/CreditCardOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const styles = theme => ({
@@ -87,8 +89,14 @@ const menu = [
   {
     id: 2,
     label: 'Tienda',
-    icon: <PersonIcon />,
+    icon: <StoreIcon />,
     route: '/shop',
+  },
+  {
+    id: 3,
+    label: 'Mis tarjetas',
+    icon: <CreditCardIcon />,
+    route: '/shop-profile',
   },
   // {
   //   id: 2,

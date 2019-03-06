@@ -12,7 +12,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Divider from '@material-ui/core/Divider';
 
-import { updateSelectedAddress } from './checkoutActions';
+import { updateSelectedCard } from './checkoutActions';
 import { Button } from '@material-ui/core';
 
 const styles = theme => ({
@@ -33,28 +33,28 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  addressTitle: {
-    fontWeight: 500,
-  },
   buttonContainer: {
     marginLeft: 16,
     minWidth: 100,
     textAlign: 'right',
-  }
+  },
+  capitalize: {
+    textTransform: 'capitalize',
+  },
 });
 
-class CheckoutAddressList extends React.Component {
+class CheckoutCardsList extends React.Component {
 
-  handleSelectedAddress = (id) => {
-    this.props.updateSelectedAddress(id);
+  handleSelectedCard = (id) => {
+    this.props.updateSelectedCard(id);
     this.props.handleClose();
   };
 
   render() {
     const { classes, handleClose, formError } = this.props;
 
-    const addresses = this.props.addresses ? this.props.addresses.toJS() : null;
-    const addressesIdArray = this.props.addresses ? Object.keys(addresses) : null;
+    const cards = this.props.cards ? this.props.cards.toJS() : null;
+    const cardsIdArray = this.props.cards ? Object.keys(cards) : null;
 
     return (
       <React.Fragment>
@@ -64,47 +64,40 @@ class CheckoutAddressList extends React.Component {
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.flex}>
-              Cambiar dirección de envío
+              Cambiar método de pago
             </Typography>
           </Toolbar>
         </AppBar>
         <DialogContent className={classes.dialogContent}>
           <Grid container direction="column" spacing={32}>
-            { addresses && (
-              addressesIdArray.map((id, index) => {
-                const address = addresses[id];
-
+            { cards && (
+              cardsIdArray.map((id, index) => {
+                const card = cards[id];
                 return(
-                  <React.Fragment key={address.id}>
+                  <React.Fragment key={card.id}>
                     <Grid item className={classes.listItem}>
                       <div>
-                        <Typography variant="body1" className={classes.addressTitle}>
-                          {address.name}
+                        <Typography variant="body2">
+                          <span className={classes.capitalize}>{card.brand}</span> terminada en {card.cardNumber.slice(-4)} 
                         </Typography>
-                        <Typography variant="body1">
-                          {address.address}
+                        <Typography variant="body2" className={classes.data}>
+                          {card.name}
                         </Typography>
-                        <Typography variant="body1">
-                          {address.city}, {address.state}
-                        </Typography>
-                        <Typography variant="body1">
-                          {address.zip}
-                        </Typography>
-                        <Typography variant="body1">
-                          {address.country}
+                        <Typography variant="body2" className={classes.data}>
+                          Vencimiento: {card.expiration}
                         </Typography>
                       </div>
                       <div className={classes.buttonContainer}>
                         <Button 
                           color="primary" 
                           variant="outlined"
-                          onClick={() => this.handleSelectedAddress(address.id)}
+                          onClick={() => this.handleSelectedCard(card.id)}
                         >
-                          Enviar aquí
+                          Seleccionar
                         </Button>
                       </div>
                     </Grid>
-                    { index != (addressesIdArray.length - 1) && (
+                    { index != (cardsIdArray.length - 1) && (
                       <Divider />
                     )}
                   </React.Fragment>
@@ -121,17 +114,17 @@ class CheckoutAddressList extends React.Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     formError: state.get('checkout').get('error'),
-    addresses: state.get('checkout').get('addresses'),
+    cards: state.get('checkout').get('cards'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
-    bindActionCreators({ updateSelectedAddress }, dispatch),
+    bindActionCreators({ updateSelectedCard }, dispatch),
   );
 }
  
 export default withStyles(styles)(connect(
   mapStateToProps,
   mapDispatchToProps
-)(CheckoutAddressList));
+)(CheckoutCardsList));

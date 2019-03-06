@@ -13,6 +13,7 @@ import MembersView from './views/members/membersView';
 import ProductsView from './views/shop/productsView';
 import CartView from './views/shop/cartView';
 import CheckoutView from './views/shop/checkoutView';
+import ShopProfile from './views/shop/shopProfileView';
 
 import session from '../src/http/session';
 import { getCurrentSession } from '../src/http/sessionActions';
@@ -62,6 +63,7 @@ class App extends Component {
               <PrivateRoute path="/shop" component={ProductsView}/>
               <PrivateRoute path="/cart" component={CartView}/>
               <PrivateRoute path="/checkout" component={CheckoutView}/>
+              <PrivateRoute path="/shop-profile" component={ShopProfile}/>
               <Redirect to="/login" />
             </Switch>
           </React.Fragment>

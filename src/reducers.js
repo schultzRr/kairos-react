@@ -9,6 +9,7 @@ import session from './http/sessionReducer';
 import dashboard from './components/dashboard/dashboardReducer';
 import account from './components/account/accountReducer';
 import address from './components/address/addressReducer';
+import cards from './components/cards/cardsReducer';
 import products from './components/shop/products/productsReducer';
 import cart from './components/shop/cart/cartReducer';
 import checkout from './components/shop/checkout/checkoutReducer';
@@ -27,6 +28,7 @@ const reducers = combineReducers({
   dashboard,
   account,
   address,
+  cards,
   products,
   cart,
   checkout,

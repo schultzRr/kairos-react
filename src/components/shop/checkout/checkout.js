@@ -9,11 +9,18 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import CustomDialog from '../../common/customDialog';
 import CheckoutAddressesList from './checkoutAddressList';
-// import AddCheckoutAddressForm from './addCheckoutAddressForm';
-import { getAddresses, updateActiveSection, openDialog, closeDialog } from './checkoutActions';
+import AddCheckoutAddressForm from './addCheckoutAddressForm';
+import CheckoutCardsList from './checkoutCardsList';
+import AddCheckoutCardForm from './addCheckoutCardForm';
+import {  getAddresses, 
+          updateActiveSection, 
+          getCards,
+          openDialog, 
+          closeDialog } from './checkoutActions';
 import { dialogs, sections } from './checkoutConstants';
 
 const styles = theme => ({
@@ -55,7 +62,7 @@ const styles = theme => ({
     alignItems: 'center',
     display: 'flex',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 24,
     marginTop: 16,
   },
   sectionTitle: {
@@ -82,21 +89,44 @@ const styles = theme => ({
       color: theme.palette.custom.darkBlue,
     },
   },
-  noResultsText: {
-    color: 'rgba(0, 0, 0, 0.54)',
+  loaderContainer: {
+    padding: `${theme.spacing.unit * 5}px !important`,
+    textAlign: 'center',
+    width: '100%',
   },
-  buttonContainer: {
+  errorContainer: {
+    color: theme.palette.error.main,
+    padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 4}px !important`,
+    textAlign: 'center',
+    width: '100%',
+  },
+  errorText: {
+    color: theme.palette.error.main,
+  },
+  noResultsContainer: {
+    textAlign: 'left',
+    marginLeft: 4,
+    marginTop: 32,
+  },
+  noResultsText: {
+    color: '#777',
+  },
+  actionsContainer: {
     marginLeft: -4,
     marginTop: 16,
-  }
+  },
+  bold: {
+    fontWeight: 500,
+  },
+  buttonContainer: {
+    textAlign: 'right',
+  },
+  capitalize: {
+    textTransform: 'capitalize',
+  },
 });
 
 class Checkout extends Component {
-
-  editShippingAddress = event => {
-    event.preventDefault();
-    this.props.updateActiveSection(sections.SHIPPING_ADDRESS_SECTION);
-  }
 
   handleDialogClose = () => {
     this.props.closeDialog();
@@ -106,16 +136,35 @@ class Checkout extends Component {
     this.props.openDialog(dialog);
   }
 
+  editShippingAddress = event => {
+    event.preventDefault();
+    this.props.updateActiveSection(sections.SHIPPING_ADDRESS_SECTION);
+  }
+
+  editPaymentMethod = () => {
+    this.props.updateActiveSection(sections.PAYMENT_METHOD_SECTION);
+  }
+
+  isActiveSection = section => {
+    return section == this.props.activeSection;
+  }
+
   componentDidMount() {
     this.props.getAddresses();
+    this.props.getCards();
     this.props.updateActiveSection(sections.SHIPPING_ADDRESS_SECTION);
   }
 
   render() {
-    const { classes, loading, dialog, open, activeSection } = this.props;
+    const { classes, addressesLoading, addressesError, cardsLoading, cardsError, dialog, dialogLoading, open } = this.props;
+
+    const addresses = this.props.addresses ? this.props.addresses.toJS() : null;
+    const addressesIdArray = this.props.addresses ? Object.keys(addresses) : null;
     const shippingAddress = this.props.shippingAddress ? this.props.shippingAddress.toJS() : undefined;
 
-    console.log(dialog);
+    const cards = this.props.cards ? this.props.cards.toJS() : null;
+    const cardsIdArray = this.props.cards ? Object.keys(cards) : null;
+    const selectedCard = this.props.selectedCard ? this.props.selectedCard.toJS() : undefined;
 
     return (
       <Grid container 
@@ -136,57 +185,118 @@ class Checkout extends Component {
                   variant="h6" 
                   className={classNames(
                     classes.sectionTitle,
-                    activeSection == sections.SHIPPING_ADDRESS_SECTION ? classes.activeSectionTitle : undefined
+                    this.isActiveSection(sections.SHIPPING_ADDRESS_SECTION) ? classes.activeSectionTitle : undefined
                   )}
                 >
                   1. Dirección de envío
                 </Typography>
-                <Typography variant="body2" align="right">
-                  <a 
-                    aria-label="Delete item"
-                    className={classes.anchor}
-                    href="#"
-                    onClick={(event) => this.editShippingAddress(event)}
-                  >
-                    Cambiar
-                  </a>
-                </Typography>
+                { !this.isActiveSection(sections.SHIPPING_ADDRESS_SECTION) && (
+                  <Typography variant="body2" align="right">
+                    <a 
+                      aria-label="Delete item"
+                      className={classes.anchor}
+                      href="#"
+                      onClick={(event) => this.editShippingAddress(event)}
+                    >
+                      Cambiar
+                    </a>
+                  </Typography>
+                ) }
               </div>
               <div className={classes.sectionContent}>
-                { shippingAddress ? (
-                  <div>
-                    <Typography variant="body1">
-                      {shippingAddress.address}
-                    </Typography>
-                    <Typography variant="body1">
-                      {shippingAddress.city}, {shippingAddress.state}
-                    </Typography>
-                    <Typography variant="body1">
-                      {shippingAddress.zip}
-                    </Typography>
-                    <Typography variant="body1">
-                      {shippingAddress.country}
-                    </Typography>
-                  </div>
+                { this.isActiveSection(sections.SHIPPING_ADDRESS_SECTION) ? (
+                  <React.Fragment>
+                    { addressesLoading ? (
+                      <div className={classes.loaderContainer}>
+                        <CircularProgress className={classes.progress} size={40} />
+                      </div>
+                    ) : (
+                      addressesError ? (
+                        <div className={classes.errorContainer}>
+                          <Typography variant="body2" className={classes.errorText}>{addressesError}</Typography>
+                        </div>
+                      ) : (
+                        <React.Fragment>
+                          { shippingAddress && (
+                            <div>
+                              <Typography variant="body1" className={classes.bold}>
+                                {shippingAddress.name}
+                              </Typography>
+                              <Typography variant="body1">
+                                {shippingAddress.address}
+                              </Typography>
+                              <Typography variant="body1">
+                                {shippingAddress.city}, {shippingAddress.state}
+                              </Typography>
+                              <Typography variant="body1">
+                                {shippingAddress.zip}
+                              </Typography>
+                              <Typography variant="body1">
+                                {shippingAddress.country}
+                              </Typography>
+                            </div>
+                          )}
+                          { addressesIdArray && addressesIdArray.length == 0 && (
+                            <div className={classes.noResultsContainer} >
+                              <Typography variant="body2" className={classes.noResultsText}>
+                                Aun no tienes direcciones registradas
+                              </Typography>
+                            </div>  
+                          )}
+                          <div className={classes.actionsContainer}>
+                            <Button
+                              color="primary"
+                              onClick={() => this.handleDialogOpen(dialogs.ADD_ADDRESS_DIALOG)}
+                            >
+                              Agregar dirección
+                            </Button>
+                            { addressesIdArray && addressesIdArray.length != 0 && (
+                              <Button
+                                color="primary"
+                                onClick={() => this.handleDialogOpen(dialogs.ADDRESS_PICKER_DIALOG)}
+                              >
+                                Cambiar dirección
+                              </Button>
+                            )}
+                          </div>
+                          <div className={classes.buttonContainer}>
+                            <Button 
+                              color="primary"
+                              variant="contained"
+                              disabled={!shippingAddress}
+                              onClick={this.editPaymentMethod}
+                            >
+                              CONTINUAR
+                            </Button>
+                          </div>
+                        </React.Fragment>
+                      )
+                    )}
+                  </React.Fragment>
                 ) : (
-                  <Typography variant="body1" className={classes.noResultsText}>
-                    Aun no cuentas con direcciones registradas
-                  </Typography>
+                  <div>
+                    { shippingAddress && (
+                      <div>
+                        <Typography variant="body1" className={classes.bold}>
+                          {shippingAddress.name}
+                        </Typography>
+                        <Typography variant="body1">
+                          {shippingAddress.address}
+                        </Typography>
+                        <Typography variant="body1">
+                          {shippingAddress.city}, {shippingAddress.state}
+                        </Typography>
+                        <Typography variant="body1">
+                          {shippingAddress.zip}
+                        </Typography>
+                        <Typography variant="body1">
+                          {shippingAddress.country}
+                        </Typography>
+                      </div>
+                    )}
+                  </div>
                 )}
-                <div className={classes.buttonContainer}>
-                  <Button
-                    color="primary"
-                    onClick={() => this.handleDialogOpen(dialogs.ADD_ADDRESS_DIALOG)}
-                  >
-                    Agregar dirección
-                  </Button>
-                  <Button
-                    color="primary"
-                    onClick={() => this.handleDialogOpen(dialogs.ADDRESS_PICKER_DIALOG)}
-                  >
-                    Cambiar dirección
-                  </Button>
-                </div>
+                
               </div>
             </section>
             <Divider />
@@ -196,30 +306,114 @@ class Checkout extends Component {
                   variant="h6" 
                   className={classNames(
                     classes.sectionTitle,
-                    activeSection == sections.PAYMENT_METHOD_SECTION ? classes.activeSectionTitle : undefined
+                    this.isActiveSection(sections.PAYMENT_METHOD_SECTION) ? classes.activeSectionTitle : undefined
                   )}
                 >
                   2. Método de pago
                 </Typography>
               </div>
-              <div className={classes.sectionContent}></div>
+              <div className={classes.sectionContent}>
+                { this.isActiveSection(sections.PAYMENT_METHOD_SECTION) ? (
+                  <React.Fragment>
+                    { cardsLoading ? (
+                      <div className={classes.loaderContainer}>
+                        <CircularProgress className={classes.progress} size={40} />
+                      </div>
+                    ) : (
+                      cardsError ? (
+                        <div className={classes.errorContainer}>
+                          <Typography variant="body2" className={classes.errorText}>{cardsError}</Typography>
+                        </div>
+                      ) : (
+                        <React.Fragment>
+                          { selectedCard && (
+                            <div>
+                              <Typography variant="body1" className={classes.bold}>
+                                <span className={classes.capitalize}>{selectedCard.brand}</span> terminada en {selectedCard.cardNumber.slice(-4)} 
+                              </Typography>
+                              <Typography variant="body1">
+                                {selectedCard.name}
+                              </Typography>
+                              <Typography variant="body1">
+                                Vencimiento: {selectedCard.expiration}
+                              </Typography>
+                            </div>
+                          )}
+                          { cardsIdArray && cardsIdArray.length == 0 && (
+                            <div className={classes.noResultsContainer} >
+                              <Typography variant="body2" className={classes.noResultsText}>
+                                Aun no tienes métodos de pago registrados
+                              </Typography>
+                            </div>  
+                          )}
+                          <div className={classes.actionsContainer}>
+                            <Button
+                              color="primary"
+                              onClick={() => this.handleDialogOpen(dialogs.ADD_CARD_DIALOG)}
+                            >
+                              Agregar método de pago
+                            </Button>
+                            { cardsIdArray && cardsIdArray.length != 0 && (
+                              <Button
+                                color="primary"
+                                onClick={() => this.handleDialogOpen(dialogs.CARD_PICKER_DIALOG)}
+                              >
+                                Cambiar método de pago
+                              </Button>
+                            )}
+                          </div>
+                          <div className={classes.buttonContainer}>
+                            <Button 
+                              color="primary"
+                              variant="contained"
+                              disabled={!selectedCard}
+                              onClick={this.editPaymentMethod}
+                            >
+                              FINALIZAR PEDIDO
+                            </Button>
+                          </div>
+                        </React.Fragment>
+                      )
+                    )}
+                  </React.Fragment>
+                ) : (
+                  <div>
+                    { selectedCard && (
+                      <div>
+                        <Typography variant="body1" className={classes.bold}>
+                          <span className={classes.capitalize}>{selectedCard.brand}</span> terminada en {selectedCard.cardNumber.slice(-4)} 
+                        </Typography>
+                        <Typography variant="body1">
+                          {selectedCard.name}
+                        </Typography>
+                        <Typography variant="body1">
+                          Vencimiento: {selectedCard.expiration}
+                        </Typography>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </section>
             <Divider />
           </Paper>
           <CustomDialog 
-            loading={loading} 
+            loading={dialogLoading} 
             open={open} 
             handleClose={this.handleDialogClose}
           >
             {{
               [dialogs.ADD_ADDRESS_DIALOG]: (
-                <React.Fragment>
-                  <div>Hola</div>
-                  <CheckoutAddressesList />
-                </React.Fragment>
+                <AddCheckoutAddressForm handleClose={this.handleDialogClose} />
               ),
               [dialogs.ADDRESS_PICKER_DIALOG]: (
-                <div></div>
+                <CheckoutAddressesList handleClose={this.handleDialogClose} />
+              ),
+              [dialogs.ADD_CARD_DIALOG]: (
+                <AddCheckoutCardForm handleClose={this.handleDialogClose} />
+              ),
+              [dialogs.CARD_PICKER_DIALOG]: (
+                <CheckoutCardsList handleClose={this.handleDialogClose} />
               ),
             }[dialog]}
           </CustomDialog>
@@ -232,17 +426,25 @@ class Checkout extends Component {
 
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
-    loading: state.get('checkout').get('loading'),
+    addressesLoading: state.get('checkout').get('getAddressesLoading'),
+    addressesError: state.get('checkout').get('getAddressesError'),
+    cardsLoading: state.get('checkout').get('getCardsLoading'),
+    cardsError: state.get('checkout').get('getCardsError'),
+    dialogLoading: state.get('checkout').get('dialogLoading'),
     dialog: state.get('checkout').get('dialog'),
     open: state.get('checkout').get('openDialog'),
     activeSection: state.get('checkout').get('activeSection'),
+    addresses: state.get('checkout').get('addresses'),
     shippingAddress: state.get('checkout').get('selectedShippingAddress'),
+    cards: state.get('checkout').get('cards'),
+    selectedCard: state.get('checkout').get('selectedCard'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getAddresses }, dispatch),
+    bindActionCreators({ getCards }, dispatch),
     bindActionCreators({ updateActiveSection }, dispatch),
     bindActionCreators({ openDialog }, dispatch),
     bindActionCreators({ closeDialog }, dispatch),

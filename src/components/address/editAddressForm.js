@@ -48,6 +48,9 @@ const styles = theme => ({
 
 const validate = values => {
   const errors = {}
+  if (!values.get('name')) {
+    errors.name = 'Requerido';
+  }
   if (!values.get('address')) {
     errors.address = 'Requerido';
   }
@@ -102,6 +105,15 @@ class EditAddress extends React.Component {
           </Toolbar>
         </AppBar>
         <DialogContent className={classes.dialogContent}>
+          <div>
+            <Field
+              name="name"
+              component={TextField}
+              label="Nombre de quien recibe *"
+              margin="dense"
+              autoFocus={true}
+            />
+          </div>
           <div>
             <Field
               name="address"
@@ -163,7 +175,7 @@ class EditAddress extends React.Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     formError: state.get('address').get('error'),
-    initialValues: props.address,
+    initialValues: state.get('address').get('addresses').get(state.get('address').get('selectedAddressId')),
   };
 };
 
