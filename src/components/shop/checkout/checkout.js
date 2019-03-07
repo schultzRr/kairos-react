@@ -16,11 +16,15 @@ import CheckoutAddressesList from './checkoutAddressList';
 import AddCheckoutAddressForm from './addCheckoutAddressForm';
 import CheckoutCardsList from './checkoutCardsList';
 import AddCheckoutCardForm from './addCheckoutCardForm';
+import PlaceOrderConfirmation from './placeOrderConfirmation';
 import {  getAddresses, 
-          updateActiveSection, 
           getCards,
+          updateActiveSection,
+          placeOrder,
           openDialog, 
           closeDialog } from './checkoutActions';
+//MOCK
+import { addProductToCart } from '../cart/cartActions';
 import { dialogs, sections } from './checkoutConstants';
 
 const styles = theme => ({
@@ -149,10 +153,30 @@ class Checkout extends Component {
     return section == this.props.activeSection;
   }
 
+  placeOrder = () => {
+    const shippingAddress = this.props.shippingAddress ? this.props.shippingAddress.toJS() : null;
+    const selectedCard = this.props.selectedCard ? this.props.selectedCard.toJS() : null;
+    const products = this.props.products ? this.props.products.toJS() : null;
+
+    if (shippingAddress && selectedCard && products) {
+      this.props.placeOrder(shippingAddress.id, selectedCard.id, products);
+    }
+    
+  }
+
   componentDidMount() {
     this.props.getAddresses();
     this.props.getCards();
     this.props.updateActiveSection(sections.SHIPPING_ADDRESS_SECTION);
+
+    //MOCK
+    this.props.addProductToCart(
+      {id: 10, title: "Madhuri Monk Fruit", price: 398, picture: "/images/shop/ayni-madhuri.png", quantity: 2}
+    );
+    //MOCK
+    this.props.addProductToCart(
+      {id: 11, title: "Madhuri Monk Fruit", price: 398, picture: "/images/shop/ayni-madhuri.png", quantity: 1}
+    )
   }
 
   render() {
@@ -367,7 +391,7 @@ class Checkout extends Component {
                               color="primary"
                               variant="contained"
                               disabled={!selectedCard}
-                              onClick={this.editPaymentMethod}
+                              onClick={() => this.handleDialogOpen(dialogs.PLACE_ORDER_CONFIRMATION)}
                             >
                               FINALIZAR PEDIDO
                             </Button>
@@ -401,6 +425,8 @@ class Checkout extends Component {
             loading={dialogLoading} 
             open={open} 
             handleClose={this.handleDialogClose}
+            disableFullScreen={dialog == dialogs.PLACE_ORDER_CONFIRMATION}
+            disableBackdropClick={dialog == dialogs.PLACE_ORDER_CONFIRMATION}
           >
             {{
               [dialogs.ADD_ADDRESS_DIALOG]: (
@@ -414,6 +440,9 @@ class Checkout extends Component {
               ),
               [dialogs.CARD_PICKER_DIALOG]: (
                 <CheckoutCardsList handleClose={this.handleDialogClose} />
+              ),
+              [dialogs.PLACE_ORDER_CONFIRMATION]: (
+                <PlaceOrderConfirmation handleClose={this.handleDialogClose} handleContinue={this.placeOrder} />
               ),
             }[dialog]}
           </CustomDialog>
@@ -438,6 +467,7 @@ const mapStateToProps = function mapStateToProps(state, props) {
     shippingAddress: state.get('checkout').get('selectedShippingAddress'),
     cards: state.get('checkout').get('cards'),
     selectedCard: state.get('checkout').get('selectedCard'),
+    products: state.get('cart').get('products'),
   };
 };
 
@@ -446,8 +476,11 @@ function mapDispatchToProps(dispatch) {
     bindActionCreators({ getAddresses }, dispatch),
     bindActionCreators({ getCards }, dispatch),
     bindActionCreators({ updateActiveSection }, dispatch),
+    bindActionCreators({ placeOrder }, dispatch),
     bindActionCreators({ openDialog }, dispatch),
     bindActionCreators({ closeDialog }, dispatch),
+    //MOCK
+    bindActionCreators({ addProductToCart }, dispatch),
   );
 }
 

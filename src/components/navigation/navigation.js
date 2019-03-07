@@ -79,9 +79,9 @@ class Navigation extends Component {
           <Grid item className={classes.main}>
             <Toolbar>
               <div className={classes.logoContainer}>
-                <a href="/" className={classes.logo}>
+                <Link to="/" className={classes.logo}>
                   <img src="/images/logo@2x.png" className={classes.img} alt="Logo Prana"/>
-                </a>
+                </Link>
               </div>
               <Hidden mdUp>
                 {isAuthenticated && (

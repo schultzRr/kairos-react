@@ -32,6 +32,7 @@ class CustomDialog extends React.Component {
   render() {
     const { classes, loading, open, handleClose, fullScreen } = this.props;
     const disableFullScreen = this.props.disableFullScreen || false;
+    const disableBackdropClick = this.props.disableBackdropClick || false;
 
     return (
       <Dialog
@@ -40,6 +41,7 @@ class CustomDialog extends React.Component {
         onClose={handleClose}
         TransitionComponent={Transition}
         disableRestoreFocus={true}
+        disableBackdropClick={disableBackdropClick}
       >
         { loading && (
           <div className={classes.overlay}>

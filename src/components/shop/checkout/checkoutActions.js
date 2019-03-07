@@ -1,5 +1,6 @@
 import axios from 'axios';
 import session from '../../../http/session';
+import openpayService from '../../../services/openpay';
 import { arrayToHash } from '../../../common/commonFunctions';
 
 export const GET_CHECKOUT_ADDRESSES_FETCH = 'GET_CHECKOUT_ADDRESSES_FETCH';
@@ -19,6 +20,9 @@ export const UPDATE_SELECTED_CHECKOUT_CARD = 'UPDATE_SELECTED_CHECKOUT_CARD';
 export const UPDATE_ACTIVE_SECTION = 'UPDATE_ACTIVE_SECTION';
 export const OPEN_CHECKOUT_DIALOG = 'OPEN_CHECKOUT_DIALOG';
 export const CLOSE_CHECKOUT_DIALOG = 'CLOSE_CHECKOUT_DIALOG';
+export const PAY_FETCH = 'PAY_FETCH';
+export const PAY_SUCCESS = 'PAY_SUCCESS';
+export const PAY_ERROR = 'PAY_ERROR';
 
 function toAddressObject(address) {
   return {
@@ -116,7 +120,7 @@ export function addAddress(values) {
           payload: toAddressObject(response.data.shipping_address),
         });
         dispatch({ 
-          type: CLOSE_ADDRESS_CHECKOUT_DIALOG,
+          type: CLOSE_CHECKOUT_DIALOG,
         });
       })
       .catch(e => {
@@ -234,6 +238,48 @@ export function updateSelectedCard(id) {
     dispatch({ 
       type: UPDATE_SELECTED_CHECKOUT_CARD, 
       payload: id,
+    });
+  }
+}
+
+export function placeOrder(addressId, cardId, productsMap) {
+  return (dispatch) => {
+    const productsIdArray = productsMap ? Object.keys(productsMap) : [];
+    const products = [];
+
+    productsIdArray.map(id => {
+      products.push({
+        product_id: id,
+        product_quantity: productsMap[id].quantity,
+      })
+    })
+
+    dispatch({
+      type: PAY_FETCH,
+    })
+    
+    return axios.post('/orders/create', {
+        card_id: cardId, 
+        address_id: addressId,
+        products: products,
+        total: products.reduce((sum, item) => sum + (item.quantity * item.price), 0),
+        device_session_id: openpayService.deviceSessionId,
+    })
+    .then(response => {
+      dispatch({
+        type: PAY_SUCCESS,
+      });
+      return response;
+    })
+    .catch(e => {
+      const error = (e.response && e.response.data && e.response.data.errors) ? e.response.data.errors[0] : undefined;
+      const errorText = error ? error.title : 'Ocurrió un error al procesar el pago. Por favor intenta nuevamente.';
+
+      dispatch({
+        type: PAY_ERROR,
+        payload: errorText,
+      });
+      throw e;
     });
   }
 }
