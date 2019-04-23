@@ -12,7 +12,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
 import LinkButton from '../common/linkButton';
 import { Typography } from '@material-ui/core';
@@ -49,14 +48,6 @@ const styles = theme => ({
       backgroundColor: '#27648C',
     },
   },
-  cartButton: {
-    margin: 0,
-    color: 'white',
-  },
-  cartText: {
-    color: 'white',
-    marginLeft: 8,
-  },
 });
 
 class Navigation extends Component {
@@ -67,7 +58,6 @@ class Navigation extends Component {
 
   render() {
     const { classes, isAuthenticated } = this.props;
-    const cartProductsTotal = this.props.cartProducts.reduce((sum, item) => sum + item.get('quantity'), 0);
 
     return (
       <AppBar 
@@ -97,19 +87,7 @@ class Navigation extends Component {
                   </div>
                 )}
               </Hidden>
-              { isAuthenticated ? (
-                <Route path="/shop" component={() => ( 
-                  <Button 
-                    component={Link} 
-                    to="/cart"
-                    aria-label="Cart"
-                    className={classes.cartButton}
-                  >
-                    <ShoppingCartIcon />
-                    <Typography variant="h6" className={classes.cartText}>{cartProductsTotal}</Typography>
-                  </Button>
-                )} />
-              ) : (
+              { !isAuthenticated && (
                 <LinkButton to="/login">
                   <Button 
                     variant="contained" 
@@ -131,7 +109,6 @@ class Navigation extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     isAuthenticated: state.get('session').get('isAuthenticated'),
-    cartProducts: state.get('cart').get('products'),
   };
 };
 

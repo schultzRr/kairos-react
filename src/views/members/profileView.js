@@ -6,7 +6,6 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import Account from '../../components/account/account';
-import Addresses from '../../components/address/addresses';
 
 const styles = theme => ({
   root: {

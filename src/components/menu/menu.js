@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { toggleMenu } from '../navigation/navigationActions';
 import { signout } from '../../http/sessionActions';
 
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Drawer from '@material-ui/core/Drawer';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
@@ -18,7 +17,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListIcon from '@material-ui/icons/ListOutlined';
 import PersonIcon from '@material-ui/icons/PersonOutlined';
 import StoreIcon from '@material-ui/icons/StoreOutlined';
-import CreditCardIcon from '@material-ui/icons/CreditCardOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
 const styles = theme => ({
@@ -70,7 +68,10 @@ const styles = theme => ({
   },
   termsText: {
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px`,
-  }
+  },
+  link: {
+    textDecoration: 'none',
+  },
 });
 
 const menu = [
@@ -86,30 +87,12 @@ const menu = [
     icon: <PersonIcon />,
     route: '/members/profile',
   },
-  {
-    id: 2,
-    label: 'Tienda',
-    icon: <StoreIcon />,
-    route: '/shop',
-  },
-  {
-    id: 3,
-    label: 'Mis tarjetas',
-    icon: <CreditCardIcon />,
-    route: '/shop-profile',
-  },
   // {
   //   id: 2,
-  //   label: 'Mis compras',
-  //   icon: <CreditCardIcon />,
-  //   route: '/members/orders',
+  //   label: 'Tienda',
+  //   icon: <StoreIcon />,
+  //   route: 'http://servicios.coderia.mx:8082',
   // },
-  // {
-  //   id: 3,
-  //   label: 'Preguntas frecuentes',
-  //   icon: <HelpIcon />,
-  //   route: '/members/faq',
-  // }, 
 ]
 
 class Menu extends Component {
@@ -170,6 +153,20 @@ class Menu extends Component {
                 </MenuItem>
               )
             })}
+            <a href="http://servicios.coderia.mx:8082" target="_blank" className={classes.link}>
+              <MenuItem 
+                button 
+                classes={{
+                  selected: classes.selectedMenuItem,
+                }}
+                className={classes.menuItem}
+              >
+                <ListItemIcon>
+                  <StoreIcon></StoreIcon>
+                </ListItemIcon>
+                <ListItemText primary="Tienda Omein" />
+              </MenuItem>
+            </a>
           </List>
           <Divider />
           <List>

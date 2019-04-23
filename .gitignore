@@ -9,4 +9,4 @@ dist/
 *.swm
 *.swo
 *.*~
-*.DS_Store
+.DS_Store
