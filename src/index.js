@@ -7,19 +7,6 @@ import axios from 'axios';
 import { API_ROOT } from './common/constants';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import pink from '@material-ui/core/colors/pink';
-import purple from '@material-ui/core/colors/purple';
-import green from '@material-ui/core/colors/green';
-import lime from '@material-ui/core/colors/lime';
-import lightGreen from '@material-ui/core/colors/lightGreen';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import indigo from '@material-ui/core/colors/indigo';
-import blue from '@material-ui/core/colors/blue';
-import amber from '@material-ui/core/colors/amber';
-import teal from '@material-ui/core/colors/teal';
-import cyan from '@material-ui/core/colors/cyan';
-import red from '@material-ui/core/colors/red';
-import colors from './styles/colors';
 import App from './app';
 
 axios.defaults.baseURL = API_ROOT;

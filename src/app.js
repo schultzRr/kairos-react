@@ -21,6 +21,7 @@ const styles = {
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
+    height: '100%',
   },
 }
 

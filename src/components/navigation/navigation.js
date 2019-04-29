@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toggleMenu } from './navigationActions';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -61,7 +61,7 @@ class Navigation extends Component {
 
     return (
       <AppBar 
-        position="absolute" 
+        position="relative"
         elevation={0}
         className={classes.root}
       >
