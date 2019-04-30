@@ -25,33 +25,34 @@ function dashboardReducer(state = initialState, action) {
     case GET_SUMMARY_FETCH:
       return state.merge({
         loading: true,
-        error: '',
+        error: initialState.get('error'),
+        summary: initialState.get('summary')
       })
     case GET_SUMMARY_SUCCESS:
       return state.merge({
-        loading: false,
+        loading: initialState.get('loading'),
         summary: fromJS(action.payload),
       })
     case GET_SUMMARY_ERROR:
       return state.merge({
-        loading: false,
+        loading: initialState.get('loading'),
         error: action.payload,
       })
     case SEND_SUMMARY_DETAIL_FETCH:
       return state.merge({
         loadingEmail: true,
-        snackbarErrorMessage: '',
-        snackbarMessage: '',
+        snackbarErrorMessage: initialState.get('snackbarErrorMessage'),
+        snackbarMessage: initialState.get('snackbarMessage'),
       })
     case SEND_SUMMARY_DETAIL_SUCCESS:
       return state.merge({
-        loadingEmail: false,
+        loadingEmail: initialState.get('loadingEmail'),
         snackbarMessage: action.payload,
         openSnackbar: true,
       })
     case SEND_SUMMARY_DETAIL_ERROR:
       return state.merge({
-        loadingEmail: false,
+        loadingEmail: initialState.get('loadingEmail'),
         snackbarErrorMessage: action.payload,
         openSnackbar: true,
       })

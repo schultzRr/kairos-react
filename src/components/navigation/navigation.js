@@ -13,9 +13,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import LinkButton from '../common/linkButton';
-import { Typography } from '@material-ui/core';
-
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.primary.main,
@@ -42,7 +39,7 @@ const styles = theme => ({
   menuButton: {
     margin: 0,
   },
-  loginButton: {
+  actionButton: {
     backgroundColor: theme.palette.primary.dark,
     '&:hover': {
       backgroundColor: '#27648C',
@@ -88,16 +85,16 @@ class Navigation extends Component {
                 )}
               </Hidden>
               { !isAuthenticated && (
-                <LinkButton to="/login">
-                  <Button 
-                    variant="contained" 
-                    color="primary"
-                    className={classes.loginButton}
-                  >
-                    Iniciar sesión
-                  </Button>
-                </LinkButton>
-              )}
+                <Button 
+                  component={Link}
+                  to="/login"
+                  variant="contained" 
+                  color="primary"
+                  className={classes.actionButton}
+                >
+                  Iniciar sesión
+                </Button>
+                )}
             </Toolbar>
           </Grid>
         </Grid>

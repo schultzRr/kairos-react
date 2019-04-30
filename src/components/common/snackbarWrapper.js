@@ -47,7 +47,7 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-class SnackbarNotification extends Component {
+class SnackbarWrapper extends Component {
 
   render() {
     const { classes, message, open, variant, handleClose, handleExit } = this.props;
@@ -76,12 +76,13 @@ class SnackbarNotification extends Component {
   }
 }
 
-SnackbarNotification.propTypes = {
+SnackbarWrapper.propTypes = {
   classes: PropTypes.object.isRequired,
   message: PropTypes.node,
   open: PropTypes.bool,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
   handleClose: PropTypes.func,
+  handleExit: PropTypes.func,
 };
 
-export default withStyles(styles)(SnackbarNotification);
+export default withStyles(styles)(SnackbarWrapper);

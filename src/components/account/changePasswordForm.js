@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component }  from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reduxForm } from 'redux-form/immutable';
+import { reduxForm, Form } from 'redux-form/immutable';
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -34,7 +34,7 @@ const styles = theme => ({
   },
   error: {
     color: theme.palette.error.main,
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit,
     textAlign: 'left'
   },
 });
@@ -55,7 +55,7 @@ const form = {
   validate,
 }
 
-class ChangePasswordForm extends React.Component {
+class ChangePasswordForm extends Component {
 
   handleSubmit = (values) => {
     const user = {
@@ -70,7 +70,7 @@ class ChangePasswordForm extends React.Component {
     const { classes, handleClose, handleSubmit, formError } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
+      <Form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton color="inherit" onClick={handleClose} aria-label="Close">
@@ -93,14 +93,17 @@ class ChangePasswordForm extends React.Component {
               name="password"
               label="Nueva contraseña"
               margin="dense"
+              helperText=" "
               autoFocus={true}
             />
           </div>
-          <Typography variant="body1" className={classes.error}>
-            {formError}
-          </Typography>
+          { formError && (
+            <Typography variant="body2" className={classes.error}>
+              {formError}
+            </Typography>
+          )}
         </DialogContent>
-      </form>
+      </Form>
     );
   }
 }

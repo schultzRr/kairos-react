@@ -15,7 +15,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import Snackbar from '../notification/snackbar';
+import Snackbar from '../common/snackbarWrapper';
 import { getSummary, getMonthDetail, closeNotification, exitNotification } from './dashboardActions';
 
 const CustomTableCell = withStyles(theme => ({
@@ -58,7 +58,7 @@ const styles = theme => ({
   fullHeight: {
     height: '100%',
   },
-  paperTitleContainer: {
+  subtitleContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -85,7 +85,7 @@ const styles = theme => ({
   },
 });
 
-class DashboardView extends Component {
+class Dashboard extends Component {
 
   getMonthDetail = (month) => {
     this.props.getMonthDetail(month, this.props.email);
@@ -104,7 +104,7 @@ class DashboardView extends Component {
   }
 
   render() {
-    const { classes, loading, error, loadingEmail, snackbarMessage, snackbarErrorMessage, openSnackbar } = this.props;
+    const { classes, loadingEmail, snackbarMessage, snackbarErrorMessage, openSnackbar } = this.props;
     const summary = this.props.summary ? this.props.summary.toJS() : null;
 
     return (
@@ -126,11 +126,11 @@ class DashboardView extends Component {
                 <Grid item xs={12} lg={6}>
                   <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
                     <div>
-                      <div className={classes.paperTitleContainer}>
-                        <Typography variant="h6" className={classes.paperTitle}>
+                      <div className={classes.subtitleContainer}>
+                        <Typography variant="h6">
                           Omein
                         </Typography>
-                        <Typography variant="subtitle1" className={classes.paperTitle}>
+                        <Typography variant="subtitle1">
                           Rango máximo: {summary.ranks.max}
                         </Typography>
                       </div>
@@ -166,8 +166,8 @@ class DashboardView extends Component {
                 <Grid item xs={12} lg={6}>
                   <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
                     <div>
-                      <div className={classes.paperTitleContainer}>
-                        <Typography variant="h6" className={classes.paperTitle}>
+                      <div className={classes.subtitleContainer}>
+                        <Typography variant="h6">
                           Prana
                         </Typography>
                       </div>
@@ -206,8 +206,8 @@ class DashboardView extends Component {
           <Paper elevation={0} className={classes.paper}>
             { summary && (
               <React.Fragment>
-                <div className={classes.paperTitleContainer}>
-                  <Typography variant="subtitle1" className={classes.paperTitle}>
+                <div className={classes.subtitleContainer}>
+                  <Typography variant="subtitle1">
                     Selecciona un mes para recibir el detalle en tu correo electrónico registrado.
                   </Typography>
                 </div>
@@ -229,7 +229,7 @@ class DashboardView extends Component {
                     {summary.current_month.name}
                   </Button>
                   { loadingEmail && (
-                    <CircularProgress size={24} className={classes.progress} />
+                    <CircularProgress size={24} />
                   )}
                 </div>
                 <Snackbar 
@@ -239,7 +239,6 @@ class DashboardView extends Component {
                   handleClose={this.handleNotificationClose}
                   handleExit={this.handleNotificationExit}
                 />
-                
               </React.Fragment>
             )}
           </Paper>
@@ -254,8 +253,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     email: state.get('session').get('email'),
     summary: state.get('dashboard').get('summary'),
-    loading: state.get('dashboard').get('loading'),
-    error: state.get('dashboard').get('error'),
     loadingEmail: state.get('dashboard').get('loadingEmail'),
     openSnackbar: state.get('dashboard').get('openSnackbar'),
     snackbarMessage: state.get('dashboard').get('snackbarMessage'),
@@ -275,4 +272,4 @@ function mapDispatchToProps(dispatch) {
 export default withStyles(styles)((connect(
   mapStateToProps,
   mapDispatchToProps
-)(DashboardView)));
+)(Dashboard)));

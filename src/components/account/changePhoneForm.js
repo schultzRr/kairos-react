@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { reduxForm, Field } from 'redux-form/immutable';
+import { reduxForm, Field, Form } from 'redux-form/immutable';
 import { TextField } from 'redux-form-material-ui';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -34,7 +34,7 @@ const styles = theme => ({
   },
   error: {
     color: theme.palette.error.main,
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit,
     textAlign: 'left'
   },
 });
@@ -55,7 +55,7 @@ const form = {
   validate,
 }
 
-class ChangePhoneForm extends React.Component {
+class ChangePhoneForm extends Component {
 
   handleSubmit = (values) => {
     const user = {
@@ -69,7 +69,7 @@ class ChangePhoneForm extends React.Component {
     const { classes, handleClose, handleSubmit, formError } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
+      <Form onSubmit={handleSubmit(this.handleSubmit)} className={classes.form}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton color="inherit" onClick={handleClose} aria-label="Close">
@@ -97,14 +97,17 @@ class ChangePhoneForm extends React.Component {
                 maxLength: 15,
               }}
               margin="dense"
+              helperText=" "
               autoFocus={true}
             />
           </div>
-          <Typography variant="body1" className={classes.error}>
-            {formError}
-          </Typography>
+          { formError && (
+            <Typography variant="body2" className={classes.error}>
+              {formError}
+            </Typography>
+          )}
         </DialogContent>
-      </form>
+      </Form>
     );
   }
 }

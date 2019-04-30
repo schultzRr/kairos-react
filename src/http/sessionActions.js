@@ -203,6 +203,7 @@ export function getCurrentSession() {
 
 const sessionActions = {
   login,
+  resendConfirmationEmail,
   register,
   confirmRegistration,
   recoverPassword,

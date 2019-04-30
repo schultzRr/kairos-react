@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import CustomDialog from '../common/customDialog';
+import DialogWrapper from '../common/dialogWrapper';
 import ChangeNameForm from './changeNameForm';
 import ChangePhoneForm from './changePhoneForm';
 import ChangePasswordForm from './changePasswordForm';
@@ -48,16 +48,16 @@ const styles = theme => ({
 
 class Account extends Component {
 
-  handleDialogClose = () => {
-    this.props.closeDialog();
-  }
-
   handleDialogOpen = dialog => {
     this.props.openDialog(dialog);
   }
 
+  handleDialogClose = () => {
+    this.props.closeDialog();
+  }
+
   render() {
-    const { classes, name, lastname, phone, loading, dialog, open } = this.props;
+    const { classes, name, lastname, phone, dialog, loading, open } = this.props;
 
     return (
       <React.Fragment>
@@ -72,7 +72,7 @@ class Account extends Component {
               <Typography variant="body2">
                 Nombre:
               </Typography>
-              <Typography variant="body1" className={classes.data}>
+              <Typography variant="body2" className={classes.data}>
                 {name} {lastname}
               </Typography>
             </div>
@@ -90,7 +90,7 @@ class Account extends Component {
               <Typography variant="body2">
                 Teléfono:
               </Typography>
-              <Typography variant="body1" className={classes.data}>
+              <Typography variant="body2" className={classes.data}>
                 {phone}
               </Typography>
             </div>
@@ -121,7 +121,7 @@ class Account extends Component {
             </Button>
           </div>
         </Paper>
-        <CustomDialog 
+        <DialogWrapper 
           loading={loading} 
           open={open} 
           handleClose={this.handleDialogClose}>
@@ -136,7 +136,7 @@ class Account extends Component {
               <ChangePasswordForm handleClose={this.handleDialogClose}/>
             ),
           }[dialog]}
-        </CustomDialog>
+        </DialogWrapper>
       </React.Fragment>
     )
   } 
@@ -147,8 +147,8 @@ const mapStateToProps = function mapStateToProps(state, props) {
     name: state.get('session').get('name'),
     lastname: state.get('session').get('lastname'),
     phone: state.get('session').get('phone'),
-    loading: state.get('account').get('loading'),
     dialog: state.get('account').get('dialog'),
+    loading: state.get('account').get('loading'),
     open: state.get('account').get('openDialog'),
   };
 };

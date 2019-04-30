@@ -19,7 +19,7 @@ function accountReducer(state = initialState, action) {
     case ACCOUNT_UPDATE_FETCH: 
       return state.merge({
         loading: true,
-        error: '',
+        error: initialState.get('error'),
       })
     case ACCOUNT_UPDATE_SUCCESS: 
       return state.merge({

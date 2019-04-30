@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { toggleMenu } from '../navigation/navigationActions';
-import { signout } from '../../http/sessionActions';
+import { STORE_URL } from '../../common/constants';
 
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
@@ -19,6 +18,10 @@ import PersonIcon from '@material-ui/icons/PersonOutlined';
 import StoreIcon from '@material-ui/icons/StoreOutlined';
 import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
 
+import ThreeBounceLoader from '../common/loaders/threeBounceLoader';
+import { toggleMenu } from '../navigation/navigationActions';
+import { signout } from '../../http/sessionActions';
+
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.custom.white,
@@ -26,7 +29,6 @@ const styles = theme => ({
     flex: 1,
     flexDirection: 'column',
   },
-  toolbar: theme.mixins.toolbar,
   drawer: {
     height: '100%',
   },
@@ -80,24 +82,22 @@ const menu = [
     label: 'Resumen',
     icon: <ListIcon />,
     route: '/members',
+    matchingRoutes: ['/members'],
+    value: 0,
   },
   {
     id: 1,
     label: 'Mis datos',
     icon: <PersonIcon />,
     route: '/members/profile',
+    matchingRoutes: ['/members/profile'],
+    value: 1,
   },
-  // {
-  //   id: 2,
-  //   label: 'Tienda',
-  //   icon: <StoreIcon />,
-  //   route: 'http://servicios.coderia.mx:8082',
-  // },
 ]
 
 class Menu extends Component {
   state = {
-    selectedMenuIndex: undefined
+    selectedMenu: undefined
   }
 
   toggleMenu = () => {
@@ -105,21 +105,42 @@ class Menu extends Component {
   }
 
   handleMenuItemClick = route => {
-    this.setState({ selectedMenu : route });
+    this.toggleMenu();
     this.props.history.push(route);
   }
 
   handleSignoutClick = () => {
-    this.props.signout();
+    this.props.signout()
+    .then(response => {
+      this.toggleMenu();
+    })
+    .catch(e => {});
+  }
+
+  setMenuValue = () => {
+    const { location } = this.props;
+
+    menu.map(item => {
+      item.matchingRoutes.map(route => {
+        if (location.pathname.includes(route)) {
+          this.setState({selectedMenu: item.value});
+        }
+      })
+    })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.setMenuValue();
+    }
   }
 
   componentDidMount() {
-    const { location } = this.props;
-    this.setState({ selectedMenu: location.pathname});
+    this.setMenuValue();
   }
   
   render() {
-    const { classes, mobileOpen, name, lastname, externalId, email } = this.props;
+    const { classes, mobileOpen, loading, name, lastname, externalId } = this.props;
 
     const drawer = (
       <div className={classes.root}>
@@ -153,7 +174,7 @@ class Menu extends Component {
                 </MenuItem>
               )
             })}
-            <a href="http://servicios.coderia.mx:8082" target="_blank" className={classes.link}>
+            <a href={STORE_URL} target="_blank" className={classes.link}>
               <MenuItem 
                 button 
                 classes={{
@@ -181,7 +202,10 @@ class Menu extends Component {
               <ListItemIcon>
                 <ExitToAppIcon />
               </ListItemIcon>
-              <ListItemText primary="Cerrar sesión" />
+              <ListItemText primary="Salir" />
+              { loading && (
+                <ThreeBounceLoader />
+              )}
             </MenuItem>
           </List>
         </div>
@@ -220,7 +244,6 @@ class Menu extends Component {
             }}
             className={classes.drawer}
           >
-            <div className={classes.toolbar} />
             {drawer}
           </Drawer>
         </Hidden>
@@ -232,10 +255,10 @@ class Menu extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     mobileOpen: state.get('navigation').get('mobileOpen'),
+    loading: state.get('session').get('loading'),
     name: state.get('session').get('name'),
     lastname: state.get('session').get('lastname'),
     externalId: state.get('session').get('externalId'),
-    email: state.get('session').get('email'),
   };
 };
 
