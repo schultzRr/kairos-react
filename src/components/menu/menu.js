@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { STORE_URL } from '../../common/constants';
+import { OMEIN_STORE_URL, PRANA_STORE_URL } from '../../common/constants';
 
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
@@ -174,7 +174,7 @@ class Menu extends Component {
                 </MenuItem>
               )
             })}
-            <a href={STORE_URL} target="_blank" className={classes.link}>
+            <a href={OMEIN_STORE_URL} target="_blank" className={classes.link}>
               <MenuItem 
                 button 
                 classes={{
@@ -186,6 +186,20 @@ class Menu extends Component {
                   <StoreIcon></StoreIcon>
                 </ListItemIcon>
                 <ListItemText primary="Tienda Omein" />
+              </MenuItem>
+            </a>
+            <a href={PRANA_STORE_URL} target="_blank" className={classes.link}>
+              <MenuItem 
+                button 
+                classes={{
+                  selected: classes.selectedMenuItem,
+                }}
+                className={classes.menuItem}
+              >
+                <ListItemIcon>
+                  <StoreIcon></StoreIcon>
+                </ListItemIcon>
+                <ListItemText primary="Tienda Prana" />
               </MenuItem>
             </a>
           </List>

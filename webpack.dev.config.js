@@ -11,7 +11,7 @@ module.exports = {
     publicPath: '/'
   },
   devServer: {
-    port: 9000,
+    port: 9001,
     historyApiFallback: true,
   },
   devtool: 'eval-source-map',
