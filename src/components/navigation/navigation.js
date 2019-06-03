@@ -16,6 +16,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 const styles = theme => ({
   root: {
     backgroundColor: theme.palette.primary.main,
+    height: 64,
+    overflow: 'hidden',
     zIndex: theme.zIndex.drawer + 1,
   },
   main: {
@@ -34,7 +36,7 @@ const styles = theme => ({
     display: 'inline-block',
   },
   img: {
-    height: 40,
+    height: 80,
   },
   menuButton: {
     margin: 0,
@@ -67,7 +69,7 @@ class Navigation extends Component {
             <Toolbar>
               <div className={classes.logoContainer}>
                 <Link to="/" className={classes.logo}>
-                  <img src="/images/logo@2x.png" className={classes.img} alt="Logo Prana"/>
+                  <img src="/images/logo-futura@2x.png" className={classes.img} alt="Logo Futura"/>
                 </Link>
               </div>
               <Hidden mdUp>
