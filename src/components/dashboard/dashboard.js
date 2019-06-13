@@ -83,9 +83,6 @@ const styles = theme => ({
     marginRight: 16,
     textTransform: 'capitalize',
   },
-  logo: {
-    display: 'inline-block',
-  },
   img: {
     height: 30,
   },
