@@ -36,7 +36,8 @@ const styles = theme => ({
     display: 'inline-block',
   },
   img: {
-    height: 80,
+    height: 110,
+    paddingBottom: 10,
   },
   menuButton: {
     margin: 0,

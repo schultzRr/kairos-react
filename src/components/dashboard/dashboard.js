@@ -83,6 +83,12 @@ const styles = theme => ({
     marginRight: 16,
     textTransform: 'capitalize',
   },
+  logo: {
+    display: 'inline-block',
+  },
+  img: {
+    height: 30,
+  },
 });
 
 class Dashboard extends Component {
@@ -128,7 +134,7 @@ class Dashboard extends Component {
                     <div>
                       <div className={classes.subtitleContainer}>
                         <Typography variant="h6">
-                          Omein
+                          <img src="/images/omein/logo.png" className={classes.img} alt="Logo Omein"/>
                         </Typography>
                         <Typography variant="subtitle1">
                           Rango máximo: {summary.ranks.max}
@@ -168,7 +174,7 @@ class Dashboard extends Component {
                     <div>
                       <div className={classes.subtitleContainer}>
                         <Typography variant="h6">
-                          Prana
+                          <img src="/images/prana/logo-gris.png" className={classes.img} alt="Logo Prana"/>
                         </Typography>
                       </div>
                       <Table className={classes.table}>
