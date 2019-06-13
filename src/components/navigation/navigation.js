@@ -31,6 +31,7 @@ const styles = theme => ({
   },
   logoContainer: {
     flex: 1,
+    maxHeight: 80,
   },
   logo: {
     display: 'inline-block',
