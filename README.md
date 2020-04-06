@@ -16,10 +16,11 @@ Just clone this repository
 
 ## Running
 
-Run the development build script on cli
+1. Run the development build script on cli
 ```
 npm run build:dev
 ```
+2. Open `http://localhost:9001/` on a browser
 
 ## Deployment as single app
 
