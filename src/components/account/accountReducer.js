@@ -4,8 +4,8 @@ import {
   ACCOUNT_UPDATE_SUCCESS,
   ACCOUNT_UPDATE_ERROR,
   OPEN_ACCOUNT_DIALOG,
-  CLOSE_ACCOUNT_DIALOG,
-} from './accountActions';
+  CLOSE_ACCOUNT_DIALOG
+} from 'src/actions';
 
 const initialState = fromJS({
   loading: false,

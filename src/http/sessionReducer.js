@@ -2,8 +2,8 @@ import { fromJS } from 'immutable';
 import {
   LOGIN_SUCCESS,
   SIGNOUT_SUCCESS,
+  ACCOUNT_UPDATE_SUCCESS
 } from 'src/actions';
-import { ACCOUNT_UPDATE_SUCCESS } from 'components/account/accountActions';
 
 const initialState = fromJS({
   isAuthenticated: false,

@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-export const ACCOUNT_UPDATE_FETCH = 'ACCOUNT_UPDATE_FETCH';
-export const ACCOUNT_UPDATE_SUCCESS = 'ACCOUNT_UPDATE_SUCCESS';
-export const ACCOUNT_UPDATE_ERROR = 'ACCOUNT_UPDATE_ERROR';
-export const OPEN_ACCOUNT_DIALOG = 'OPEN_ACCOUNT_DIALOG';
-export const CLOSE_ACCOUNT_DIALOG = 'CLOSE_ACCOUNT_DIALOG';
+import {
+  ACCOUNT_UPDATE_FETCH,
+  ACCOUNT_UPDATE_SUCCESS,
+  ACCOUNT_UPDATE_ERROR,
+  OPEN_ACCOUNT_DIALOG,
+  CLOSE_ACCOUNT_DIALOG
+} from 'src/actions';
 
 export function updateAccount(user) {
   return (dispatch) => {

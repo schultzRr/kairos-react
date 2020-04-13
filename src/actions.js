@@ -25,60 +25,35 @@ export const SIGNOUT_ERROR = 'SIGNOUT_ERROR';
 
 // loginActions
 
+export const LOGIN_VIEW_CHANGE = 'LOGIN_VIEW_CHANGE';
 
 // forgotActions
 
+export const FORGOT_VIEW_CHANGE = 'FORGOT_VIEW_CHANGE';
 
 // registerActions
 
+export const REGISTER_VIEW_CHANGE = 'REGISTER_VIEW_CHANGE';
 
 // accountActions
 
+export const ACCOUNT_UPDATE_FETCH = 'ACCOUNT_UPDATE_FETCH';
+export const ACCOUNT_UPDATE_SUCCESS = 'ACCOUNT_UPDATE_SUCCESS';
+export const ACCOUNT_UPDATE_ERROR = 'ACCOUNT_UPDATE_ERROR';
+export const OPEN_ACCOUNT_DIALOG = 'OPEN_ACCOUNT_DIALOG';
+export const CLOSE_ACCOUNT_DIALOG = 'CLOSE_ACCOUNT_DIALOG';
 
-// bankAccountsActions
-
-
-// cardActions
-
-
-// depositActions
-
-
-// nextGamesActions
-
-
-// playActions
-
-
-// playGameActions
-
-
-// orderActions
-
-
-// ticketActions
-
-
-// resultsActions
-
-
-// transactionActions
-
-
-// inboxActions
-
-
-// dialogsActions
-
-
-// snackbarActions
-
-
-// portalActions
-
-
-// downlinesActions
+// dashboardActions
 
 export const GET_SUMMARY_FETCH = 'GET_SUMMARY_FETCH';
 export const GET_SUMMARY_SUCCESS = 'GET_SUMMARY_SUCCESS';
 export const GET_SUMMARY_ERROR = 'GET_SUMMARY_ERROR';
+export const SEND_SUMMARY_DETAIL_FETCH = 'SEND_SUMMARY_DETAIL_FETCH';
+export const SEND_SUMMARY_DETAIL_SUCCESS = 'SEND_SUMMARY_DETAIL_SUCCESS';
+export const SEND_SUMMARY_DETAIL_ERROR = 'SEND_SUMMARY_DETAIL_ERROR';
+export const CLOSE_SUMMARY_NOTIFICATION = 'CLOSE_SUMMARY_NOTIFICATION';
+export const EXIT_SUMMARY_NOTIFICATION = 'EXIT_SUMMARY_NOTIFICATION';
+
+// navigationActions
+
+export const TOGGLE_MENU = 'TOGGLE_MENU';

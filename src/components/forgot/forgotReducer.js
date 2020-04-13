@@ -6,11 +6,9 @@ import {
   PASSWORD_RECOVERY_ERROR,
   PASSWORD_RESET_FETCH,
   PASSWORD_RESET_SUCCESS,
-  PASSWORD_RESET_ERROR
+  PASSWORD_RESET_ERROR,
+  FORGOT_VIEW_CHANGE
 } from 'src/actions';
-import {
-  FORGOT_VIEW_CHANGE,
-} from './forgotActions';
 
 const initialState = fromJS({
   loading: false,

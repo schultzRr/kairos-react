@@ -8,7 +8,7 @@ import {
   SEND_SUMMARY_DETAIL_ERROR,
   CLOSE_SUMMARY_NOTIFICATION,
   EXIT_SUMMARY_NOTIFICATION,
-} from './dashboardActions';
+} from 'src/actions';
 
 const initialState = fromJS({
   loading: false,
