@@ -76,3 +76,9 @@ export const SIGNOUT_ERROR = 'SIGNOUT_ERROR';
 
 // portalActions
 
+
+// downlinesActions
+
+export const GET_SUMMARY_FETCH = 'GET_SUMMARY_FETCH';
+export const GET_SUMMARY_SUCCESS = 'GET_SUMMARY_SUCCESS';
+export const GET_SUMMARY_ERROR = 'GET_SUMMARY_ERROR';
