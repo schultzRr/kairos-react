@@ -11,7 +11,7 @@ module.exports = {
     publicPath: '/'
   },
   devServer: {
-    port: 9001,
+    port: 9002,
     historyApiFallback: true,
   },
   devtool: 'eval-source-map',
@@ -44,5 +44,17 @@ module.exports = {
         }
       },
     ]
-  }
+  },
+  resolve: {
+    alias: {
+      src: path.join(__dirname, '/src'),
+      components: path.join(__dirname, '/src/components'),
+      templates: path.join(__dirname, '/src/templates'),
+      views: path.join(__dirname, '/src/views'),
+      library: path.join(__dirname, '/src/library'),
+      res: path.join(__dirname, '/src/res'),
+      http: path.join(__dirname, '/src/http'),
+    },
+    extensions: ['.ts', '.js', '.jsx']
+  },
 }

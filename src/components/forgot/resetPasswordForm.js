@@ -2,21 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Form } from 'redux-form/immutable';
 
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { Button, Typography, withStyles } from '@material-ui/core';
 
-import PasswordField from '../common/passwordField';
+import PasswordInput from 'library/components/PasswordInput';
 
 const styles = theme => ({
   error: {
     color: theme.palette.error.main,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     textAlign: 'left'
   },
   buttonContainer: {
-    marginTop: theme.spacing.unit * 4,
-    marginLeft: theme.spacing.unit * -2,
+    marginTop: theme.spacing(4),
+    marginLeft: theme.spacing(-2),
     textAlign: 'right',
   },
 });
@@ -49,7 +47,7 @@ class ResetPasswordForm extends Component {
           </Typography>
         </div>
         <div>
-          <PasswordField 
+          <PasswordInput 
             name="password"
             label="Contraseña"
             margin="normal"

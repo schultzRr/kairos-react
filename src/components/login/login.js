@@ -3,52 +3,49 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { reduxForm, formValueSelector, Field, Form } from 'redux-form/immutable';
-import { TextField } from 'redux-form-material-ui';
-import { CONTACT_EMAIL } from '../../common/constants';
+import { CONTACT_EMAIL } from 'res/constants';
 
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { Grid, Button, Typography, withStyles } from '@material-ui/core';
 
-import LoaderOverlay from '../common/loaderOverlay';
-import PasswordField from '../common/passwordField';
+import LoaderOverlay from 'library/components/LoaderOverlay';
+import PasswordInput from 'library/components/PasswordInput';
 
-import { login, resendConfirmationEmail } from '../../http/sessionActions';
-import { changeView } from '../../components/login/loginActions';
+import { login, resendConfirmationEmail } from 'http/sessionActions';
+import { changeView } from 'components/login/loginActions';
 
+import { renderTextField } from 'library/utils/inputs';
 import views from './loginConstants';
 
 const styles = theme => ({
   mainContainer: {
-    margin: theme.spacing.unit * 4 + 'px 0',
+    margin: theme.spacing(4, 0),
     zIndex: 1,
   },
   title: {
     color: theme.palette.custom.lightGrey,
-    marginBottom: theme.spacing.unit * 4,
+    marginBottom: theme.spacing(4),
     fontWeight: 500,
   },
   formContainer: {
     backgroundColor: theme.palette.custom.white,
     borderRadius: 4,
     color: theme.palette.text.secondary,
-    padding: theme.spacing.unit * 6 + 'px 15%',
+    padding: theme.spacing(6) + 'px 15%',
     position: 'relative',
     textAlign: 'center',
   },
   error: {
     color: theme.palette.error.main,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     textAlign: 'left'
   },
   buttonContainer: {
-    marginTop: theme.spacing.unit * 4,
-    marginLeft: theme.spacing.unit * -2,
+    marginTop: theme.spacing(4),
+    marginLeft: theme.spacing(-2),
     textAlign: 'right',
   },
   linkContainer: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   link: {
     color: theme.palette.custom.darkGrey,
@@ -59,8 +56,8 @@ const styles = theme => ({
     },
   },
   footerContainer: {
-    padding: theme.spacing.unit * 1.5,
-    height: theme.spacing.unit * 9,
+    padding: theme.spacing(1.5),
+    height: theme.spacing(9),
   },
   footerLink: {
     color: theme.palette.custom.darkGrey,
@@ -128,14 +125,14 @@ class LoginContainer extends Component {
                     <Field
                       name="email"
                       type="email"
-                      component={TextField}
+                      component={renderTextField}
                       label="Correo electrónico"
                       margin="dense"
                       helperText=" "
                     />
                   </div>
                   <div>
-                    <PasswordField 
+                    <PasswordInput 
                       name="password"
                       label="Contraseña"
                       margin="dense"

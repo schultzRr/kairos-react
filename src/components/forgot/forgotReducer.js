@@ -7,7 +7,7 @@ import {
   PASSWORD_RESET_FETCH,
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_ERROR
-} from '../../http/sessionActions';
+} from 'src/actions';
 import {
   FORGOT_VIEW_CHANGE,
 } from './forgotActions';

@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
-import { withStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
-import SuccessIcon from '@material-ui/icons/CheckCircleOutlined';
-import WarningIcon from '@material-ui/icons/WarningOutlined';
-import ErrorIcon from '@material-ui/icons/ReportOutlined';
-import InfoIcon from '@material-ui/icons/InfoOutlined';
-import Slide from '@material-ui/core/Slide';
+import { 
+  Snackbar, 
+  SnackbarContent, 
+  Slide, 
+  withStyles 
+} from '@material-ui/core';
+import {
+  CheckCircleOutlined as SuccessIcon,
+  WarningOutlined as WarningIcon,
+  ReportOutlined as ErrorIcon,
+  InfoOutlined as InfoIcon,
+} from '@material-ui/icons';
 import amber from '@material-ui/core/colors/amber';
 import green from '@material-ui/core/colors/green';
 
@@ -28,7 +32,7 @@ const styles = theme => ({
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
   },
   message: {
     display: 'flex',
@@ -43,9 +47,9 @@ const variantIcon = {
   info: InfoIcon,
 };
 
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 class SnackbarWrapper extends Component {
 
@@ -65,7 +69,7 @@ class SnackbarWrapper extends Component {
           aria-describedby="client-snackbar"
           message={
             <span id="client-snackbar" className={classes.message}>
-              <Icon className={classNames(classes.icon, classes.iconVariant)} />
+              <Icon className={clsx(classes.icon, classes.iconVariant)} />
               {message}
             </span>
           }

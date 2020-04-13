@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import { TOGGLE_MENU } from '../navigation/navigationActions';
+import { TOGGLE_MENU } from './navigationActions';
 
 const initialState = fromJS({
   mobileOpen: false

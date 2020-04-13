@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
-import { withStyles } from '@material-ui/core';
-
-import PrivateTemplate from '../../templates/privateTemplate';
-import Dashboard from '../../components/dashboard/dashboard';
+import PrivateTemplate from 'templates/privateTemplate';
+import Dashboard from 'components/dashboard/dashboard';
 import ProfileView from './profileView';
-
-const styles = theme => ({
-
-});
 
 class MembersView extends Component {
 
   render() {
-    const { classes } = this.props;
 
     return (
       <PrivateTemplate>
         <Switch>
-          <Route exact path="/members" component={Dashboard} />
-          <Route exact path="/members/profile" component={ProfileView} />
+          <Route exact path="/members">
+            <Dashboard />
+          </Route>
+          <Route exact path="/members/profile">
+            <ProfileView />
+          </Route>
           <Redirect to="/members" />
         </Switch>
       </PrivateTemplate>
@@ -29,4 +26,4 @@ class MembersView extends Component {
  
 }
 
-export default withStyles(styles)(withRouter(MembersView));
+export default withRouter(MembersView);

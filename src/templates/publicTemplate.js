@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { withStyles } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
+import { Grid, withStyles } from '@material-ui/core';
 
-import Navigation from '../components/navigation/navigation';
+import Navigation from 'components/navigation/navigation';
 
 const styles = theme => ({
   root: {

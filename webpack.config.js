@@ -66,6 +66,18 @@ module.exports = (env) => {
         },
       ]
     },
-    plugins
+    plugins,
+    resolve: {
+      alias: {
+        src: path.join(__dirname, '/src'),
+        components: path.join(__dirname, '/src/components'),
+        templates: path.join(__dirname, '/src/templates'),
+        views: path.join(__dirname, '/src/views'),
+        library: path.join(__dirname, '/src/library'),
+        res: path.join(__dirname, '/src/res'),
+        http: path.join(__dirname, '/src/http'),
+      },
+      extensions: ['.ts', '.js', '.jsx']
+    },
   }
 }

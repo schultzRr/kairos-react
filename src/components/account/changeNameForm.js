@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { reduxForm, Field, Form } from 'redux-form/immutable';
-import { TextField } from 'redux-form-material-ui';
+import { renderTextField } from 'library/utils/inputs';
 
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import { 
+  Button, 
+  AppBar, 
+  Toolbar, 
+  IconButton, 
+  Typography,
+  DialogContent, 
+  withStyles 
+} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import DialogContent from '@material-ui/core/DialogContent';
 
 import { updateAccount } from './accountActions';
 
@@ -23,8 +25,8 @@ const styles = theme => ({
     flex: 1,
   },
   dialogContent: {
-    padding: theme.spacing.unit * 6,
-    paddingBottom: theme.spacing.unit * 7,
+    padding: theme.spacing(6),
+    paddingBottom: theme.spacing(7),
     maxWidth: '100%',
     width: 500,
   },
@@ -34,7 +36,7 @@ const styles = theme => ({
   },
   error: {
     color: theme.palette.error.main,
-    marginTop: theme.spacing.unit,
+    marginTop: theme.spacing(1),
     textAlign: 'left'
   },
 });
@@ -91,7 +93,7 @@ class ChangeNameForm extends Component {
           <div>
             <Field
               name="name"
-              component={TextField}
+              component={renderTextField}
               label="Nombre"
               margin="dense"
               helperText=" "
@@ -101,7 +103,7 @@ class ChangeNameForm extends Component {
           <div>
             <Field
               name="lastname"
-              component={TextField}
+              component={renderTextField}
               label="Apellido(s)"
               margin="dense"
               helperText=" "

@@ -2,17 +2,16 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import PrivateRoute from './privateRoute';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { withStyles } from '@material-ui/core/styles';
+import PrivateRoute from 'src/privateRoute';
+import { CssBaseline, withStyles } from '@material-ui/core';
 
-import LoginView from './views/login/loginView';
-import RegisterView from './views/register/registerView';
-import ForgotView from './views/forgot/forgotView';
-import MembersView from './views/members/membersView';
+import LoginView from 'views/login/loginView';
+import RegisterView from 'views/register/registerView';
+import ForgotView from 'views/forgot/forgotView';
+import MembersView from 'views/members/membersView';
 
-import session from '../src/http/session';
-import { getCurrentSession } from '../src/http/sessionActions';
+import session from 'http/session';
+import { getCurrentSession } from 'http/sessionActions';
 
 const styles = {
   root: {

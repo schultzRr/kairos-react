@@ -2,30 +2,32 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { CONTACT_EMAIL } from '../../common/constants';
+import { CONTACT_EMAIL } from 'res/constants';
 
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { 
+  Grid, 
+  Button, 
+  Typography, 
+  withStyles 
+} from '@material-ui/core';
 
 import RecoverPasswordForm from './recoverPasswordForm';
 import ResetPasswordForm from './resetPasswordForm';
-import LoaderOverlay from '../common/loaderOverlay';
+import LoaderOverlay from 'library/components/LoaderOverlay';
 
-import { recoverPassword, resetPassword } from '../../http/sessionActions';
-import { changeView } from '../../components/forgot/forgotActions';
+import { recoverPassword, resetPassword } from 'http/sessionActions';
+import { changeView } from 'components/forgot/forgotActions';
 
 import views from './forgotConstants';
 
 const styles = theme => ({
   mainContainer: {
-    margin: theme.spacing.unit * 4 + 'px 0',
+    margin: theme.spacing(4, 0),
     zIndex: 1,
   },
   title: {
     color: theme.palette.custom.lightGrey,
-    marginBottom: theme.spacing.unit * 4,
+    marginBottom: theme.spacing(4),
     fontWeight: 500,
   },
   formContainer: {
@@ -33,17 +35,17 @@ const styles = theme => ({
     borderRadius: 4,
     color: theme.palette.text.secondary,
     position: 'relative',
-    padding: theme.spacing.unit * 6 + 'px 15%',
+    padding: theme.spacing(6) + 'px 15%',
     textAlign: 'center',
   },
   buttonContainer: {
-    marginTop: theme.spacing.unit * 4,
-    marginLeft: theme.spacing.unit * -2,
+    marginTop: theme.spacing(4),
+    marginLeft: theme.spacing(-2),
     textAlign: 'right',
   },
   footerContainer: {
-    padding: theme.spacing.unit * 1.5,
-    height: theme.spacing.unit * 9,
+    padding: theme.spacing(1.5),
+    height: theme.spacing(9),
   },
   footerLink: {
     color: theme.palette.custom.darkGrey,

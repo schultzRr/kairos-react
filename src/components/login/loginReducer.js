@@ -8,7 +8,7 @@ import {
   RESEND_CONFIRMATION_EMAIL_FETCH,
   RESEND_CONFIRMATION_EMAIL_SUCCESS,
   RESEND_CONFIRMATION_EMAIL_ERROR,
-} from '../../http/sessionActions';
+} from 'src/actions';
 import {
   LOGIN_VIEW_CHANGE,
 } from './loginActions';

@@ -7,7 +7,7 @@ import {
   CONFIRM_REGISTRATION_FETCH,
   CONFIRM_REGISTRATION_SUCCESS,
   CONFIRM_REGISTRATION_ERROR
-} from '../../http/sessionActions';
+} from 'src/actions';
 import {
   REGISTER_VIEW_CHANGE,
 } from './registerActions';

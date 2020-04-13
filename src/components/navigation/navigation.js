@@ -4,13 +4,15 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { toggleMenu } from './navigationActions';
 
-import { withStyles } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
-import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import { 
+  Hidden,
+  AppBar,
+  Grid,
+  Toolbar,
+  Button,
+  IconButton,
+  withStyles 
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const styles = theme => ({

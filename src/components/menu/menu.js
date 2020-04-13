@@ -2,25 +2,30 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { OMEIN_STORE_URL, PRANA_STORE_URL } from '../../common/constants';
+import { OMEIN_STORE_URL, PRANA_STORE_URL } from 'res/constants';
 
-import { withStyles } from '@material-ui/core/styles';
-import Hidden from '@material-ui/core/Hidden';
-import Drawer from '@material-ui/core/Drawer';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListIcon from '@material-ui/icons/ListOutlined';
-import PersonIcon from '@material-ui/icons/PersonOutlined';
-import StoreIcon from '@material-ui/icons/StoreOutlined';
-import ExitToAppIcon from '@material-ui/icons/ExitToAppOutlined';
+import { 
+  Hidden,
+  Drawer,
+  Typography,
+  Divider,
+  List,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  withStyles 
+} from '@material-ui/core';
+import {
+  ListOutlined as ListIcon ,
+  PersonOutlined as PersonIcon,
+  AccountTreeOutlined as TreeIcon,
+  StoreOutlined as StoreIcon,
+  ExitToAppOutlined as ExitToAppIcon,
+} from '@material-ui/icons';
 
-import ThreeBounceLoader from '../common/loaders/threeBounceLoader';
+import ThreeBounceLoader from 'library/components/Loader/ThreeBounceLoader';
 import { toggleMenu } from '../navigation/navigationActions';
-import { signout } from '../../http/sessionActions';
+import { signout } from 'http/sessionActions';
 
 const styles = theme => ({
   root: {
@@ -39,9 +44,9 @@ const styles = theme => ({
   profile: {
     display: 'flex',
     flexDirection: 'column',
-    padding: `${theme.spacing.unit * 4}px ${theme.spacing.unit * 3}px`,
-    paddingRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
+    padding: theme.spacing(4, 3),
+    paddingRight: theme.spacing(1),
+    marginBottom: theme.spacing(1),
   },
   profileText: {
     color: 'black',
@@ -69,10 +74,11 @@ const styles = theme => ({
     marginTop: 'auto',
   },
   termsText: {
-    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px`,
+    padding: theme.spacing(2, 3),
   },
   link: {
     textDecoration: 'none',
+    color: theme.palette.custom.text,
   },
 });
 

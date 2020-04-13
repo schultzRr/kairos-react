@@ -1,21 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
-import { withStyles } from '@material-ui/core';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Grid,
+  Paper,
+  Typography,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  CircularProgress,
+  withStyles 
+} from '@material-ui/core';
 
-import Snackbar from '../common/snackbarWrapper';
+import Snackbar from 'library/components/SnackbarWrapper';
 import { getSummary, getMonthDetail, closeNotification, exitNotification } from './dashboardActions';
 
 const CustomTableCell = withStyles(theme => ({
@@ -31,28 +32,28 @@ const styles = theme => ({
     height: 'auto',
   },
   container: {
-    padding: `${theme.spacing.unit * 4}px 0`,
+    padding: theme.spacing(4, 0),
     [theme.breakpoints.up('sm')]: {
-      padding: theme.spacing.unit * 6,
+      padding: theme.spacing(6),
     },
   },
   title: {
     fontWeight: 500,
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 4,
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(4),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing.unit * 0,
-      marginTop: theme.spacing.unit,
-      marginBottom: theme.spacing.unit * 3,
+      paddingLeft: theme.spacing(0),
+      marginTop: theme.spacing(1),
+      marginBottom: theme.spacing(3),
     },
   },
   paper: {
     border: `1px solid ${theme.palette.custom.lightGrey}`,
-    padding: `${theme.spacing.unit * 3}px ${theme.spacing.unit * 4}px`,
+    padding: theme.spacing(3, 4),
     [theme.breakpoints.up('sm')]: {
-      padding: `${theme.spacing.unit * 5}px ${theme.spacing.unit * 6}px`,
+      padding: theme.spacing(5, 6),
     },
   },
   fullHeight: {
@@ -62,11 +63,11 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: theme.spacing.unit * 4,
+    marginBottom: theme.spacing(4),
   },
   table: {
-    margin: `0 -${theme.spacing.unit * 4}px`,
-    width: `calc(100% + ${theme.spacing.unit * 8}px)`,
+    margin: `0 -${theme.spacing(4)}px`,
+    width: `calc(100% + ${theme.spacing(8)}px)`,
     [theme.breakpoints.up('sm')]: {
       margin: 0,
       width: '100%',
@@ -113,7 +114,7 @@ class Dashboard extends Component {
     return (
       <Grid container 
         justify="center"
-        className={classNames(classes.root, classes.container)}
+        className={clsx(classes.root, classes.container)}
       >
         <Grid item xs={12} xl={9}>
           <Typography variant="h5" className={classes.title}>
@@ -124,10 +125,10 @@ class Dashboard extends Component {
               <Grid 
                 container 
                 alignContent="stretch"
-                spacing={32}
+                spacing={4}
               >
                 <Grid item xs={12} lg={6}>
-                  <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
+                  <Paper elevation={0} className={clsx(classes.paper, classes.fullHeight)}>
                     <div>
                       <div className={classes.subtitleContainer}>
                         <Typography variant="h6">
@@ -167,7 +168,7 @@ class Dashboard extends Component {
                   </Paper>
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <Paper elevation={0} className={classNames(classes.paper, classes.fullHeight)}>
+                  <Paper elevation={0} className={clsx(classes.paper, classes.fullHeight)}>
                     <div>
                       <div className={classes.subtitleContainer}>
                         <Typography variant="h6">

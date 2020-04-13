@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import PublicTemplate from '../../templates/publicTemplate';
-import Login from '../../components/login/login';
+import PublicTemplate from 'templates/publicTemplate';
+import Login from 'components/login/login';
 
 class LoginView extends Component {
   

@@ -1,13 +1,13 @@
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import { BrowserRouter as Router} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store';
+import store from 'src/store';
 import axios from 'axios';
-import { API_ROOT } from './common/constants';
+import { API_ROOT } from 'res/constants';
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import App from './app';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
+import App from 'src/app';
 
 axios.defaults.baseURL = API_ROOT;
 
@@ -40,13 +40,13 @@ const theme = createMuiTheme({
       red: '#ff5a5f',
       darkBlue: '#27648C',
       lightBlue: '#F0F8FE',
+      text: 'rgba(0, 0, 0, 0.87)',
     },
     background: {
       default: '#F4F4F4'
     }
   },
   typography: {
-    useNextVariants: true,
     fontSize: 12,
   },
   overrides: {
@@ -90,7 +90,7 @@ const theme = createMuiTheme({
   },
 });
 
-render(
+ReactDOM.render(
   <MuiThemeProvider theme={theme}>
     <Provider store={store}>
       <Router>
@@ -98,5 +98,5 @@ render(
       </Router>
     </Provider>
   </MuiThemeProvider>, 
-  document.getElementById('root'));
+  document.querySelector('#root'));
 
