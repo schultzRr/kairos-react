@@ -111,8 +111,6 @@ class Dashboard extends Component {
     const { classes, loadingEmail, snackbarMessage, snackbarErrorMessage, openSnackbar } = this.props;
     const summary = this.props.summary ? this.props.summary.toJS() : null;
 
-    console.log(summary.current_month);
-
     return (
       <Grid container 
         justify="center"

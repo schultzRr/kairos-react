@@ -99,6 +99,14 @@ const menu = [
     matchingRoutes: ['/members/profile'],
     value: 1,
   },
+  {
+    id: 2,
+    label: 'Detalle de volumen',
+    icon: <TreeIcon />,
+    route: '/members/downlines',
+    matchingRoutes: ['/members/downlines'],
+    value: 2,
+  },
 ]
 
 class Menu extends Component {

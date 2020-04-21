@@ -4,12 +4,18 @@ import { BrowserRouter as Router} from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from 'src/store';
 import axios from 'axios';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import moment from "moment";
+import "moment/locale/es";
 import { API_ROOT } from 'res/constants';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import App from 'src/app';
 
 axios.defaults.baseURL = API_ROOT;
+
+moment.locale("es");
 
 const mainColor = '#40C3FD';
 
@@ -91,12 +97,14 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <MuiThemeProvider theme={theme}>
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>
-  </MuiThemeProvider>, 
+  <MuiPickersUtilsProvider libInstance={moment} utils={MomentUtils} locale={'es'}>
+    <MuiThemeProvider theme={theme}>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
+    </MuiThemeProvider>
+  </MuiPickersUtilsProvider>, 
   document.querySelector('#root'));
 
