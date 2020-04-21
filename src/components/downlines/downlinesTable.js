@@ -37,17 +37,13 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 
 class DownlinesTable extends Component {
-  state = {
-    expandedRowIds: this.props.data.find(row => row.parentId == null) ? 
-        [this.props.data.find(row => row.parentId == null).id] : []
-  }
 
   getRoot = (rows) => {
     return rows.find(row => row.parentId == null);
   }
 
   renderTree = (row, rows) => {
-    const { classes, columns } = this.props;
+    const { classes, columns, isLoading } = this.props;
     const children = this.props.filterRowChildren(row, rows);
 
     return(
@@ -55,7 +51,7 @@ class DownlinesTable extends Component {
         <TableRow>
           <StyledTableCell>
             { row.hasItems ? (
-              <IconButton onClick={() => this.handleActionClick(row)} aria-label="toggle downlines">
+              <IconButton onClick={isLoading ? null : () => this.props.handleActionClick(row)} aria-label="toggle downlines">
                 <ChevronRight className={ this.isExpandedRow(row.id) ? classes.expanded : '' }/>
               </IconButton>
             ) : (
@@ -75,29 +71,12 @@ class DownlinesTable extends Component {
     )
   }
 
-  handleActionClick = (row) => {
-    if(this.isExpandedRow(row.id)) {
-      this.setState({
-        expandedRowIds: this.state.expandedRowIds.filter((rowId) => { 
-          return rowId !== row.id;
-        })
-      });
-    } else {
-      if(this.props.filterRowChildren(row, this.props.data).length == 0 ) {
-        this.props.onTreeExpandChange(row);
-      }
-      this.setState({
-        expandedRowIds: [...this.state.expandedRowIds, row.id]
-      })
-    }
-  }
-
   isExpandedRow = (rowId) => {
-    return this.state.expandedRowIds.indexOf(rowId) > -1;
+    return this.props.expandedRowIds.indexOf(rowId) > -1;
   }
 
   render() {
-    const { classes, loading, columns, data } = this.props;
+    const { classes, columns, data } = this.props;
 
     return (
       <div className={classes.root}>

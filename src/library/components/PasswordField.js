@@ -13,7 +13,7 @@ const styles = theme => ({
   },
 });
 
-class PasswordInput extends Component {
+class PasswordField extends Component {
   state = {
     showPassword: false,
   };
@@ -59,4 +59,4 @@ class PasswordInput extends Component {
   }
 }
 
-export default withStyles(styles)(PasswordInput);
+export default withStyles(styles)(PasswordField);

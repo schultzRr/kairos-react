@@ -11,7 +11,7 @@ import RegisterMemberForm from './registerMemberForm';
 import LoaderOverlay from 'library/components/LoaderOverlay';
 
 import { register, confirmRegistration } from 'http/sessionActions';
-import { changeView } from 'components/register/registerActions';
+import { changeView } from './registerActions';
 
 import views from './registerConstants';
 

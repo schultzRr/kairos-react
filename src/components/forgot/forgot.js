@@ -16,7 +16,7 @@ import ResetPasswordForm from './resetPasswordForm';
 import LoaderOverlay from 'library/components/LoaderOverlay';
 
 import { recoverPassword, resetPassword } from 'http/sessionActions';
-import { changeView } from 'components/forgot/forgotActions';
+import { changeView } from './forgotActions';
 
 import views from './forgotConstants';
 

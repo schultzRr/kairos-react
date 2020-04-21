@@ -3,7 +3,6 @@ import {
   GET_DOWNLINES_DATA_FETCH,
   GET_DOWNLINES_DATA_SUCCESS,
   GET_DOWNLINES_DATA_ERROR,
-  SHOW_DOWNLINES_TABLE_LOADER,
 } from 'src/actions';
 
 const initialState = fromJS({
@@ -29,10 +28,6 @@ function downlinesReducer(state = initialState, action) {
       return state.merge({
         loading: initialState.get('loading'),
         error: action.payload,
-      })
-    case SHOW_DOWNLINES_TABLE_LOADER:
-      return state.merge({
-        loading: true,
       })
     default:
       return state;

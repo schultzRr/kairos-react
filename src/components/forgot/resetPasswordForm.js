@@ -4,7 +4,7 @@ import { reduxForm, Form } from 'redux-form/immutable';
 
 import { Button, Typography, withStyles } from '@material-ui/core';
 
-import PasswordInput from 'library/components/PasswordInput';
+import PasswordField from 'library/components/PasswordField';
 
 const styles = theme => ({
   error: {
@@ -47,7 +47,7 @@ class ResetPasswordForm extends Component {
           </Typography>
         </div>
         <div>
-          <PasswordInput 
+          <PasswordField 
             name="password"
             label="Contraseña"
             margin="normal"

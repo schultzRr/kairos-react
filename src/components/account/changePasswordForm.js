@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-import PasswordInput from 'library/components/PasswordInput';
+import PasswordField from 'library/components/PasswordField';
 import { updateAccount } from './accountActions';
 
 const styles = theme => ({
@@ -91,7 +91,7 @@ class ChangePasswordForm extends Component {
         </AppBar>
         <DialogContent className={classes.dialogContent}>
           <div>
-            <PasswordInput 
+            <PasswordField 
               name="password"
               label="Nueva contraseña"
               margin="dense"

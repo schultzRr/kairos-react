@@ -6,18 +6,15 @@ import clsx from 'clsx';
 import { Grid,
   Paper,
   Typography,
-  Button,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  CircularProgress,
   withStyles 
 } from '@material-ui/core';
 
-import Snackbar from 'library/components/SnackbarWrapper';
-import { getSummary, getMonthDetail, closeNotification, exitNotification } from './dashboardActions';
+import { getSummary } from './dashboardActions';
 
 const CustomTableCell = withStyles(theme => ({
   head: {
@@ -76,14 +73,6 @@ const styles = theme => ({
   tableHead: {
     height: 48,
   },
-  detailButtonsContainer: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  detailButton: {
-    marginRight: 16,
-    textTransform: 'capitalize',
-  },
   img: {
     height: 30,
   },
@@ -91,24 +80,12 @@ const styles = theme => ({
 
 class Dashboard extends Component {
 
-  getMonthDetail = (month) => {
-    this.props.getMonthDetail(month, this.props.email);
-  }
-
-  handleNotificationClose = () => {
-    this.props.closeNotification();
-  }
-
-  handleNotificationExit = () => {
-    this.props.exitNotification();
-  }
-
   componentDidMount() {
     this.props.getSummary();
   }
 
   render() {
-    const { classes, loadingEmail, snackbarMessage, snackbarErrorMessage, openSnackbar } = this.props;
+    const { classes } = this.props;
     const summary = this.props.summary ? this.props.summary.toJS() : null;
 
     return (
@@ -203,50 +180,6 @@ class Dashboard extends Component {
             )
           }
         </Grid>
-        <Grid item xs={12} xl={9}>
-          <Typography variant="h5" className={classes.title} style={{marginTop: 40}}>
-            Detalle de volumen
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            { summary && (
-              <React.Fragment>
-                <div className={classes.subtitleContainer}>
-                  <Typography variant="subtitle1">
-                    Selecciona un mes para recibir el detalle en tu correo electrónico registrado.
-                  </Typography>
-                </div>
-                <div className={classes.detailButtonsContainer}>
-                  <Button 
-                    variant="outlined" 
-                    color="primary"
-                    onClick={() => this.getMonthDetail(summary.previous_month)}
-                    className={classes.detailButton}
-                  >
-                    {summary.previous_month.name}
-                  </Button>
-                  <Button 
-                    variant="outlined" 
-                    color="primary"
-                    onClick={() => this.getMonthDetail(summary.current_month)}
-                    className={classes.detailButton}
-                  >
-                    {summary.current_month.name}
-                  </Button>
-                  { loadingEmail && (
-                    <CircularProgress size={24} />
-                  )}
-                </div>
-                <Snackbar 
-                  open={openSnackbar} 
-                  variant={snackbarErrorMessage ? 'error' : 'success'}
-                  message={snackbarErrorMessage ? snackbarErrorMessage : snackbarMessage}
-                  handleClose={this.handleNotificationClose}
-                  handleExit={this.handleNotificationExit}
-                />
-              </React.Fragment>
-            )}
-          </Paper>
-        </Grid>
       </Grid>
     )
   }
@@ -257,19 +190,12 @@ const mapStateToProps = function mapStateToProps(state, props) {
   return {
     email: state.get('session').get('email'),
     summary: state.get('dashboard').get('summary'),
-    loadingEmail: state.get('dashboard').get('loadingEmail'),
-    openSnackbar: state.get('dashboard').get('openSnackbar'),
-    snackbarMessage: state.get('dashboard').get('snackbarMessage'),
-    snackbarErrorMessage: state.get('dashboard').get('snackbarErrorMessage'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getSummary }, dispatch),
-    bindActionCreators({ getMonthDetail }, dispatch),
-    bindActionCreators({ closeNotification }, dispatch),
-    bindActionCreators({ exitNotification }, dispatch),
   );
 }
 

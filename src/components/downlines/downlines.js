@@ -19,7 +19,7 @@ import {
 } from '@material-ui/icons';
 
 import DownlinesTable from './downlinesTable';
-import { getDownlinesData, showDownlinesTableLoader } from './downlinesActions';
+import { getDownlinesData } from './downlinesActions';
 
 const styles = theme => ({
   root: {
@@ -83,6 +83,7 @@ class Downlines extends Component {
   
   state = {
     period: moment(),
+    expandedRowIds: [this.props.id]
   };
 
   handlePeriodChange = date => {
@@ -105,7 +106,7 @@ class Downlines extends Component {
 
   loadData = (id, level) => {
     const period = this.state.period.clone();
-    this.props.getDownlinesData(
+    return this.props.getDownlinesData(
       id,
       period.startOf('month').format(),
       period.add(1, 'month').startOf('month').format(),
@@ -114,8 +115,34 @@ class Downlines extends Component {
   }
 
   getClickedDownlineData = (row) => {
-    this.props.showDownlinesTableLoader();
-    this.loadData(row.id, row.level);
+    const data = this.props.data ? this.props.data.toJS() : null;
+    const { expandedRowIds } = this.state;
+
+    if(expandedRowIds.indexOf(row.id) > -1) {
+      this.setState({
+        expandedRowIds: expandedRowIds.filter((rowId) => { 
+          return rowId !== row.id;
+        })
+      });
+    } else {
+      if(this.filterRowChildren(row, data).length == 0 ) {
+        this.loadData(row.id, row.level)
+        .then(() => {
+          this.setState({
+            expandedRowIds: [...expandedRowIds, row.id]
+          })
+        })
+        .catch(e => {});
+      } else {
+        this.setState({
+          expandedRowIds: [...expandedRowIds, row.id]
+        })
+      }
+    }
+  }
+
+  filterRowChildren = (row, rows) => {
+    return rows.filter(a => a.parentId === row.externalId);
   }
 
   componentDidMount() {
@@ -126,7 +153,7 @@ class Downlines extends Component {
     const { classes, loading } = this.props;
     const data = this.props.data ? this.props.data.toJS() : null;
 
-    const { period } = this.state;
+    const { period, expandedRowIds } = this.state;
 
     return (
       <Grid container 
@@ -194,10 +221,9 @@ class Downlines extends Component {
                   { title: 'Prana VP', field: 'pranaVp' },
                   { title: 'Prana VG', field: 'pranaGp'},
                 ]}
-                filterRowChildren={(row, rows) => {
-                  return rows.filter(a => a.parentId === row.externalId);
-                }}
-                onTreeExpandChange={this.getClickedDownlineData}
+                filterRowChildren={this.filterRowChildren}
+                expandedRowIds={expandedRowIds}
+                handleActionClick={this.getClickedDownlineData}
                 isLoading={loading}
               />
             )}
@@ -212,7 +238,6 @@ class Downlines extends Component {
 const mapStateToProps = function mapStateToProps(state, props) {
   return {
     id: state.get('session').get('id'),
-    summary: state.get('downlines').get('summary'),
     email: state.get('session').get('email'),
     data: state.get('downlines').get('data'),
     loading: state.get('downlines').get('loading'),
@@ -222,7 +247,6 @@ const mapStateToProps = function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getDownlinesData }, dispatch),
-    bindActionCreators({ showDownlinesTableLoader }, dispatch),
   );
 }
 

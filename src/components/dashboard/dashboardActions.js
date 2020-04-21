@@ -4,11 +4,6 @@ import {
   GET_SUMMARY_FETCH,
   GET_SUMMARY_SUCCESS,
   GET_SUMMARY_ERROR,
-  SEND_SUMMARY_DETAIL_FETCH,
-  SEND_SUMMARY_DETAIL_SUCCESS,
-  SEND_SUMMARY_DETAIL_ERROR,
-  CLOSE_SUMMARY_NOTIFICATION,
-  EXIT_SUMMARY_NOTIFICATION
 } from 'src/actions';
 
 export function getSummary() {
@@ -33,52 +28,8 @@ export function getSummary() {
   }
 }
 
-export function getMonthDetail(month, email) {
-  return (dispatch) => {
-    dispatch({ 
-      type: SEND_SUMMARY_DETAIL_FETCH,
-    });
-    return axios.post('/summaries/send_by_email', {
-      period_start: month.period_start,
-      period_end: month.period_end,
-    })
-    .then(response => {
-      dispatch({ 
-        type: SEND_SUMMARY_DETAIL_SUCCESS,
-        payload: `¡Listo! Pronto recibirás el detalle en ${email}`
-      });
-    })
-    .catch(e => {
-      dispatch({ 
-        type: SEND_SUMMARY_DETAIL_ERROR, 
-        payload: "Hubo un problema al enviar el correo electrónico. Escríbenos a soporte@futuranetwork.com"
-      });
-      throw e;
-    })
-  }
-}
-
-export function closeNotification() {
-  return (dispatch) => {
-    dispatch({
-      type: CLOSE_SUMMARY_NOTIFICATION,
-    })
-  }
-}
-
-export function exitNotification() {
-  return (dispatch) => {
-    dispatch({
-      type: EXIT_SUMMARY_NOTIFICATION,
-    })
-  }
-}
-
 const dashboardActions = {
-  getSummary,
-  getMonthDetail,
-  closeNotification,
-  exitNotification,
+  getSummary
 };
 
 export default dashboardActions;

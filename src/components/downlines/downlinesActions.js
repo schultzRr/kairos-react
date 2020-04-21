@@ -3,7 +3,6 @@ import {
   GET_DOWNLINES_DATA_FETCH,
   GET_DOWNLINES_DATA_SUCCESS,
   GET_DOWNLINES_DATA_ERROR,
-  SHOW_DOWNLINES_TABLE_LOADER,
 } from 'src/actions';
 
 function toJSObject(parentId, user, summary, level) {
@@ -71,14 +70,6 @@ export function getDownlinesData(id, startDate, endDate, level) {
   }
 }
 
-export function showDownlinesTableLoader() {
-  return (dispatch) => {
-    dispatch({ 
-      type: SHOW_DOWNLINES_TABLE_LOADER,
-    });
-  }
-}
-
 export function getMonthDetail(startDate, endDate, email) {
   return (dispatch) => {
     dispatch({ 
@@ -106,7 +97,6 @@ export function getMonthDetail(startDate, endDate, email) {
 
 const downlinesActions = {
   getDownlinesData,
-  showDownlinesTableLoader,
 };
 
 export default downlinesActions;

@@ -4,7 +4,7 @@ import { renderTextField } from 'library/utils/inputs';
 
 import { Button, Typography, withStyles } from '@material-ui/core';
 
-import PasswordInput from 'library/components/PasswordInput';
+import PasswordField from 'library/components/PasswordField';
 
 const validate = values => {
   const errors = {}
@@ -101,7 +101,7 @@ class RegisterUserForm extends Component {
           />
         </div>
         <div>
-          <PasswordInput 
+          <PasswordField 
             name="password"
             label="Contraseña"
             margin="dense"

@@ -24,7 +24,7 @@ import {
 } from '@material-ui/icons';
 
 import ThreeBounceLoader from 'library/components/Loader/ThreeBounceLoader';
-import { toggleMenu } from '../navigation/navigationActions';
+import { toggleMenu } from 'components/navigation/navigationActions';
 import { signout } from 'http/sessionActions';
 
 const styles = theme => ({

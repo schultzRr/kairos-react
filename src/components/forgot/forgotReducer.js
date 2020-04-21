@@ -7,7 +7,7 @@ import {
   PASSWORD_RESET_FETCH,
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_ERROR,
-  FORGOT_VIEW_CHANGE
+  FORGOT_VIEW_CHANGE,
 } from 'src/actions';
 
 const initialState = fromJS({
