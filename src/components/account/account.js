@@ -62,7 +62,7 @@ class Account extends Component {
     const { classes, name, lastname, phone, dialog, loading, open } = this.props;
 
     return (
-      <React.Fragment>
+      <>
         <Paper elevation={0} className={classes.paper}>
           <div className={classes.paperTitleContainer}>
             <Typography variant="h6" className={classes.paperTitle}>
@@ -139,7 +139,7 @@ class Account extends Component {
             ),
           }[dialog]}
         </DialogWrapper>
-      </React.Fragment>
+      </>
     )
   } 
 }

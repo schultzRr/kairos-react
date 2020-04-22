@@ -20,9 +20,7 @@ import {
   PASSWORD_RESET_FETCH,
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_ERROR,
-  SIGNOUT_FETCH,
   SIGNOUT_SUCCESS,
-  SIGNOUT_ERROR,
 } from 'src/actions';
 
 export function login(values) {
@@ -170,9 +168,6 @@ export function resetPassword(values, token) {
 export function signout() {
 
   return (dispatch) => {
-    dispatch({ 
-      type: SIGNOUT_FETCH,
-    });
     return session.signout()
     .then(response => {
       dispatch({ 
@@ -180,12 +175,7 @@ export function signout() {
         payload: response.data
       });
     })
-    .catch(e => {
-      dispatch({ 
-        type: SIGNOUT_ERROR, 
-        payload: e.response.data.errors[0].title
-      });
-    })
+    .catch(e => {})
   }
 }
 

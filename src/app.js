@@ -49,7 +49,7 @@ class App extends Component {
     return(
       <div className={classes.root}>
         {this.state.validatedSession && 
-          <React.Fragment>
+          <>
             <CssBaseline />
             <Switch>
               <Route exact path="/login" component={LoginView} />
@@ -58,7 +58,7 @@ class App extends Component {
               <PrivateRoute path="/members" component={MembersView}/>
               <Redirect to="/login" />
             </Switch>
-          </React.Fragment>
+          </>
         }
       </div>
     )
