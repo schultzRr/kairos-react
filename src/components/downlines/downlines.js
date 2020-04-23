@@ -9,13 +9,14 @@ import {
   Grid,
   Typography,
   Paper,
-  Fab,
   Button,
+  InputAdornment,
+  IconButton,
   withStyles 
 } from '@material-ui/core';
 import {
-  SearchOutlined as SearchIcon,
-  MailOutline as MailIcon,
+  Event as CalendarIcon,
+  Mail as MailIcon,
 } from '@material-ui/icons';
 
 import DownlinesTable from './downlinesTable';
@@ -67,16 +68,6 @@ const styles = theme => ({
     marginRight: theme.spacing(2),
     width: 150,
   },
-  searchButton: {
-    height: 35,
-    minHeigth: 35,
-    minWidth: 35,
-    width: 35,
-    boxShadow: theme.shadows[0],
-    '&:active': {
-      boxShadow: theme.shadows[0],
-    },
-  },
 });
 
 class Downlines extends Component {
@@ -90,12 +81,7 @@ class Downlines extends Component {
     this.setState({ period: date });
   };
 
-  handleSearch = (event) => {
-    event.preventDefault();
-    this.loadData(this.props.id, 0);
-  }
-
-  getMonthDetail = (month) => {
+  getMonthDetail = () => {
     const period = this.state.period.clone();
     this.props.getMonthDetail(
       period.startOf('month').format(),
@@ -145,6 +131,12 @@ class Downlines extends Component {
     return rows.filter(a => a.parentId === row.externalId);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.period.startOf('month').format() !== prevState.period.startOf('month').format()) {
+      this.loadData(this.props.id, 0);
+    }
+  }
+
   componentDidMount() {
     this.loadData(this.props.id, 0);
   }
@@ -162,7 +154,7 @@ class Downlines extends Component {
       >
         <Grid item xs={12} xl={9}>
           <Typography variant="h5" className={classes.title} style={{marginTop: 40}}>
-            Detalle de volumen
+            Detalle de volumen - {this.state.period.format('MMMM YYYY')}
           </Typography>
           <Paper elevation={0} className={classes.paper}>
             <div className={classes.toolBar}>
@@ -178,19 +170,20 @@ class Downlines extends Component {
                       value={period}
                       minDate={new Date("2010-01-01")}
                       maxDate={moment().endOf('year')}
-                      onChange={this.handlePeriodChange}
+                      onChange={() => {}}
+                      onMonthChange={this.handlePeriodChange}
                       className={classes.searchField}
                       disableFuture
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                             <IconButton>
+                               <CalendarIcon />
+                             </IconButton>
+                          </InputAdornment>
+                       )
+                    }}
                     />
-                    <Fab 
-                      type="submit"
-                      size="small" 
-                      color="primary" 
-                      aria-label="Search" 
-                      className={classes.searchButton}
-                    >
-                      <SearchIcon />
-                    </Fab>
                   </div>
                 </form>
               </div>

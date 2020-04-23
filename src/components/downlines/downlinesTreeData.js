@@ -75,17 +75,14 @@ export default (props) => {
   const [loading, setLoading] = useState(false);
 
   const loadData = () => {
-    console.log(expandedRowIds);
     const rowIdsWithNotLoadedChilds = [ROOT_ID, ...expandedRowIds]
       .filter(rowId => data.findIndex(row => row.parentId === rowId) === -1);
-    console.log(rowIdsWithNotLoadedChilds);
     if (rowIdsWithNotLoadedChilds.length) {
       if (loading) return;
       setLoading(true);
       Promise.all(rowIdsWithNotLoadedChilds
         .map(rowId => {
           const row = data.find(row => row.id == rowId);
-          console.log(rowId);
           return axios.get('/summaries/by_period_and_user_with_downlines_1_level', {
             params : {
               period_start: moment().startOf('month').format(),
@@ -98,7 +95,6 @@ export default (props) => {
           })
         }))
         .then((loadedData) => {
-          console.log(loadedData);
           setData(data.concat(...loadedData));
           setLoading(false);
         })
@@ -108,7 +104,6 @@ export default (props) => {
 
   useEffect(() => {
     if (!loading) {
-      console.log('lets loadData');
       loadData();
     }
   });
