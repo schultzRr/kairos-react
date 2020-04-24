@@ -9,18 +9,21 @@ import {
   Grid,
   Typography,
   Paper,
-  Button,
   InputAdornment,
   IconButton,
   withStyles 
 } from '@material-ui/core';
-import {
-  Event as CalendarIcon,
-  Mail as MailIcon,
-} from '@material-ui/icons';
+import { Event } from '@material-ui/icons';
 
+import Snackbar from 'library/components/SnackbarWrapper';
 import DownlinesTable from './downlinesTable';
-import { getDownlinesData } from './downlinesActions';
+import EmailButton from './emailButton';
+import { 
+  getDownlinesData,
+  sendMonthlyDetail,
+  closeNotification,
+  exitNotification
+} from './downlinesActions';
 
 const styles = theme => ({
   root: {
@@ -39,7 +42,7 @@ const styles = theme => ({
     paddingLeft: theme.spacing(4),
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      paddingLeft: theme.spacing(0),
+      paddingLeft: 0,
       marginTop: theme.spacing(1),
       marginBottom: theme.spacing(3),
     },
@@ -66,7 +69,7 @@ const styles = theme => ({
   },
   searchField: {
     marginRight: theme.spacing(2),
-    width: 150,
+    width: 180,
   },
 });
 
@@ -81,9 +84,9 @@ class Downlines extends Component {
     this.setState({ period: date });
   };
 
-  getMonthDetail = () => {
+  sendMonthlyDetail = () => {
     const period = this.state.period.clone();
-    this.props.getMonthDetail(
+    this.props.sendMonthlyDetail(
       period.startOf('month').format(),
       period.add(1, 'month').startOf('month').format(),
       this.props.email,
@@ -131,6 +134,14 @@ class Downlines extends Component {
     return rows.filter(a => a.parentId === row.externalId);
   }
 
+  handleNotificationClose = () => {
+    this.props.closeNotification();
+  }
+
+  handleNotificationExit = () => {
+    this.props.exitNotification();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.state.period.startOf('month').format() !== prevState.period.startOf('month').format()) {
       this.loadData(this.props.id, 0);
@@ -142,87 +153,92 @@ class Downlines extends Component {
   }
 
   render() {
-    const { classes, loading } = this.props;
+    const { 
+      classes,
+      loading,
+      loadingEmail,
+      errorEmail,
+      snackbarMessage,
+      openSnackbar
+    } = this.props;
     const data = this.props.data ? this.props.data.toJS() : null;
-
     const { period, expandedRowIds } = this.state;
 
     return (
-      <Grid container 
-        justify="center"
-        className={clsx(classes.root, classes.container)}
-      >
-        <Grid item xs={12} xl={9}>
-          <Typography variant="h5" className={classes.title} style={{marginTop: 40}}>
-            Detalle de volumen - {this.state.period.format('MMMM YYYY')}
-          </Typography>
-          <Paper elevation={0} className={classes.paper}>
-            <div className={classes.toolBar}>
-              <div className={classes.searchBar}>
-                <form onSubmit={(event) => this.handleSearch(event)}>
-                  <div className={classes.searchFieldContainer}>  
-                    <DatePicker
-                      variant="inline"
-                      openTo="year"
-                      autoOk={true}
-                      views={["year", "month"]}
-                      label="Selecciona un periodo:"
-                      value={period}
-                      minDate={new Date("2010-01-01")}
-                      maxDate={moment().endOf('year')}
-                      onChange={() => {}}
-                      onMonthChange={this.handlePeriodChange}
-                      className={classes.searchField}
-                      disableFuture
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                             <IconButton>
-                               <CalendarIcon />
-                             </IconButton>
-                          </InputAdornment>
-                       )
-                    }}
-                    />
-                  </div>
-                </form>
+      <>
+        <Grid container 
+          justify="center"
+          className={clsx(classes.root, classes.container)}
+        >
+          <Grid item xs={12} xl={9}>
+            <Typography variant="h5" className={classes.title} style={{marginTop: 40}}>
+              Detalle de volumen - {this.state.period.format('MMMM YYYY')}
+            </Typography>
+            <Paper elevation={0} className={classes.paper}>
+              <div className={classes.toolBar}>
+                <div className={classes.searchBar}>
+                  <form onSubmit={(event) => this.handleSearch(event)}>
+                    <div className={classes.searchFieldContainer}>  
+                      <DatePicker
+                        variant="inline"
+                        openTo="year"
+                        autoOk={true}
+                        views={["year", "month"]}
+                        label="Selecciona un periodo:"
+                        value={period}
+                        minDate={new Date("2010-01-01")}
+                        maxDate={moment().endOf('year')}
+                        onChange={() => {}}
+                        onMonthChange={this.handlePeriodChange}
+                        className={classes.searchField}
+                        disableFuture
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton>
+                                <Event />
+                              </IconButton>
+                            </InputAdornment>
+                        )
+                      }}
+                      />
+                    </div>
+                  </form>
+                </div>
+                <div>
+                  <EmailButton handleClick={() => this.sendMonthlyDetail()} loading={loadingEmail} />
+                </div>
               </div>
-              <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  size="medium"
-                  className={classes.button}
-                  startIcon={<MailIcon />}
-                  disableElevation
-                  onClick={() => this.getMonthDetail()}
-                >
-                  Enviar por correo
-                </Button>
-              </div>
-            </div>
-            { data.length > 0 && (
-              <DownlinesTable
-                data={data}
-                columns={[
-                  { title: 'Id', field: 'externalId' },
-                  { title: 'Nivel', field: 'level' },
-                  { title: 'Nombre(s)', field: 'firstName' },
-                  { title: 'Apellidos', field: 'lastName' },
-                  { title: 'Omein VP', field: 'omeinVp' },
-                  { title: 'Omein VG', field: 'omeinGp' },
-                  { title: 'Prana VP', field: 'pranaVp' },
-                  { title: 'Prana VG', field: 'pranaGp'},
-                ]}
-                filterRowChildren={this.filterRowChildren}
-                expandedRowIds={expandedRowIds}
-                handleActionClick={this.getClickedDownlineData}
-                isLoading={loading}
-              />
-            )}
-          </Paper>
+              { data.length > 0 && (
+                <DownlinesTable
+                  data={data}
+                  columns={[
+                    { title: 'Id', field: 'externalId' },
+                    { title: 'Nivel', field: 'level' },
+                    { title: 'Nombre(s)', field: 'firstName' },
+                    { title: 'Apellidos', field: 'lastName' },
+                    { title: 'Omein VP', field: 'omeinVp' },
+                    { title: 'Omein VG', field: 'omeinGp' },
+                    { title: 'Prana VP', field: 'pranaVp' },
+                    { title: 'Prana VG', field: 'pranaGp'},
+                  ]}
+                  filterRowChildren={this.filterRowChildren}
+                  expandedRowIds={expandedRowIds}
+                  handleActionClick={this.getClickedDownlineData}
+                  isLoading={loading}
+                />
+              )}
+            </Paper>
+          </Grid>
         </Grid>
-      </Grid>
+        <Snackbar 
+          open={openSnackbar} 
+          variant={errorEmail ? 'error' : snackbarMessage != '' ? 'success' : 'info'}
+          message={snackbarMessage}
+          handleClose={this.handleNotificationClose}
+          handleExit={this.handleNotificationExit}
+        />
+      </>
     )
   }
   
@@ -234,12 +250,19 @@ const mapStateToProps = function mapStateToProps(state, props) {
     email: state.get('session').get('email'),
     data: state.get('downlines').get('data'),
     loading: state.get('downlines').get('loading'),
+    errorEmail: state.get('downlines').get('errorEmail'),
+    loadingEmail: state.get('downlines').get('loadingEmail'),
+    openSnackbar: state.get('downlines').get('openSnackbar'),
+    snackbarMessage: state.get('downlines').get('snackbarMessage'),
   };
 };
 
 function mapDispatchToProps(dispatch) {
   return Object.assign({},
     bindActionCreators({ getDownlinesData }, dispatch),
+    bindActionCreators({ sendMonthlyDetail }, dispatch),
+    bindActionCreators({ closeNotification }, dispatch),
+    bindActionCreators({ exitNotification }, dispatch),
   );
 }
 

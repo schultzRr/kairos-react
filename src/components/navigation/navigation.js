@@ -13,7 +13,7 @@ import {
   IconButton,
   withStyles 
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
+import { Menu as MenuIcon } from '@material-ui/icons';
 
 const styles = theme => ({
   root: {

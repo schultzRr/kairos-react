@@ -13,7 +13,7 @@ import {
   DialogContent, 
   withStyles 
 } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { Close } from '@material-ui/icons';
 
 import { updateAccount } from './accountActions';
 
@@ -76,7 +76,7 @@ class ChangeNameForm extends Component {
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton color="inherit" onClick={handleClose} aria-label="Close">
-              <CloseIcon />
+              <Close />
             </IconButton>
             <Typography variant="h6" color="inherit" className={classes.flex}>
               Cambiar mi nombre

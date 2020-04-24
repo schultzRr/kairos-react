@@ -62,6 +62,9 @@ const theme = createMuiTheme({
       },
       contained: {
         boxShadow: 'none',
+        '&:active': {
+          boxShadow: 'none',
+        },
       },
     },
     MuiInput: {
@@ -91,7 +94,23 @@ const theme = createMuiTheme({
     MuiFormControl: {
       root: {
         width: '100%',
+      },
+      marginNormal: {
+        marginTop: 12,
+        marginBottom: 4,
+      },
+      marginDense: {
+        marginTop: 2,
+        marginBottom: 2,
       }
+    },
+    MuiFormHelperText: {
+      root: {
+        marginTop: 4,
+        '&$error': {
+          marginTop: 4
+        }
+      },
     }
   },
 });

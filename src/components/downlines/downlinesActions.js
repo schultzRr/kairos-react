@@ -3,6 +3,11 @@ import {
   GET_DOWNLINES_DATA_FETCH,
   GET_DOWNLINES_DATA_SUCCESS,
   GET_DOWNLINES_DATA_ERROR,
+  SEND_SUMMARY_DETAIL_FETCH,
+  SEND_SUMMARY_DETAIL_SUCCESS,
+  SEND_SUMMARY_DETAIL_ERROR,
+  CLOSE_SUMMARY_NOTIFICATION,
+  EXIT_SUMMARY_NOTIFICATION
 } from 'src/actions';
 
 function toJSObject(parentId, user, summary, level) {
@@ -70,7 +75,7 @@ export function getDownlinesData(id, startDate, endDate, level) {
   }
 }
 
-export function getMonthDetail(startDate, endDate, email) {
+export function sendMonthlyDetail(startDate, endDate, email) {
   return (dispatch) => {
     dispatch({ 
       type: SEND_SUMMARY_DETAIL_FETCH,
@@ -95,8 +100,27 @@ export function getMonthDetail(startDate, endDate, email) {
   }
 }
 
+export function closeNotification() {
+  return (dispatch) => {
+    dispatch({
+      type: CLOSE_SUMMARY_NOTIFICATION,
+    })
+  }
+}
+
+export function exitNotification() {
+  return (dispatch) => {
+    dispatch({
+      type: EXIT_SUMMARY_NOTIFICATION,
+    })
+  }
+}
+
 const downlinesActions = {
   getDownlinesData,
+  sendMonthlyDetail,
+  closeNotification,
+  exitNotification,
 };
 
 export default downlinesActions;

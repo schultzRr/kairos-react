@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { Field } from 'redux-form/immutable';
 
 import { InputAdornment, IconButton, withStyles } from '@material-ui/core';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 import { renderTextField } from 'library/utils/inputs';
 

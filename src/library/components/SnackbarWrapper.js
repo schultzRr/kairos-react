@@ -58,24 +58,28 @@ class SnackbarWrapper extends Component {
     const Icon = variantIcon[variant];
 
     return(
-      <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        open={open}
-        onClose={handleClose}
-        onExited={handleExit}
-        TransitionComponent={Transition}
-      >
-        <SnackbarContent 
-          aria-describedby="client-snackbar"
-          message={
-            <span id="client-snackbar" className={classes.message}>
-              <Icon className={clsx(classes.icon, classes.iconVariant)} />
-              {message}
-            </span>
-          }
-          className={classes[variant]}
-        />
-      </Snackbar>
+      <>
+      {message && (
+        <Snackbar
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          open={open}
+          onClose={handleClose}
+          onExited={handleExit}
+          TransitionComponent={Transition}
+        >
+          <SnackbarContent 
+            aria-describedby="client-snackbar"
+            message={
+              <span id="client-snackbar" className={classes.message}>
+                <Icon className={clsx(classes.icon, classes.iconVariant)} />
+                {message}
+              </span>
+            }
+            className={classes[variant]}
+          />
+        </Snackbar>
+      )}
+      </>
     )
   }
 }
