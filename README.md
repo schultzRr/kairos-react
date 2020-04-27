@@ -20,24 +20,32 @@ npm install
 
 ## Running
 
-1. Run the development build script on cli
+1. Configure environment file
+
+.env
+```
+API_ROOT=
+OMEIN_STORE_URL=
+PRANA_STORE_URL=
+```
+
+2. Run the development build script on cli
 ```
 npm run build:dev
 ```
-2. Open `http://localhost:9001/` on a browser
+3. Open `http://localhost:9001/` on a browser
 
 ## Deployment as single app
 
 Steps to follow to deploy this on a live system:
 
-1. Uncomment the production environment url in `constants.js` file
+1. Configure environment file
 
-constants.js
+.env
 ```
-// export const API_ROOT
-// export const CONTACT_EMAIL
-// export const OMEIN_STORE_URL
-// export const PRANA_STORE_URL
+API_ROOT=
+OMEIN_STORE_URL=
+PRANA_STORE_URL=
 ```
 
 2. Run the production build script on cli

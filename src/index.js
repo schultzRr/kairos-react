@@ -8,17 +8,14 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import moment from "moment";
 import "moment/locale/es";
-import { API_ROOT } from 'res/constants';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
 import App from 'src/app';
 
-axios.defaults.baseURL = API_ROOT;
-
+axios.defaults.baseURL = process.env.API_ROOT;
 moment.locale("es");
 
 const mainColor = '#40C3FD';
-
 const theme = createMuiTheme({
   palette: {
     primary: {

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { OMEIN_STORE_URL, PRANA_STORE_URL } from 'res/constants';
 
 import { 
   Hidden,
@@ -108,6 +107,9 @@ const menu = [
     value: 2,
   },
 ]
+
+const OMEIN_STORE_URL = process.env.OMEIN_STORE_URL;
+const PRANA_STORE_URL = process.env.PRANA_STORE_URL;
 
 class Menu extends Component {
   state = {

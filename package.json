@@ -40,6 +40,7 @@
     "@material-ui/lab": "4.0.0-alpha.49",
     "@material-ui/pickers": "^3.2.10",
     "axios": "0.19.2",
+    "dotenv-webpack": "^1.7.0",
     "fsevents": "^2.1.2",
     "immutable": "3.8.2",
     "interweave": "10.1.3",
