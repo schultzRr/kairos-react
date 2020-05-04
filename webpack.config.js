@@ -1,12 +1,25 @@
 const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = (env) => {
   const plugins = [
     new ExtractTextPlugin("css/[name].[hash].css"),
-    new Dotenv()
+    new HtmlWebpackPlugin({
+      title: 'Futura Network',
+      template: './templates/index.html',
+      filename: './index.html',
+    }),
+    new CopyWebpackPlugin([
+      { from: 'images', to: 'images' },
+      { from: 'css/*.css', to: 'css', flatten: true }
+    ]),
+    new Dotenv({
+      path: './.env.prod'
+    })
   ]
 
   if (env.NODE_ENV === 'production') {
@@ -23,7 +36,7 @@ module.exports = (env) => {
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: 'js/[name].[hash].js',
-      publicPath: path.resolve(__dirname, 'dist')+"/",
+      publicPath: '/',
       chunkFilename: 'js/[id].[chunkhash].js',
     },
     devServer: {
@@ -41,7 +54,10 @@ module.exports = (env) => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env', '@babel/preset-react'],
-              plugins: [ '@babel/plugin-proposal-class-properties'],
+              plugins: [ 
+                '@babel/plugin-proposal-class-properties', 
+                '@babel/plugin-proposal-optional-chaining'
+              ],
             }
           },
         },
