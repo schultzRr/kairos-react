@@ -58,7 +58,7 @@ class DownlinesTable extends Component {
               null
             )}
           </StyledTableCell>
-          {columns && columns.map((column) => (
+          { columns?.map((column) => (
             <StyledTableCell key={column.field}>{ row[column.field] }</StyledTableCell>
           ))}
         </TableRow>
@@ -85,7 +85,7 @@ class DownlinesTable extends Component {
             <TableHead>
               <TableRow>
                 <StyledTableCell key="action"></StyledTableCell>
-                {columns && columns.map((column) => (
+                { columns?.map((column) => (
                   <StyledTableCell key={column.field}>{ column.title }</StyledTableCell>
                 ))}
               </TableRow>
