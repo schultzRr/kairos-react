@@ -23,19 +23,13 @@ module.exports = (env) => {
     })
   ]
 
-  if (env.NODE_ENV === 'production') {
-    plugins.push(
-      
-    )
-  }
-
   return {
     mode: 'production',
     entry: {
       "index": path.resolve(__dirname, 'src/index.js'),
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, '../kairos-build'),
       filename: 'js/[name].[hash].js',
       publicPath: '/',
       chunkFilename: 'js/[id].[chunkhash].js',
