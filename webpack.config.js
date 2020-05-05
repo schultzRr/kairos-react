@@ -1,30 +1,31 @@
 const path = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = (env) => {
   const plugins = [
+    new CleanWebpackPlugin(['dist'], {root: __dirname}),
+    new CopyWebpackPlugin([
+      { from: 'images', to: 'images' },
+      { from: 'css/*.css', to: 'css', flatten: true }
+    ]),
     new ExtractTextPlugin("css/[name].[hash].css"),
     new HtmlWebpackPlugin({
       title: 'Futura Network',
       template: './templates/index.html',
       filename: './index.html',
     }),
-    new CopyWebpackPlugin([
-      { from: 'images', to: 'images' },
-      { from: 'css/*.css', to: 'css', flatten: true }
-    ]),
     new Dotenv({
-      path: './.env.prod'
+      path: `./.env.${env.NODE_ENV}`
     })
   ]
 
   if (env.NODE_ENV === 'production') {
     plugins.push(
-      new CleanWebpackPlugin(['dist'], {root: __dirname})
+      
     )
   }
 
