@@ -215,12 +215,12 @@ class Downlines extends Component {
                   columns={[
                     { title: 'Id', field: 'externalId' },
                     { title: 'Nivel', field: 'level' },
-                    { title: 'Nombre(s)', field: 'firstName' },
-                    { title: 'Apellidos', field: 'lastName' },
+                    { title: 'Nombre', field: 'name' },
+                    { title: 'Rango Omein', field: 'omeinRank' },
                     { title: 'Omein VP', field: 'omeinVp' },
-                    { title: 'Omein VG', field: 'omeinGp' },
+                    { title: 'Omein VG', field: 'omeinVg' },
                     { title: 'Prana VP', field: 'pranaVp' },
-                    { title: 'Prana VG', field: 'pranaGp'},
+                    { title: 'Prana VG', field: 'pranaVg'},
                   ]}
                   filterRowChildren={this.filterRowChildren}
                   expandedRowIds={expandedRowIds}

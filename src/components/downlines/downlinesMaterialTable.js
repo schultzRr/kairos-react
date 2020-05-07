@@ -164,9 +164,9 @@ class DownlinesTable extends Component {
               { title: 'Nombre(s)', field: 'firstName' },
               { title: 'Apellidos', field: 'lastName' },
               { title: 'Omein VP', field: 'omeinVp' },
-              { title: 'Omein VG', field: 'omeinGp' },
+              { title: 'Omein VG', field: 'omeinVg' },
               { title: 'Prana VP', field: 'pranaVp' },
-              { title: 'Prana VG', field: 'pranaGp'},
+              { title: 'Prana VG', field: 'pranaVg'},
             ]}
             parentChildData={(row, rows) => rows.find(a => a.externalId === row.parentId)}
             onTreeExpandChange={(row) => this.getClickedDownlineData(row)}

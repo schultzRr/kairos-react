@@ -32,9 +32,9 @@ const getDownlineObject = (parentId, user, summary, level) => {
     firstName: user.first_name,
     lastName: user.last_name,
     omeinVp: summary.omein_vp,
-    omeinGp: summary.omein_gp,
+    omeinVg: summary.omein_vg,
     pranaVp: summary.prana_vp,
-    pranaGp: summary.prana_gp,
+    pranaVg: summary.prana_vg,
     parentId: parentId,
     hasItems: user.downline_count && user.downline_count > 0 ? true : false,
     level: level,
@@ -62,9 +62,9 @@ export default (props) => {
     { name: 'firstName', title: 'Nombre(s)' },
     { name: 'lastName', title: 'Apellidos' },
     { name: 'omeinVp', title: 'Omein VP' },
-    { name: 'omeinGp', title: 'Omein GP' },
+    { name: 'omeinVg', title: 'Omein VG' },
     { name: 'pranaVp', title: 'Prana VP' },
-    { name: 'pranaGp', title: 'Prana GP' },
+    { name: 'pranaVg', title: 'Prana VG' },
   ]);
   const [data, setData] = useState([]);
   const [tableColumnExtensions] = useState([
