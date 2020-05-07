@@ -1,9 +1,11 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
   const plugins = [
@@ -12,7 +14,10 @@ module.exports = (env) => {
       { from: 'images', to: 'images' },
       { from: 'css/*.css', to: 'css', flatten: true }
     ]),
-    new ExtractTextPlugin("css/[name].[hash].css"),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].[hash].css',
+      chunkFilename: 'css/[name].[chunkhash].css',
+    }),
     new HtmlWebpackPlugin({
       title: 'Futura Network',
       template: './templates/index.html',
@@ -26,7 +31,7 @@ module.exports = (env) => {
   return {
     mode: 'production',
     entry: {
-      "index": path.resolve(__dirname, 'src/index.js'),
+      'index': path.resolve(__dirname, 'src/index.js'),
     },
     output: {
       path: path.resolve(__dirname, '../kairos-build'),
@@ -38,7 +43,10 @@ module.exports = (env) => {
       port: 9000,
     },
     node: {
-      fs: "empty",
+      fs: 'empty',
+    },
+    optimization: {
+      minimizer: [new TerserJSPlugin({extractComments: false}), new OptimizeCSSAssetsPlugin({})],
     },
     module: {
       rules: [
@@ -58,16 +66,7 @@ module.exports = (env) => {
         },
         {
           test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            use: [
-              {
-                loader: 'css-loader',
-                options: {
-                  minimize: true,
-                }
-              }
-            ]
-          })
+          use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
           test: /\.(jpg|png|gif|svg)$/,
