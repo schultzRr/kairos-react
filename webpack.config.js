@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -9,7 +9,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
   const plugins = [
-    new CleanWebpackPlugin(['dist'], {root: __dirname}),
+    new CleanWebpackPlugin(),
     new CopyWebpackPlugin([
       { from: 'images', to: 'images' },
       { from: 'css/*.css', to: 'css', flatten: true }
