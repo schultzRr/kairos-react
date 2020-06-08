@@ -95,7 +95,6 @@ class ChangePasswordForm extends Component {
               name="password"
               label="Nueva contraseña"
               margin="dense"
-              helperText=" "
               autoFocus={true}
             />
           </div>

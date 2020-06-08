@@ -3,8 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
-import PublicTemplate from 'templates/publicTemplate';
 import Register from 'components/register/register';
+import PublicTemplate from 'templates/publicTemplate';
 
 class RegisterView extends Component {
   

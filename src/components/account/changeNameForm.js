@@ -96,7 +96,6 @@ class ChangeNameForm extends Component {
               component={renderTextField}
               label="Nombre"
               margin="dense"
-              helperText=" "
               autoFocus={true}
             />
           </div>
@@ -106,7 +105,6 @@ class ChangeNameForm extends Component {
               component={renderTextField}
               label="Apellido(s)"
               margin="dense"
-              helperText=" "
             />
           </div>
           { formError && (

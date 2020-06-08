@@ -1,5 +1,5 @@
 import { fromJS } from 'immutable';
-import views from './registerConstants';
+
 import {
   REGISTER_FETCH,
   REGISTER_SUCCESS,
@@ -9,6 +9,8 @@ import {
   CONFIRM_REGISTRATION_ERROR,
   REGISTER_VIEW_CHANGE
 } from 'src/actions';
+
+import views from './registerConstants';
 
 const initialState = fromJS({
   loading: false,

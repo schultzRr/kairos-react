@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import PrivateRoute from 'src/privateRoute';
 import { CssBaseline, withStyles } from '@material-ui/core';
 
+import session from 'http/session';
+import { getCurrentSession } from 'http/sessionActions';
+import PrivateRoute from 'src/privateRoute';
 import LoginView from 'views/login/loginView';
 import RegisterView from 'views/register/registerView';
 import ForgotView from 'views/forgot/forgotView';
 import MembersView from 'views/members/membersView';
-
-import session from 'http/session';
-import { getCurrentSession } from 'http/sessionActions';
 
 const styles = {
   root: {
@@ -53,7 +52,6 @@ class App extends Component {
             <CssBaseline />
             <Switch>
               <Route exact path="/login" component={LoginView} />
-              <Route path="/register" component={RegisterView} />
               <Route path="/forgot" component={ForgotView} />
               <PrivateRoute path="/members" component={MembersView}/>
               <Redirect to="/login" />

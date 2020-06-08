@@ -99,7 +99,6 @@ class ChangePhoneForm extends Component {
                 maxLength: 15,
               }}
               margin="dense"
-              helperText=" "
               autoFocus={true}
             />
           </div>

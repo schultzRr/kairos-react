@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { reduxForm, Field, Form } from 'redux-form/immutable';
-import { renderTextField } from 'library/utils/inputs';
 
-import { Button, Typography, withStyles } from '@material-ui/core';
+import { 
+  Grid,
+  Button,
+  Typography,
+  withStyles
+} from '@material-ui/core';
+
+import { renderTextField } from 'library/utils/inputs';
 
 const styles = theme => ({
   error: {
@@ -52,7 +59,6 @@ class RecoverPasswordForm extends Component {
             component={renderTextField}
             label="Correo electrónico"
             margin="normal"
-            helperText=" "
             autoFocus={true}
           />
         </div>
@@ -60,13 +66,30 @@ class RecoverPasswordForm extends Component {
           {formError}
         </Typography>
         <div className={classes.buttonContainer}>
-          <Button 
-            type="submit" 
-            variant="contained" 
-            color="primary"
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
           >
-            Recuperar contraseña
-          </Button>
+            <Grid item>
+              <Button 
+                component={Link}
+                to="/login"
+                color="primary"
+              >
+                Atrás
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button 
+                type="submit" 
+                variant="contained" 
+                color="primary"
+              >
+                Recuperar contraseña
+              </Button>
+            </Grid>
+          </Grid>
         </div>
       </Form>
     )

@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Form } from 'redux-form/immutable';
 
-import { Button, Typography, withStyles } from '@material-ui/core';
+import {
+  Button,
+  Typography,
+  withStyles
+} from '@material-ui/core';
 
 import PasswordField from 'library/components/PasswordField';
 
@@ -51,7 +55,6 @@ class ResetPasswordForm extends Component {
             name="password"
             label="Contraseña"
             margin="normal"
-            helperText=" "
             autoFocus={true}
           />
         </div>

@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import { CONTACT_EMAIL } from 'res/constants';
 
-import { Grid, Button, Typography, withStyles } from '@material-ui/core';
-
-import RegisterAccountForm from './registerAccountForm';
-import RegisterMemberForm from './registerMemberForm';
-import LoaderOverlay from 'library/components/LoaderOverlay';
+import {
+  Grid,
+  Button,
+  Typography,
+  withStyles
+} from '@material-ui/core';
 
 import { register, confirmRegistration } from 'http/sessionActions';
+import LoaderOverlay from 'library/components/LoaderOverlay';
+import { CONTACT_EMAIL } from 'res/constants';
+import RegisterAccountForm from './registerAccountForm';
+import RegisterMemberForm from './registerMemberForm';
 import { changeView } from './registerActions';
-
 import views from './registerConstants';
 
 const styles = theme => ({
@@ -72,9 +75,17 @@ class RegisterContainer extends Component {
       this.setState({ validatedToken: true });
       this.props.changeView({
         view: views.REGISTER_VIEW,
+        // TODO - Uncomment to show register form // view: views.REGISTER_STEP_1_VIEW,
         title: 'Crear cuenta',
       });
     }
+  }
+
+  handleBack = () => {
+    this.props.changeView({
+      view: views.REGISTER_STEP_1_VIEW,
+      title: 'Crear cuenta',
+    });
   }
 
   handleContinue = () => {
@@ -106,7 +117,7 @@ class RegisterContainer extends Component {
                     <RegisterAccountForm onSubmit={this.handleContinue} formError={formError} />
                   ),
                   [views.REGISTER_STEP_2_VIEW]: (
-                    <RegisterMemberForm onSubmit={this.handleSubmit} loading={loading} formError={formError} />
+                    <RegisterMemberForm onSubmit={this.handleSubmit} handleBack={this.handleBack} loading={loading} formError={formError} />
                   ),
                   [views.REGISTER_INSTRUCTIONS_VIEW]: (
                     <>

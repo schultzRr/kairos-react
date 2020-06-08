@@ -90,17 +90,6 @@ class Navigation extends Component {
                   </div>
                 )}
               </Hidden>
-              { !isAuthenticated && (
-                <Button 
-                  component={Link}
-                  to="/login"
-                  variant="contained" 
-                  color="primary"
-                  className={classes.actionButton}
-                >
-                  Iniciar sesión
-                </Button>
-                )}
             </Toolbar>
           </Grid>
         </Grid>
