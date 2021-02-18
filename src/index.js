@@ -57,12 +57,6 @@ const theme = createMuiTheme({
       root: {
         textTransform: 'none',
       },
-      contained: {
-        boxShadow: 'none',
-        '&:active': {
-          boxShadow: 'none',
-        },
-      },
     },
     MuiInput: {
       underline: {
@@ -104,12 +98,21 @@ const theme = createMuiTheme({
     MuiFormHelperText: {
       root: {
         marginTop: 4,
+        lineHeight: 1.2,
+        letterSpacing: 0.01,
         '&$error': {
-          marginTop: 4
+          marginTop: 4,
+          lineHeight: 1.2,
+          letterSpacing: 0.01
         }
       },
     }
   },
+  props: {
+    MuiButton: {
+      disableElevation: true,
+    }
+  }
 });
 
 ReactDOM.render(
